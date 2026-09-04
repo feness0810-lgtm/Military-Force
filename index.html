@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Military Force</title>
     
-    <!-- Leaflet.js CSS & JS (OpenStreetMap) -->
+    <!-- Leaflet.js CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -13,7 +13,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body { background-color: #050505; font-family: 'Courier New', monospace; color: #ff7800; overflow: hidden; height: 100vh; }
 
-        /* 1. GİRİŞ EKRANI (SPLASH SCREEN) */
+        /* 1. GİRİŞ EKRANI */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #050505; z-index: 9999; display: flex; flex-direction: column;
@@ -38,19 +38,70 @@
         /* LEAFLET VARSAYILAN BUTONLARI VE METİNLERİ GİZLE */
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
-        /* HUD PANEL VE GÖSTERGELER */
+        /* GÖRSELE ÖZEL ÜST HUD PANELİ (YEŞİL NEON ÇERÇEVELİ) */
         #hud-top {
-            position: absolute; top: 12px; left: 12px; right: 12px; z-index: 1000;
-            display: flex; justify-content: space-between; gap: 8px; pointer-events: none;
+            position: absolute; top: 12px; left: 10px; right: 10px; z-index: 1000;
+            display: flex; justify-content: space-between; gap: 6px; pointer-events: none;
         }
-        .hud-card {
-            background: rgba(10, 5, 2, 0.92); border: 1px solid #ff7800;
-            padding: 8px 12px; border-radius: 4px; font-size: 11px; font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 120, 0, 0.25); pointer-events: auto; color: #ff7800;
+        
+        .hud-box {
+            flex: 1;
+            background: rgba(5, 10, 5, 0.85);
+            border: 1.5px solid #55ff55;
+            padding: 6px 8px;
+            border-radius: 2px;
+            color: #55ff55;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            box-shadow: 0 0 6px rgba(85, 255, 85, 0.2);
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 48px;
+        }
+
+        .hud-box-money {
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .hud-box-hp {
+            font-size: 14px;
+        }
+
+        .hud-box-sub {
+            font-size: 11px;
+            color: #55ff55;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .hud-box-radar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 4px;
+        }
+
+        .radar-svg {
+            width: 24px;
+            height: 24px;
+            stroke: #55ff55;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .radar-metrics {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            font-size: 13px;
+            line-height: 1.2;
         }
 
         #gps-bar {
-            position: absolute; top: 60px; left: 15px; right: 15px; z-index: 1000;
+            position: absolute; top: 68px; left: 12px; right: 12px; z-index: 1000;
             display: flex; justify-content: space-between; font-size: 10px;
             color: #00ff64; text-shadow: 0 0 5px rgba(0,255,100,0.5); pointer-events: none;
         }
@@ -68,7 +119,7 @@
         }
         .hud-btn:active { background: #ff7800; color: #000; }
 
-        /* İNŞA MENÜSÜ (MODAL) */
+        /* İNŞA MENÜSÜ */
         .modal {
             display: none; position: fixed; bottom: 80px; left: 10px; right: 10px;
             background: rgba(10, 5, 5, 0.95); border: 1px solid #ff7800; z-index: 2000;
@@ -139,9 +190,27 @@
     <div id="map-container">
         <div id="map"></div>
 
+        <!-- YENİ GÖRSELE BİREBİR UYGUN ÜST HUD -->
         <div id="hud-top">
-            <div class="hud-card">🔋 107,761,809</div>
-            <div class="hud-card">❤️ 200/200 HP</div>
+            <div class="hud-box hud-box-money">
+                £38860
+            </div>
+            <div class="hud-box">
+                <div class="hud-box-hp">300/300hp</div>
+                <div class="hud-box-sub">...</div>
+            </div>
+            <div class="hud-box hud-box-radar">
+                <svg class="radar-svg" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="5" />
+                    <line x1="12" y1="3" x2="12" y2="13" />
+                    <line x1="7" y1="8" x2="17" y2="8" />
+                    <polygon points="6,21 12,13 18,21" fill="none" />
+                </svg>
+                <div class="radar-metrics">
+                    <div>10 m</div>
+                    <div>500 ms</div>
+                </div>
+            </div>
         </div>
 
         <div id="gps-bar">
@@ -192,7 +261,6 @@
                 zoomAnimation: true
             }).setView([lat, lon], 16);
 
-            // Doğrudan Resmi OpenStreetMap Sunucusu (API Key İstemez)
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19
             }).addTo(map);
