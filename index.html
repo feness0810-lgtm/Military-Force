@@ -11,7 +11,7 @@
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body { background-color: #000000; font-family: 'Courier New', monospace; color: #00ff00; overflow: hidden; height: 100vh; }
+        body { background-color: #000000; font-family: 'Courier New', monospace; color: #00ff00; overflow: hidden; height: 100vh; width: 100vw; }
 
         /* 1. GİRİŞ EKRANI */
         #splash-screen {
@@ -52,7 +52,7 @@
         }
 
         /* 3. OYUN & HARİTA EKRANI */
-        #map-container { display: none; width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
+        #map-container { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden; }
         #map { 
             width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
             background: #000000;
@@ -65,58 +65,61 @@
 
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
-        /* ÜST HUD PANELİ */
-        #hud-top {
-            position: absolute; top: 8px; left: 8px; right: 8px; z-index: 1000;
-            display: flex; gap: 6px; pointer-events: none; height: 50px;
-        }
-        
-        .hud-box {
-            background: rgba(0, 0, 0, 0.85);
+        /* BİRLEŞİK ÜST HUD PANELİ */
+        #hud-top-unified {
+            position: absolute; top: 10px; left: 10px; right: 10px; z-index: 1000;
+            background: rgba(0, 0, 0, 0.88);
             border: 2px solid #00ff00;
-            padding: 4px 8px;
             display: flex;
-            align-items: center;
-            color: #00ff00;
-            font-weight: bold;
-            pointer-events: auto;
+            height: 48px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
         }
 
-        .hud-box-1 { flex: 1.2; font-size: 16px; font-weight: 900; }
-        .hud-box-2 { flex: 1.4; font-size: 15px; }
+        .hud-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff00;
+            font-weight: bold;
+            padding: 0 6px;
+        }
+
+        .hud-section:not(:last-child) {
+            border-right: 1.5px solid #00ff00;
+        }
+
+        .hud-section-money { flex: 1.3; font-size: 15px; font-weight: 900; }
+        .hud-section-hp { flex: 1.2; font-size: 14px; color: #00ff00; }
         
-        /* GERÇEK GPS & İNTERNET SİNYAL KUTUSU (TIKLANABİLİR YAPILDI) */
-        .hud-box-3 { 
-            flex: 1.4; 
+        .hud-section-signal { 
+            flex: 1.1; 
             display: flex; 
             align-items: center; 
-            justify-content: space-between;
-            padding: 2px 6px;
+            justify-content: space-around;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .hud-box-3:active {
-            background: rgba(0, 255, 0, 0.3);
+        .hud-section-signal:active {
+            background: rgba(0, 255, 0, 0.25);
         }
 
         .signal-icons {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            height: 100%;
+            height: 80%;
         }
 
         .signal-values {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            height: 100%;
+            height: 80%;
             text-align: right;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 900;
         }
 
-        /* BÜYÜTÜLMÜŞ HARİTA PROFİL İKONU */
+        /* HARİTA PROFİL İKONU */
         .radar-player-icon {
             width: 36px; height: 36px;
             border: 2.5px solid #00ff00;
@@ -135,7 +138,7 @@
 
         /* PROFİL PENCERESİ */
         #profile-modal {
-            display: none; position: fixed; bottom: 75px; left: 10px; right: 10px;
+            display: none; position: fixed; bottom: 80px; left: 10px; right: 10px;
             background: rgba(0, 15, 0, 0.95); border: 2px solid #00ff00; z-index: 2500;
             padding: 12px; font-family: Arial, sans-serif; color: #00ff00; box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
         }
@@ -166,15 +169,16 @@
         .profile-xp-bar { width: 100%; height: 5px; background: #003300; margin: 4px 0 8px 0; border: 1px solid #00ff00; }
         .profile-xp-fill { height: 100%; background: #00ff00; box-shadow: 0 0 5px #00ff00; }
 
-        /* ALT MENÜ BUTONLARI */
+        /* TAM GÖRÜNÜR ALT MENÜ BUTONLARI */
         #hud-bottom {
-            position: absolute; bottom: 8px; left: 8px; right: 8px; z-index: 1000;
+            position: absolute; bottom: 16px; left: 10px; right: 10px; z-index: 1000;
             display: flex; gap: 6px; justify-content: space-between;
         }
         .hud-btn-box {
-            flex: 1; height: 50px; background: rgba(0, 0, 0, 0.85); border: 2px solid #00ff00;
+            flex: 1; height: 48px; background: rgba(0, 0, 0, 0.88); border: 2px solid #00ff00;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: #00ff00; cursor: pointer; font-size: 18px; position: relative;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
         }
         .hud-btn-box:active { background: #00ff00; color: #000; }
         
@@ -183,7 +187,7 @@
         }
 
         .modal {
-            display: none; position: fixed; bottom: 70px; left: 10px; right: 10px;
+            display: none; position: fixed; bottom: 80px; left: 10px; right: 10px;
             background: rgba(0, 15, 0, 0.95); border: 2px solid #00ff00; z-index: 2000;
             padding: 15px; color: #00ff00;
         }
@@ -236,23 +240,23 @@
     <div id="map-container">
         <div id="map"></div>
 
-        <!-- ÜST HUD PANELİ -->
-        <div id="hud-top">
-            <div class="hud-box hud-box-1" id="hud-money">€2023625</div>
+        <!-- BİRLEŞİK ÜST HUD PANELİ -->
+        <div id="hud-top-unified">
+            <!-- PARA BÖLÜMÜ -->
+            <div class="hud-section hud-section-money" id="hud-money">€2023625</div>
             
-            <div class="hud-box hud-box-2">
-                <span id="hud-hp">200/200hp</span>
-            </div>
+            <!-- HP BÖLÜMÜ -->
+            <div class="hud-section hud-section-hp" id="hud-hp">200/200hp</div>
             
-            <!-- GERÇEK KONUM VE PING KUTUSU (BASINCA KONUMA ODAKLANIR) -->
-            <div class="hud-box hud-box-3" onclick="konumaOdaklan()" title="Konumuma Git">
+            <!-- GPS & PING BÖLÜMÜ (TIKLANINCA KONUMA FOKUSLAR) -->
+            <div class="hud-section hud-section-signal" onclick="konumaOdaklan()" title="Konumuma Git">
                 <div class="signal-icons">
-                    <svg width="15" height="15" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
+                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
                         <circle cx="50" cy="50" r="30"/>
                         <line x1="50" y1="0" x2="50" y2="100"/>
                         <line x1="0" y1="50" x2="100" y2="50"/>
                     </svg>
-                    <svg width="15" height="15" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
+                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
                         <path d="M 20 20 Q 50 0 80 20"/>
                         <path d="M 35 40 Q 50 25 65 40"/>
                         <line x1="50" y1="50" x2="50" y2="100"/>
@@ -326,7 +330,7 @@
             <button style="width:100%; margin-top:10px; background:#ff3232; color:#fff; border:none; padding:6px; font-size:10px;" onclick="kapatModal()">KAPAT</button>
         </div>
 
-        <!-- ALT BUTON BARİ -->
+        <!-- YUKARI TAŞINMIŞ ALT MENÜ BUTONLARI -->
         <div id="hud-bottom">
             <div class="hud-btn-box" onclick="acProfil()">
                 👤
@@ -400,7 +404,6 @@
                         startBtn.classList.add('active');
                     }
 
-                    // SADECE PROFİL SİMGESİNİ GÜNCELLE, HARİTAYI OTOMATİK ORTALAMA (KULLANICI GEZİNSİN)
                     if (playerMarker) {
                         playerMarker.setLatLng([currentLat, currentLon]);
                     }
@@ -411,7 +414,6 @@
             }
         }
 
-        /* SAĞ ÜSTTEKİ SİNYAL KUTUSUNA BASINCA KONUMA/PROFİLE ODAKLANMA FONKSİYONU */
         function konumaOdaklan() {
             if (map && currentLat !== null && currentLon !== null) {
                 map.flyTo([currentLat, currentLon], 16, {
