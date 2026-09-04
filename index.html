@@ -22,7 +22,27 @@
 
         .target-icon { text-align: center; margin-top: 10px; margin-bottom: 10px; }
 
-        /* 2. OYUN & HARİTA EKRANI */
+        /* 2. HESAP OLUŞTURMA EKRANI */
+        #register-screen {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #050505; z-index: 9998; flex-direction: column;
+            justify-content: center; align-items: center; padding: 25px 20px; box-sizing: border-box;
+        }
+        .register-box {
+            width: 100%; max-width: 320px; border: 1.5px solid #ff7800; background: rgba(15, 8, 3, 0.95);
+            padding: 20px; border-radius: 6px; box-shadow: 0 0 20px rgba(255, 120, 0, 0.2); text-align: center;
+        }
+        .register-input {
+            width: 100%; background: #000; border: 1px solid #ff7800; color: #55ff55;
+            padding: 10px; margin: 10px 0; font-family: inherit; font-size: 14px; outline: none; text-align: center;
+        }
+        .register-btn {
+            width: 100%; background: #ff7800; color: #000; border: none; padding: 12px;
+            font-weight: bold; font-family: inherit; font-size: 13px; cursor: pointer; border-radius: 3px; margin-top: 10px;
+        }
+        .register-btn:active { background: #55ff55; }
+
+        /* 3. OYUN & HARİTA EKRANI */
         #map-container { display: none; width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
         #map { 
             width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
@@ -35,7 +55,6 @@
             will-change: transform;
         }
 
-        /* LEAFLET VARSAYILAN BUTONLARI VE METİNLERİ GİZLE */
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
         /* GÖRSELE ÖZEL ÜST HUD PANELİ (YEŞİL NEON ÇERÇEVELİ) */
@@ -75,6 +94,9 @@
             color: #55ff55;
             opacity: 0.8;
             margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .hud-box-radar {
@@ -130,17 +152,32 @@
         .build-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,120,0,0.2); }
         .build-btn-action { background: #ff7800; color: #000; border: none; padding: 4px 8px; font-weight: bold; font-size: 9px; border-radius: 3px; cursor: pointer; }
 
-        /* YANIP SÖNEN RADAR OYUNCU İKONU */
+        /* YANIP SÖNEN RADAR OYUNCU İKONU VE POPUP STİLİ */
         .radar-player-icon {
-            width: 16px; height: 16px; background-color: #00ff64;
+            width: 18px; height: 18px; background-color: #00ff64;
             border: 2px solid #ffffff; border-radius: 50%;
             box-shadow: 0 0 12px #00ff64, 0 0 20px #00ff64;
             animation: pulse-radar 1.5s infinite;
+            cursor: pointer;
         }
         @keyframes pulse-radar {
             0% { transform: scale(0.9); opacity: 1; }
             50% { transform: scale(1.3); opacity: 0.7; }
             100% { transform: scale(0.9); opacity: 1; }
+        }
+
+        /* POPUP ÖZELLEŞTİRME */
+        .leaflet-popup-content-wrapper {
+            background: rgba(5, 15, 5, 0.95) !important;
+            border: 1px solid #55ff55 !important;
+            color: #55ff55 !important;
+            font-family: Arial, sans-serif !important;
+            font-size: 12px !important;
+            border-radius: 4px !important;
+            box-shadow: 0 0 10px rgba(85, 255, 85, 0.4) !important;
+        }
+        .leaflet-popup-tip {
+            background: #55ff55 !important;
         }
     </style>
 </head>
@@ -186,18 +223,30 @@
         </div>
     </div>
 
-    <!-- 2. ANA OYUN EKRANI -->
+    <!-- 2. HESAP OLUŞTURMA EKRANI -->
+    <div id="register-screen">
+        <div class="register-box">
+            <h2 style="font-size: 16px; color: #ff7800; margin-bottom: 15px; text-transform: uppercase;">🪖 OYUNCU KAYDI</h2>
+            <p style="font-size: 11px; color: #aaa; margin-bottom: 15px;">Operasyon sahasına girmek için kimlik bilgilerinizi giriniz.</p>
+            
+            <input type="text" id="player-fullname" class="register-input" placeholder="Ad ve Soyad" maxlength="30" autocomplete="off">
+            
+            <button class="register-btn" onclick="kaydetVeBaslat()">OPERASYONA KATIL</button>
+        </div>
+    </div>
+
+    <!-- 3. ANA OYUN EKRANI -->
     <div id="map-container">
         <div id="map"></div>
 
-        <!-- YENİ GÖRSELE BİREBİR UYGUN ÜST HUD -->
+        <!-- ÜST HUD -->
         <div id="hud-top">
             <div class="hud-box hud-box-money">
                 £38860
             </div>
             <div class="hud-box">
                 <div class="hud-box-hp">300/300hp</div>
-                <div class="hud-box-sub">...</div>
+                <div class="hud-box-sub" id="hud-player-name">OYUNCU</div>
             </div>
             <div class="hud-box hud-box-radar">
                 <svg class="radar-svg" viewBox="0 0 24 24">
@@ -249,16 +298,69 @@
 
     <script>
         let map, playerMarker;
+        let userFullName = "";
+        let currentLat = 41.0082, currentLon = 28.9784;
 
-        function initMap(lat, lon) {
+        // Sayfa yüklendiğinde GPS hazırla
+        window.onload = function() {
+            baslatGPS();
+        };
+
+        function baslatGPS() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(function (position) {
+                    currentLat = position.coords.latitude;
+                    currentLon = position.coords.longitude;
+
+                    const statusElem = document.getElementById('gps-status-text');
+                    statusElem.innerText = "SECURE LINK ESTABLISHED";
+                    statusElem.style.color = "#00ff64";
+
+                    document.getElementById('coords-text').innerText = `🛰️ LAT: ${currentLat.toFixed(4)} | LON: ${currentLon.toFixed(4)}`;
+
+                    // Eğer hesap açıldıktan sonra GPS güncellenirse ikonu kaydır
+                    if (playerMarker) {
+                        playerMarker.setLatLng([currentLat, currentLon]);
+                    }
+                }, function (error) {
+                    const statusElem = document.getElementById('gps-status-text');
+                    statusElem.innerText = "GPS SİNYALİ YEDEK MODA GEÇTİ";
+                    statusElem.style.color = "#ff3232";
+                }, {
+                    enableHighAccuracy: true,
+                    maximumAge: 0
+                });
+            }
+
+            // Splash Screen 1.5 saniye sonra kapansın ve Kayıt Ekranı açılsın
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('register-screen').style.display = 'flex';
+            }, 1500);
+        }
+
+        function kaydetVeBaslat() {
+            const inputVal = document.getElementById('player-fullname').value.trim();
+            if (inputVal === "") {
+                alert("Lütfen geçerli bir Ad ve Soyad giriniz!");
+                return;
+            }
+
+            userFullName = inputVal;
+            document.getElementById('hud-player-name').innerText = userFullName;
+
+            // Kayıt ekranını kapatıp haritayı göster
+            document.getElementById('register-screen').style.display = 'none';
             document.getElementById('map-container').style.display = 'block';
 
+            initMap(currentLat, currentLon);
+        }
+
+        function initMap(lat, lon) {
             map = L.map('map', {
                 zoomControl: false,
                 attributionControl: false,
-                preferCanvas: true,
-                fadeAnimation: true,
-                zoomAnimation: true
+                preferCanvas: true
             }).setView([lat, lon], 16);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -268,45 +370,13 @@
             const playerIcon = L.divIcon({
                 className: 'custom-icon',
                 html: '<div class="radar-player-icon"></div>',
-                iconSize: [16, 16],
-                iconAnchor: [8, 8]
+                iconSize: [18, 18],
+                iconAnchor: [9, 9]
             });
 
+            // Oyuncu Simgesi Ekleme ve Tıklanınca Ad Soyad Gösterme
             playerMarker = L.marker([lat, lon], { icon: playerIcon }).addTo(map);
-
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-            }, 600);
-        }
-
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(function (position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-                const statusElem = document.getElementById('gps-status-text');
-                statusElem.innerText = "SECURE LINK ESTABLISHED";
-                statusElem.style.color = "#00ff64";
-
-                document.getElementById('coords-text').innerText = `🛰️ LAT: ${lat.toFixed(4)} | LON: ${lon.toFixed(4)}`;
-
-                if (!map) {
-                    initMap(lat, lon);
-                } else {
-                    playerMarker.setLatLng([lat, lon]);
-                    map.panTo([lat, lon], { animate: true, duration: 0.5 });
-                }
-            }, function (error) {
-                const statusElem = document.getElementById('gps-status-text');
-                statusElem.innerText = "GPS SİNYALİ YEDEK MODA GEÇTİ";
-                statusElem.style.color = "#ff3232";
-                if (!map) initMap(41.0082, 28.9784);
-            }, {
-                enableHighAccuracy: true,
-                maximumAge: 0
-            });
-        } else {
-            initMap(41.0082, 28.9784);
+            playerMarker.bindPopup(`<b>🪖 OPERATÖR</b><br>${userFullName}`);
         }
 
         function acModal() { document.getElementById('build-modal').style.display = 'block'; }
