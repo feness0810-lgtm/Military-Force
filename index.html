@@ -127,39 +127,39 @@
         }
         .hud-btn:active { background: #ff7800; color: #000; }
 
-        /* PROFİL PENCERESİ (GÖRSELDEKİ TASARIM) */
+        /* PROFİL PENCERESİ (EKRANIN ALT KISMINDA) */
         #profile-modal {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; max-width: 360px; background: rgba(0, 20, 0, 0.95);
-            border: 2px solid #00ff00; z-index: 3000; padding: 12px;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4); font-family: Arial, sans-serif; color: #00ff00;
+            display: none; position: fixed; bottom: 75px; left: 10px; right: 10px;
+            background: rgba(0, 20, 0, 0.95); border: 2px solid #00ff00; z-index: 2500;
+            padding: 12px; border-radius: 6px; box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
+            font-family: Arial, sans-serif; color: #00ff00; max-height: 60vh; overflow-y: auto;
         }
 
-        .profile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .profile-close-btn { color: #00ff00; font-size: 20px; font-weight: bold; cursor: pointer; border: 1px solid #00ff00; padding: 0 6px; }
+        .profile-header { display: flex; justify-content: flex-end; margin-bottom: 5px; }
+        .profile-close-btn { color: #00ff00; font-size: 18px; font-weight: bold; cursor: pointer; border: 1px solid #00ff00; padding: 0 6px; line-height: 18px; }
 
         .profile-user-info { display: flex; align-items: center; gap: 12px; }
         .profile-avatar {
-            width: 55px; height: 55px; border-radius: 50%; border: 2px solid #ffff00;
-            background: #222; display: flex; align-items: center; justify-content: center; font-size: 24px;
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffff00;
+            background: #222; display: flex; align-items: center; justify-content: center; font-size: 22px;
         }
         .profile-details { flex: 1; }
-        .profile-name { font-size: 18px; font-weight: bold; color: #00ff00; }
-        .profile-alliance { font-size: 13px; font-weight: bold; color: #ffff00; margin-top: 2px; }
+        .profile-name { font-size: 16px; font-weight: bold; color: #00ff00; }
+        .profile-alliance { font-size: 12px; font-weight: bold; color: #ffff00; margin-top: 2px; }
         
-        .profile-hp-money { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; }
+        .profile-hp-money { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; }
         .profile-hp { color: #ff3333; font-weight: bold; }
         .profile-money { color: #00ff00; font-weight: bold; }
 
-        .profile-divider { border: 0; border-top: 1px solid #00ff00; margin: 10px 0; }
+        .profile-divider { border: 0; border-top: 1px solid #00ff00; margin: 8px 0; }
 
-        .profile-status { font-size: 15px; font-weight: bold; color: #ffff00; margin: 8px 0; }
+        .profile-status { font-size: 13px; font-weight: bold; color: #ffff00; margin: 4px 0; }
 
-        .profile-stats-title { text-align: center; font-size: 16px; color: #00ff00; margin: 8px 0; font-weight: bold; }
-        .profile-stat-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; color: #00ff00; }
+        .profile-stats-title { text-align: center; font-size: 14px; color: #00ff00; margin: 6px 0; font-weight: bold; }
+        .profile-stat-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; color: #00ff00; }
 
-        .profile-xp-bar { width: 100%; height: 4px; background: #003300; margin: 6px 0 10px 0; }
-        .profile-xp-fill { width: 45%; height: 100%; background: #00ff00; box-shadow: 0 0 5px #00ff00; }
+        .profile-xp-bar { width: 100%; height: 5px; background: #003300; margin: 4px 0 8px 0; border: 1px solid #00ff00; }
+        .profile-xp-fill { height: 100%; background: #00ff00; box-shadow: 0 0 5px #00ff00; transition: width 0.3s ease; }
 
         /* MODAL */
         .modal {
@@ -242,13 +242,13 @@
         <div id="hud-top">
             <div class="hud-card">
                 <div class="hud-label">💰 BAKİYE</div>
-                <div class="hud-value-money">$38,860</div>
+                <div class="hud-value-money" id="hud-money-text">$38,860</div>
             </div>
 
             <div class="hud-card">
                 <div class="hud-label" style="justify-content: space-between;">
                     <span>❤️ SAĞLIK</span>
-                    <span class="hp-text">300 / 300</span>
+                    <span class="hp-text" id="hud-hp-text">300 / 300</span>
                 </div>
                 <div class="hp-bar-container">
                     <div class="hp-bar-fill" id="hp-fill"></div>
@@ -261,24 +261,23 @@
             <span style="color: #ffaa00;">📡 PING: 42ms</span>
         </div>
 
-        <!-- OYUNCU PROFiL PENCERESİ (GÖRSELDEKİ PANEL) -->
+        <!-- OYUNCU PROFiL PENCERESİ (EKRANIN ALTINDA) -->
         <div id="profile-modal">
             <div class="profile-header">
-                <div></div>
                 <div class="profile-close-btn" onclick="kapatProfil()">X</div>
             </div>
 
             <div class="profile-user-info">
-                <div class="profile-avatar">🦅</div>
+                <div class="profile-avatar">🪖</div>
                 <div class="profile-details">
-                    <div id="prof-name" class="profile-name">Player</div>
+                    <div id="prof-name" class="profile-name">Operatör</div>
                     <div id="prof-alliance" class="profile-alliance">Unaffiliated</div>
                 </div>
             </div>
 
             <div class="profile-hp-money">
-                <span class="profile-hp">300/300hp</span>
-                <span class="profile-money">$38,860</span>
+                <span id="prof-hp" class="profile-hp">300/300hp</span>
+                <span id="prof-money" class="profile-money">$38,860</span>
             </div>
 
             <div class="profile-divider"></div>
@@ -290,20 +289,20 @@
             <div class="profile-stats-title">Stats</div>
             <div class="profile-stat-row">
                 <span>Rank:</span>
-                <span>3</span>
+                <span id="prof-rank">1</span>
             </div>
             <div class="profile-stat-row">
                 <span>XP:</span>
-                <span>6565</span>
+                <span id="prof-xp">0</span>
             </div>
             
             <div class="profile-xp-bar">
-                <div class="profile-xp-fill"></div>
+                <div id="prof-xp-fill" class="profile-xp-fill" style="width: 0%;"></div>
             </div>
 
             <div class="profile-stat-row">
                 <span>Cities:</span>
-                <span>1</span>
+                <span id="prof-cities">0</span>
             </div>
         </div>
 
@@ -338,8 +337,20 @@
 
     <script>
         let map, playerMarker;
-        let userFullName = "";
-        let playerAlliance = ""; // İttifak ismi varsa buraya yazılır, yoksa Unaffiliated olur
+        
+        // CANLI OYUNCU VERİLERİ (GERÇEK DEĞERLER)
+        let playerStats = {
+            fullName: "",
+            alliance: "", // Yoksa Unaffiliated yazar
+            currentHp: 300,
+            maxHp: 300,
+            money: 38860,
+            rank: 1,
+            xp: 0,
+            maxPositionXp: 1000,
+            cities: 0
+        };
+
         let currentLat = null, currentLon = null;
         let countdownValue = 5;
         let countdownTimer = null;
@@ -425,7 +436,7 @@
                 return;
             }
 
-            userFullName = inputVal;
+            playerStats.fullName = inputVal;
 
             document.getElementById('register-screen').style.display = 'none';
             document.getElementById('map-container').style.display = 'block';
@@ -453,15 +464,28 @@
 
             playerMarker = L.marker([lat, lon], { icon: playerIcon }).addTo(map);
             
-            // Oyuncu ikonuna tıklandığında Profil Penceresi Açılır
+            // İkona tıklayınca profil penceresi açılır
             playerMarker.on('click', function() {
                 acProfil();
             });
         }
 
         function acProfil() {
-            document.getElementById('prof-name').innerText = userFullName || "Player";
-            document.getElementById('prof-alliance').innerText = playerAlliance !== "" ? playerAlliance : "Unaffiliated";
+            // Canlı Değerleri Profil Kartına Yansıt
+            document.getElementById('prof-name').innerText = playerStats.fullName || "Operatör";
+            document.getElementById('prof-alliance').innerText = playerStats.alliance !== "" ? playerStats.alliance : "Unaffiliated";
+            
+            document.getElementById('prof-hp').innerText = `${playerStats.currentHp}/${playerStats.maxHp}hp`;
+            document.getElementById('prof-money').innerText = `$${playerStats.money.toLocaleString()}`;
+            
+            document.getElementById('prof-rank').innerText = playerStats.rank;
+            document.getElementById('prof-xp').innerText = playerStats.xp;
+            
+            let xpPercent = Math.min((playerStats.xp / playerStats.maxPositionXp) * 100, 100);
+            document.getElementById('prof-xp-fill').style.width = `${xpPercent}%`;
+            
+            document.getElementById('prof-cities').innerText = playerStats.cities;
+
             document.getElementById('profile-modal').style.display = 'block';
         }
 
@@ -469,7 +493,10 @@
             document.getElementById('profile-modal').style.display = 'none';
         }
 
-        function acModal() { document.getElementById('build-modal').style.display = 'block'; }
+        function acModal() { 
+            kapatProfil();
+            document.getElementById('build-modal').style.display = 'block'; 
+        }
         function kapatModal() { document.getElementById('build-modal').style.display = 'none'; }
         function kurBina(bina) {
             alert(bina + " mevcut GPS konumuna inşa ediliyor!");
