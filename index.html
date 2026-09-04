@@ -1,268 +1,161 @@
-<!-- Military Force - Gerçek Harita Entegrasyonlu Sürüm -->
+<!-- Military Force - Taşma Yapmayan Kompakt GPS Sürüm -->
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Military Force - Global Tactical Map</title>
-    <!-- p5.js kütüphanesi -->
+    <title>Military Force</title>
     <script src="https://cloudflare.com"></script>
-    <style>
-        body { margin: 0; padding: 0; overflow: hidden; background-color: #0f0505; }
-    </style>
+    <style>body{margin:0;padding:0;overflow:hidden;background:#0f0505;}</style>
 </head>
 <body>
 <script>
-let ekran = "GIRIS"; 
-let gpsDurumu = "Locating Satellite...";
-let yanipSonme = true;
-
-// Oyun İçi Veriler
-let maden = 107761809;
-let hp = 200;
-let maxHp = 200;
-let ping = 440;
-let bildirimYazisi = "TACTICAL GRID ONLINE: Use map drag to navigate.";
-
-// Ücretsiz Harita Kontrol Değişkenleri (OpenStreetMap için)
-let haritaX = 300; // Haritanın başlangıç pozisyonu (Dünya merkezi)
-let haritaY = 150;
-let surukleniyorMu = false;
-let baslangicFareX = 0;
-let baslangicFareY = 0;
-let dunyaHaritaGorseli;
-
-function preload() {
-  // OpenStreetMap tabanlı, tamamen ücretsiz ve telifsiz siber stile uygun bir dünya haritası silüeti yüklüyoruz
-  // Bu görseli internetten güvenli bir kaynaktan çekiyoruz
-  dunyaHaritaGorseli = loadImage('https://unsplash.com');
-}
+let ekran = "GIRIS", gpsDurumu = "Awaiting GPS Sinyali...", gpsYaziColor;
+let maden = 107761809, hp = 200, maxHp = 200, ping = 440;
+let bildirimYazisi = "TACTICAL GRID ONLINE: Coordinates synchronized via GPS.";
+let enlem = 0, boylam = 0, haritaX = 0, haritaY = 0;
+let surukleniyorMu = false, baslangicFareX = 0, baslangicFareY = 0, gpsBaglandi = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  pixelDensity(1);
+  gpsYaziColor = color(255, 120, 0);
+
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(konumBasarili, konumHata, {
+      enableHighAccuracy: true, timeout: 10000, maximumAge: 0
+    });
+  } else {
+    gpsDurumu = "GPS DESTEKLENMİYOR";
+    gpsYaziColor = color(255, 0, 0);
+  }
+}
+
+function konumBasarili(p) {
+  enlem = p.coords.latitude;
+  boylam = p.coords.longitude;
+  if (!gpsBaglandi) {
+    gpsBaglandi = true;
+    gpsDurumu = "SECURE LINK ESTABLISHED";
+    gpsYaziColor = color(0, 255, 100);
+    haritaX = width / 2 - (boylam * 15); 
+    haritaY = (height - 195) / 2 - (enlem * -15);
+    setTimeout(() => { ekran = "OYUN"; }, 800);
+  }
+}
+
+function konumHata(e) {
+  gpsBaglandi = false;
+  gpsYaziColor = color(255, 0, 0);
+  gpsDurumu = e.code === e.PERMISSION_DENIED ? "GPS İZNİ REDDEDİLDİ" : "SİNYAL KAYIP";
 }
 
 function draw() {
-  background(10, 5, 5); // Koyu arka plan
-
+  background(15, 5, 5); 
   let anaRenk = color(255, 120, 0);
+  textFont('Courier New');
 
-  // ----------------------------------------------------
-  // GİRİŞ EKRANI (MILITARY FORCE)
-  // ----------------------------------------------------
   if (ekran === "GIRIS") {
-    noStroke();
     textAlign(CENTER, TOP);
-    textFont('Courier New');
+    stroke(255, 0, 0); strokeWeight(1.5); noFill();
+    ellipse(width/2, 35, 16, 16); line(width/2-12, 35, width/2+12, 35); line(width/2, 23, width/2, 47);
     
-    stroke(255, 0, 0);
-    strokeWeight(1.5);
-    noFill();
-    ellipse(width / 2, 35, 16, 16);
-    line(width / 2 - 12, 35, width / 2 + 12, 35);
-    line(width / 2, 23, width / 2, 47);
+    noStroke(); fill(anaRenk); textSize(24); textStyle(BOLD); text("MILITARY FORCE", width/2, 65);
+    textSize(10); fill(255, 150, 0, 150); text("/// GLOBAL WARFARE OPERATION ///", width/2, 100);
+    textStyle(NORMAL); stroke(anaRenk); strokeWeight(2); line(30, 125, width-30, 125);
     
-    noStroke();
-    fill(anaRenk);
-    textSize(26);
-    textStyle(BOLD);
-    text("MILITARY FORCE", width / 2, 65);
+    noStroke(); fill(anaRenk); textSize(14); textAlign(LEFT, TOP);
+    text("SYSTEM INITIALISING...", 30, 145);
+    text("Scanning Hardware...", 30, 175);
+    text("GPS Connection: ", 30, 205);
     
-    textSize(10);
-    fill(255, 150, 0, 150);
-    text("/// GLOBAL WARFARE OPERATION ///", width / 2, 100);
-    textStyle(NORMAL);
+    fill(gpsYaziColor);
+    text(gpsDurumu, 170, 205);
+    stroke(anaRenk); line(30, 235, width-30, 235);
     
-    stroke(anaRenk);
-    strokeWeight(2);
-    line(30, 125, width - 30, 125);
-    
-    noStroke();
-    fill(anaRenk);
-    textSize(15);
-    textAlign(LEFT, TOP);
-    text("ACCESS GRANTED, AGENT.", 30, 145);
-    
-    fill(255, 120, 0, 180);
-    text("Loading Tactical Grid...", 30, 175);
-    text("Global Link: ", 30, 205);
-    
-    if (frameCount % 25 == 0) yanipSonme = !yanipSonme;
-    if (gpsDurumu === "Locating Satellite...") {
-      if (yanipSonme) fill(255, 200, 0);
-      else fill(10, 5, 5);
-    } else {
-      fill(0, 255, 100); 
-    }
-    text(gpsDurumu, 145, 205);
-    
-    stroke(anaRenk);
-    line(30, 235, width - 30, 235);
-    
+    // Discord ve Ayarlar
     text("HQ Communications:", 30, 265);
-    stroke(anaRenk);
-    fill(40, 15, 0); 
-    rect(width / 2 - 75, height / 2 + 20, 150, 90, 3);
-    noStroke();
-    fill(255, 150, 0);
-    textAlign(CENTER, CENTER);
-    textSize(24);
-    text("💬", width / 2, height / 2 + 45);
-    textSize(11);
-    text("JOIN HQ DISCORD", width / 2, height / 2 + 80);
+    stroke(anaRenk); fill(40, 15, 0); rect(width/2-75, height/2+20, 150, 90, 3);
+    noStroke(); fill(255, 150, 0); textAlign(CENTER, CENTER); textSize(24); text("💬", width/2, height/2+45);
+    textSize(11); text("JOIN HQ DISCORD", width/2, height/2+80);
     
-    stroke(anaRenk);
-    fill(40, 15, 0);
-    rect(30, height - 140, 55, 55, 3);
-    noStroke();
-    fill(anaRenk);
-    textSize(22);
-    text("⚙️", 57, height - 112);
+    stroke(anaRenk); fill(40, 15, 0); rect(30, height-140, 55, 55, 3);
+    noStroke(); fill(anaRenk); textSize(22); text("⚙️", 57, height-112);
     
-    stroke(anaRenk);
-    noFill();
-    rect(100, height - 125, width - 130, 25);
-    noStroke();
-    fill(255, 0, 0); 
-    rect(103, height - 121, (width - 136) * 0.85, 17); 
-    fill(255, 255, 255);
-    textSize(10);
-    text("THREAT LEVEL: CRITICAL", width / 2 + 35, height - 112);
-    
-    fill(255, 120, 0, 150);
-    textAlign(CENTER);
-    textSize(11);
-    text("[ TIKLA VE OYUNA BAŞLA ]", width / 2, height - 40);
+    stroke(anaRenk); noFill(); rect(100, height-125, width-130, 25);
+    noStroke(); fill(255, 0, 0); rect(103, height-121, (width-136)*0.85, 17);
+    fill(255); textSize(10); text("THREAT LEVEL: CRITICAL", width/2+35, height-112);
   } 
-  
-  // ----------------------------------------------------
-  // ANA OYUN EKRANI (GERÇEK DÜNYA HARİTASI ALANI)
-  // ----------------------------------------------------
   else if (ekran === "OYUN") {
-    textFont('Courier New');
-    
-    // Sürükleme Mantığı: Eğer oyuncu parmağını kaydırıyorsa harita koordinatlarını güncelle
-    if (surukleniyorMu && mouseY > 85 && mouseY < height - 110) {
-      haritaX += mouseX - baslangicFareX;
-      haritaY += mouseY - baslangicFareY;
-      baslangicFareX = mouseX;
-      baslangicFareY = mouseY;
+    if (surukleniyorMu && mouseY > 85 && mouseY < height-110) {
+      haritaX += mouseX - baslangicFareX; haritaY += mouseY - baslangicFareY;
+      baslangicFareX = mouseX; baslangicFareY = mouseY;
     }
 
-    // 1. GERÇEK DÜNYA HARİTASININ ÇİZİLMESİ (Arka Plan Maskeleme ile)
-    // Harita sadece ortadaki radar çerçevesinin içinde görünecek şekilde sınırlandırılıyor
-    push();
-    // Haritayı siber temaya uydurmak için koyu yeşil/mavi bir filtre tonu veriyoruz
-    tint(0, 150, 255, 120); 
-    // Harita görselini çiziyoruz ve oyuncunun sürüklemesine göre hareket ettiriyoruz
-    image(dunyaHaritaGorseli, haritaX, haritaY, 1200, 800);
+    // Grid Çizgileri
+    stroke(anaRenk, 20); strokeWeight(1);
+    for (let x = (haritaX % 40); x < width; x += 40) line(x, 85, x, height-110);
+    for (let y = (haritaY % 40); y < height-110; y += 40) if(y > 85) line(15, y, width-15, y);
+
+    // HQ Noktası (Gerçek GPS konumun)
+    push(); translate(haritaX, haritaY);
+    let hqX = (boylam * 15), hqY = (enlem * -15);
+    stroke(0, 255, 100); strokeWeight(1.5); noFill();
+    ellipse(hqX, hqY, 20, 20); line(hqX-15, hqY, hqX+15, hqY); line(hqX, hqY-15, hqX, hqY+15);
+    if(frameCount%20<10) { fill(0,255,100,100); ellipse(hqX, hqY, 8, 8); }
+    noStroke(); fill(0, 255, 100); textSize(10); text("MY HQ", hqX + 15, hqY - 10);
     pop();
 
-    // Haritanın üzerine siber koordinat çizgileri (Grid) çiziyoruz
-    stroke(255, 120, 0, 25); // Çok şeffaf turuncu grid
-    strokeWeight(1);
-    for (let x = haritaX % 40; x < width; x += 40) line(x, 85, x, height - 110);
-    for (let y = haritaY % 40; y < height - 110; y += 40) {
-      if(y > 85) line(15, y, width - 15, y);
-    }
+    // Çerçeve Dışı Maskeleme
+    fill(15, 5, 5); noStroke();
+    rect(0, 0, width, 85); rect(0, height-110, width, 110);
+    rect(0, 85, 15, height-195); rect(width-15, 85, 15, height-195);
 
-    // Harita Sınır Maskesi (Dışarı taşan haritayı kapatmak için siyah çerçeve)
-    fill(10, 5, 5);
-    noStroke();
-    rect(0, 0, width, 85); // Üst HUD arkası kapatma
-    rect(0, height - 110, width, 110); // Alt menü arkası kapatma
-    rect(0, 85, 15, height - 195); // Sol kenar kapatma
-    rect(width - 15, 85, 15, height - 195); // Sağ kenar kapatma
-
-    // 2. RADAR ÇERÇEVESİ (Askeri Sınır Çizgisi)
-    stroke(anaRenk, 150);
-    strokeWeight(2);
-    noFill();
-    rect(15, 85, width - 30, height - 195, 5);
+    // Radar Çerçevesi
+    stroke(anaRenk, 150); strokeWeight(2); noFill(); rect(15, 85, width-30, height-195, 5);
     
-    // 3. ÜST HUD: Maden ve Can Çerçeveleri
-    fill(30, 10, 0, 230);
-    rect(10, 10, width / 2 - 15, 45, 3);
-    rect(width / 2 + 5, 10, width / 2 - 15, 45, 3);
+    // HUD Üst Paneller
+    fill(30, 10, 0, 230); rect(10, 10, width/2-15, 45, 3); rect(width/2+5, 10, width/2-15, 45, 3);
+    noStroke(); fill(anaRenk); textSize(12); textAlign(CENTER, CENTER);
+    text("🔋 " + maden, width/4, 32); text("❤️ " + hp + "/" + maxHp + " HP", width*0.75, 32);
     
-    noStroke();
-    fill(anaRenk);
-    textSize(13);
-    textAlign(CENTER, CENTER);
-    text("🔋 " + maden, width / 4, 32);
-    text("❤️ " + hp + "/" + maxHp + " HP", width * 0.75, 32);
+    // GPS Yazısı ve Ping
+    fill(0, 255, 100, 200); textSize(10); textAlign(LEFT); text("🛰️ LAT: " + enlem.toFixed(4) + " | LON: " + boylam.toFixed(4), 20, 70);
+    fill(255, 50, 50); textAlign(RIGHT); text("📡 PING: " + ping + "ms", width-15, 70);
     
-    fill(255, 50, 50);
-    textSize(10);
-    textAlign(RIGHT);
-    text("📡 PING: " + ping + "ms", width - 15, 70);
+    noStroke(); fill(255, 230, 0); textSize(11); textAlign(LEFT, TOP); text("⚠️ " + bildirimYazisi, 25, 95);
     
-    // 4. ANLIK ASKERİ CHAT / BİLDİRİM LOGU
-    noStroke();
-    fill(255, 230, 0);
-    textSize(11);
-    textAlign(LEFT, TOP);
-    text("⚠️ " + bildirimYazisi, 25, 95);
-    
-    // 5. ALT MENÜ BUTONLARI
-    let btnWidth = (width - 50) / 4;
-    let btnY = height - 90;
-    let butonlar = ["🛠\nİNŞA", "🚀\nMIRV", "🛒\nMARKET", "🚫\nBAN"];
-    
+    // Butonlar
+    let btnW = (width - 50) / 4, btnY = height - 90;
+    let bIsimleri = ["🛠\nİNŞA", "🚀\nMIRV", "🛒\nMARKET", "🚫\nBAN"];
     for (let i = 0; i < 4; i++) {
-      stroke(anaRenk);
-      fill(50, 15, 0);
-      rect(10 + i * (btnWidth + 10), btnY, btnWidth, 70, 4);
-      
-      noStroke();
-      fill(anaRenk);
-      textAlign(CENTER, CENTER);
-      textSize(10);
-      textStyle(BOLD);
-      text(butonlar[i], 10 + i * (btnWidth + 10) + btnWidth / 2, btnY + 35);
-      textStyle(NORMAL);
+      stroke(anaRenk); fill(50, 15, 0); rect(10 + i*(btnW+10), btnY, btnW, 70, 4);
+      noStroke(); fill(anaRenk); textAlign(CENTER, CENTER); textSize(10); textStyle(BOLD);
+      text(bIsimleri[i], 10 + i*(btnW+10) + btnW/2, btnY + 35); textStyle(NORMAL);
     }
   }
 }
 
-// Dokunma / Tıklama Başladığında
 function touchStarted() {
   if (ekran === "GIRIS") {
-    if (mouseY < height - 150) {
-      gpsDurumu = "SECURE LINK ESTABLISHED";
-      setTimeout(() => { ekran = "OYUN"; }, 1000);
-    }
+    if (mouseX > width/2-75 && mouseX < width/2+75 && mouseY > height/2+20 && mouseY < height/2+110) window.open("https://discord.gg", "_blank");
   } 
   else if (ekran === "OYUN") {
-    let btnWidth = (width - 50) / 4;
-    let btnY = height - 90;
-    
-    // Buton tıklama kontrolleri
+    let btnW = (width - 50) / 4, btnY = height - 90;
     for (let i = 0; i < 4; i++) {
-      let btnX = 10 + i * (btnWidth + 10);
-      if (mouseX > btnX && mouseX < btnX + btnWidth && mouseY > btnY && mouseY < btnY + 70) {
-        if (i === 0) bildirimYazisi = "GPS Target Lock: Base building allowed here.";
-        if (i === 1) bildirimYazisi = "MIRV armed. Drag map to locate target.";
-        if (i === 2) bildirimYazisi = "Black Market open. Buying anti-radar tech.";
-        if (i === 3) bildirimYazisi = "Toxic players located and wiped from coordinates!";
-        return; // Butona basıldıysa harita sürüklemeyi başlatma
+      let bX = 10 + i*(btnW+10);
+      if (mouseX > bX && mouseX < bX + btnW && mouseY > btnY && mouseY < btnY + 70) {
+        if (i === 0) bildirimYazisi = "HQ Position locked. Base construction ready.";
+        if (i === 1) bildirimYazisi = "MIRV system online. Target coordinates locked.";
+        if (i === 2) bildirimYazisi = "Market loaded. Upgrading proxy servers.";
+        if (i === 3) bildirimYazisi = "Security Sweep: Toxic players blacklisted!";
+        return;
       }
     }
-
-    // Eğer butonlara basılmadıysa ve harita alanındaysa sürüklemeyi başlat
-    if (mouseY > 85 && mouseY < height - 110) {
-      surukleniyorMu = true;
-      baslangicFareX = mouseX;
-      baslangicFareY = mouseY;
-    }
+    if (mouseY > 85 && mouseY < height - 110) { surukleniyorMu = true; baslangicFareX = mouseX; baslangicFareY = mouseY; }
   }
 }
-
-// Dokunma / Tıklama Bırakıldığında
-function touchEnded() {
-  surukleniyorMu = false;
-}
+function touchEnded() { surukleniyorMu = false; }
 </script>
 </body>
 </html>
-
