@@ -66,7 +66,7 @@
 
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
-        /* --- PREMİUM TURUNCU ÜST HUD PANELİ --- */
+        /* PREMİUM ÜST HUD PANELİ */
         #hud-top {
             position: absolute; top: 12px; left: 12px; right: 12px; z-index: 1000;
             display: flex; gap: 10px; pointer-events: none;
@@ -109,7 +109,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* CAN (HP) BARI TASARIMI */
         .hp-bar-container {
             width: 100%;
             height: 10px;
@@ -122,7 +121,7 @@
 
         .hp-bar-fill {
             height: 100%;
-            width: 100%; /* Can oranı %100 */
+            width: 100%;
             background: linear-gradient(90deg, #ff3300 0%, #ff7800 100%);
             box-shadow: 0 0 8px #ff7800;
             border-radius: 4px;
@@ -213,12 +212,12 @@
         <div style="font-size: 13px; line-height: 1.8;">
             <p>SYSTEM INITIALISING...</p>
             <p>Scanning Hardware...</p>
-            <p>GPS Connection: <span id="gps-status-text" style="color: #ff3232;">GPS Aranıyor (Konum İzni Veriniz)...</span></p>
+            <p>GPS Connection: <span id="gps-status-text" style="color: #ffaa00;">GPS Konumu Aranıyor...</span></p>
         </div>
 
         <hr style="border: 0; border-top: 1px solid #ff7800; margin-top: 20px; margin-bottom: 20px;">
 
-        <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>GPS BEKLENİYOR...</button>
+        <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
 
         <div style="display: flex; gap: 10px; align-items: center; margin-top: 20px;">
             <div style="border: 1px solid #ff7800; background: #280f00; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
@@ -246,15 +245,12 @@
     <div id="map-container">
         <div id="map"></div>
 
-        <!-- SADELEŞTİRİLMİŞ & PREMİUM ÜST HUD PANELİ -->
         <div id="hud-top">
-            <!-- BAKIYE PANELI -->
             <div class="hud-card">
                 <div class="hud-label">💰 BAKİYE</div>
                 <div class="hud-value-money">$38,860</div>
             </div>
 
-            <!-- SAĞLIK (HP) PANELI -->
             <div class="hud-card">
                 <div class="hud-label" style="justify-content: space-between;">
                     <span>❤️ SAĞLIK</span>
@@ -304,11 +300,33 @@
         let map, playerMarker;
         let userFullName = "";
         let currentLat = null, currentLon = null;
-        let gpsAcquireComplete = false;
+        let countdownValue = 5;
+        let countdownTimer = null;
 
         window.onload = function() {
             baslatGPS();
+            baslatGeriSayim();
         };
+
+        function baslatGeriSayim() {
+            const startBtn = document.getElementById('start-btn');
+            countdownTimer = setInterval(() => {
+                countdownValue--;
+                if (countdownValue > 0) {
+                    startBtn.innerText = `SİSTEM TARANIYOR (${countdownValue}sn)...`;
+                } else {
+                    clearInterval(countdownTimer);
+                    
+                    if (currentLat !== null && currentLon !== null) {
+                        startBtn.innerText = "OPERASYONA BAŞLA";
+                        startBtn.disabled = false;
+                        startBtn.classList.add('active');
+                    } else {
+                        startBtn.innerText = "GPS BEKLENİYOR...";
+                    }
+                }
+            }, 1000);
+        }
 
         function baslatGPS() {
             if (navigator.geolocation) {
@@ -323,8 +341,7 @@
                     }
 
                     const startBtn = document.getElementById('start-btn');
-                    if(startBtn && !gpsAcquireComplete) {
-                        gpsAcquireComplete = true;
+                    if(countdownValue <= 0 && startBtn) {
                         startBtn.innerText = "OPERASYONA BAŞLA";
                         startBtn.disabled = false;
                         startBtn.classList.add('active');
