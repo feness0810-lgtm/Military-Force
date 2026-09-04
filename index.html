@@ -85,13 +85,18 @@
         .hud-box-1 { flex: 1.2; font-size: 16px; font-weight: 900; }
         .hud-box-2 { flex: 1.4; font-size: 15px; }
         
-        /* GERÇEK GPS & İNTERNET SİNYAL KUTUSU */
+        /* GERÇEK GPS & İNTERNET SİNYAL KUTUSU (TIKLANABİLİR YAPILDI) */
         .hud-box-3 { 
             flex: 1.4; 
             display: flex; 
             align-items: center; 
             justify-content: space-between;
             padding: 2px 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .hud-box-3:active {
+            background: rgba(0, 255, 0, 0.3);
         }
 
         .signal-icons {
@@ -239,8 +244,8 @@
                 <span id="hud-hp">200/200hp</span>
             </div>
             
-            <!-- GERÇEK KONUM (GPS) VE İNTERNET (PING) KUTUSU -->
-            <div class="hud-box hud-box-3">
+            <!-- GERÇEK KONUM VE PING KUTUSU (BASINCA KONUMA ODAKLANIR) -->
+            <div class="hud-box hud-box-3" onclick="konumaOdaklan()" title="Konumuma Git">
                 <div class="signal-icons">
                     <svg width="15" height="15" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
                         <circle cx="50" cy="50" r="30"/>
@@ -395,14 +400,26 @@
                         startBtn.classList.add('active');
                     }
 
-                    if (playerMarker && map) {
+                    // SADECE PROFİL SİMGESİNİ GÜNCELLE, HARİTAYI OTOMATİK ORTALAMA (KULLANICI GEZİNSİN)
+                    if (playerMarker) {
                         playerMarker.setLatLng([currentLat, currentLon]);
-                        map.panTo([currentLat, currentLon]);
                     }
                 }, function (error) {
                     document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
                     document.getElementById('gps-accuracy-val').innerText = "ERR";
                 }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
+            }
+        }
+
+        /* SAĞ ÜSTTEKİ SİNYAL KUTUSUNA BASINCA KONUMA/PROFİLE ODAKLANMA FONKSİYONU */
+        function konumaOdaklan() {
+            if (map && currentLat !== null && currentLon !== null) {
+                map.flyTo([currentLat, currentLon], 16, {
+                    animate: true,
+                    duration: 1.2
+                });
+            } else {
+                alert("GPS Konumunuz henüz alınamadı!");
             }
         }
 
@@ -449,7 +466,6 @@
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-            // BÜYÜTÜLMÜŞ İKON HİZALAMASI (36px x 36px için anchor [18, 18])
             const playerIcon = L.divIcon({
                 className: 'custom-icon',
                 html: '<div class="radar-player-icon"></div>',
@@ -489,3 +505,4 @@
     </script>
 </body>
 </html>
+
