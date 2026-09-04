@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Military Force</title>
     
+    <!-- Leaflet.js CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -64,7 +65,7 @@
 
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
-        /* GÖRSELDEKİ ORİJİNAL ÜST HUD PANELİ (3 KUTU) */
+        /* ÜST HUD PANELİ */
         #hud-top {
             position: absolute; top: 8px; left: 8px; right: 8px; z-index: 1000;
             display: flex; gap: 6px; pointer-events: none; height: 50px;
@@ -75,34 +76,59 @@
             border: 2px solid #00ff00;
             padding: 4px 8px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items: center;
             color: #00ff00;
             font-weight: bold;
             pointer-events: auto;
         }
 
         .hud-box-1 { flex: 1.2; font-size: 16px; font-weight: 900; }
-        .hud-box-2 { flex: 1.5; font-size: 15px; }
-        .hud-box-3 { flex: 1; font-size: 11px; display: flex; align-items: center; gap: 6px; }
+        .hud-box-2 { flex: 1.4; font-size: 15px; }
+        
+        /* GERÇEK GPS & İNTERNET SİNYAL KUTUSU */
+        .hud-box-3 { 
+            flex: 1.4; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            padding: 2px 6px;
+        }
 
-        /* GÖRSELDEKİ SABİT HARİTA İKONU (YANIP SÖNME YOK) */
+        .signal-icons {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+        }
+
+        .signal-values {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+            text-align: right;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        /* BÜYÜTÜLMÜŞ HARİTA PROFİL İKONU */
         .radar-player-icon {
-            width: 28px; height: 28px;
-            border: 2px solid #00ff00;
+            width: 36px; height: 36px;
+            border: 2.5px solid #00ff00;
             border-radius: 50%;
-            background: rgba(0, 30, 0, 0.6);
+            background: rgba(0, 35, 0, 0.75);
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
         }
         .radar-player-icon::after {
             content: "👤";
-            font-size: 14px;
+            font-size: 18px;
             line-height: 1;
             filter: grayscale(1) invert(1) sepia(1) hue-rotate(80deg) saturate(5);
         }
 
-        /* GÖRSELDEKİ PROFİL PENCERESİ */
+        /* PROFİL PENCERESİ */
         #profile-modal {
             display: none; position: fixed; bottom: 75px; left: 10px; right: 10px;
             background: rgba(0, 15, 0, 0.95); border: 2px solid #00ff00; z-index: 2500;
@@ -135,7 +161,7 @@
         .profile-xp-bar { width: 100%; height: 5px; background: #003300; margin: 4px 0 8px 0; border: 1px solid #00ff00; }
         .profile-xp-fill { height: 100%; background: #00ff00; box-shadow: 0 0 5px #00ff00; }
 
-        /* GÖRSEL 2'DEKİ ALT MENÜ BUTONLARI */
+        /* ALT MENÜ BUTONLARI */
         #hud-bottom {
             position: absolute; bottom: 8px; left: 8px; right: 8px; z-index: 1000;
             display: flex; gap: 6px; justify-content: space-between;
@@ -151,7 +177,6 @@
             position: absolute; bottom: 2px; display: flex; gap: 1px; font-size: 7px; color: #ffff00;
         }
 
-        /* MODAL */
         .modal {
             display: none; position: fixed; bottom: 70px; left: 10px; right: 10px;
             background: rgba(0, 15, 0, 0.95); border: 2px solid #00ff00; z-index: 2000;
@@ -164,6 +189,7 @@
 </head>
 <body>
 
+    <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
         <div class="target-icon">
             <svg width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="6">
@@ -189,6 +215,7 @@
         <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
     </div>
 
+    <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="register-box">
             <h2 style="font-size: 16px; color: #00ff00; margin-bottom: 10px;">🪖 OYUNCU KAYDI</h2>
@@ -200,31 +227,42 @@
         </div>
     </div>
 
+    <!-- 3. ANA OYUN EKRANI -->
     <div id="map-container">
         <div id="map"></div>
 
+        <!-- ÜST HUD PANELİ -->
         <div id="hud-top">
-            <div class="hud-box hud-box-1" id="hud-money">£38860</div>
+            <div class="hud-box hud-box-1" id="hud-money">€2023625</div>
             
             <div class="hud-box hud-box-2">
-                <span id="hud-hp">300/300hp</span>
-                <span style="font-size: 10px; opacity: 0.7;">...</span>
+                <span id="hud-hp">200/200hp</span>
             </div>
             
+            <!-- GERÇEK KONUM (GPS) VE İNTERNET (PING) KUTUSU -->
             <div class="hud-box hud-box-3">
-                <svg width="22" height="22" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
-                    <circle cx="50" cy="30" r="20"/>
-                    <line x1="20" y1="30" x2="80" y2="30"/>
-                    <line x1="50" y1="0" x2="50" y2="60"/>
-                    <path d="M 20 60 L 50 95 L 80 60 Z"/>
-                </svg>
-                <div style="display:flex; flex-direction:column; line-height:1.1;">
-                    <span id="gps-acc">10 m</span>
-                    <span id="gps-ping">500 ms</span>
+                <div class="signal-icons">
+                    <svg width="15" height="15" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
+                        <circle cx="50" cy="50" r="30"/>
+                        <line x1="50" y1="0" x2="50" y2="100"/>
+                        <line x1="0" y1="50" x2="100" y2="50"/>
+                    </svg>
+                    <svg width="15" height="15" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="8">
+                        <path d="M 20 20 Q 50 0 80 20"/>
+                        <path d="M 35 40 Q 50 25 65 40"/>
+                        <line x1="50" y1="50" x2="50" y2="100"/>
+                        <circle cx="50" cy="50" r="6" fill="#00ff00"/>
+                    </svg>
+                </div>
+
+                <div class="signal-values">
+                    <span id="gps-accuracy-val">-- m</span>
+                    <span id="ping-val">-- ms</span>
                 </div>
             </div>
         </div>
 
+        <!-- PROFİL PENCERESİ -->
         <div id="profile-modal">
             <div class="profile-header">
                 <div class="profile-close-btn" onclick="kapatProfil()">X</div>
@@ -239,8 +277,8 @@
             </div>
 
             <div class="profile-hp-money">
-                <span id="prof-hp" class="profile-hp">300/300hp</span>
-                <span id="prof-money" class="profile-money">£38,860</span>
+                <span id="prof-hp" class="profile-hp">200/200hp</span>
+                <span id="prof-money" class="profile-money">€2,023,625</span>
             </div>
 
             <div class="profile-divider"></div>
@@ -269,19 +307,21 @@
             </div>
         </div>
 
+        <!-- İNŞA MENÜSÜ -->
         <div id="build-modal" class="modal">
             <div class="modal-title">🛠️ TAKTİKSEL İNŞA MENÜSÜ</div>
             <div class="build-item">
-                <div><b>Banka Üssü</b><br><small style="color:#aaa">£500.000 - Faiz Geliri</small></div>
+                <div><b>Banka Üssü</b><br><small style="color:#aaa">€500.000 - Faiz Geliri</small></div>
                 <button class="build-btn-action" onclick="kurBina('Banka')">KUR</button>
             </div>
             <div class="build-item">
-                <div><b>Radar Üssü</b><br><small style="color:#aaa">£150.000 - Erken Uyarı</small></div>
+                <div><b>Radar Üssü</b><br><small style="color:#aaa">€150.000 - Erken Uyarı</small></div>
                 <button class="build-btn-action" onclick="kurBina('Radar')">KUR</button>
             </div>
             <button style="width:100%; margin-top:10px; background:#ff3232; color:#fff; border:none; padding:6px; font-size:10px;" onclick="kapatModal()">KAPAT</button>
         </div>
 
+        <!-- ALT BUTON BARİ -->
         <div id="hud-bottom">
             <div class="hud-btn-box" onclick="acProfil()">
                 👤
@@ -297,13 +337,12 @@
     <script>
         let map, playerMarker;
         
-        // GERÇEK/CANLI OYUNCU BİLGİLERİ
         let playerStats = {
             fullName: "",
-            alliance: "", // Yoksa Unaffiliated yazar
-            currentHp: 300,
-            maxHp: 300,
-            money: 38860,
+            alliance: "",
+            currentHp: 200,
+            maxHp: 200,
+            money: 2023625,
             rank: 1,
             xp: 0,
             maxXp: 1000,
@@ -316,6 +355,7 @@
         window.onload = function() {
             baslatGPS();
             baslatGeriSayim();
+            baslatPingOlcumu();
         };
 
         function baslatGeriSayim() {
@@ -343,6 +383,9 @@
                     currentLat = position.coords.latitude;
                     currentLon = position.coords.longitude;
 
+                    let accMeters = Math.round(position.coords.accuracy);
+                    document.getElementById('gps-accuracy-val').innerText = `${accMeters} m`;
+
                     document.getElementById('gps-status-text').innerText = "SECURE LINK ESTABLISHED";
 
                     const startBtn = document.getElementById('start-btn');
@@ -357,9 +400,24 @@
                         map.panTo([currentLat, currentLon]);
                     }
                 }, function (error) {
-                    document.getElementById('gps-status-text').innerText = "GPS HAKKI VERİLMEDİ!";
+                    document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
+                    document.getElementById('gps-accuracy-val').innerText = "ERR";
                 }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
             }
+        }
+
+        function baslatPingOlcumu() {
+            setInterval(() => {
+                let startTime = Date.now();
+                fetch('https://www.google.com/favicon.ico', { mode: 'no-cors', cache: 'no-store' })
+                    .then(() => {
+                        let pingTime = Date.now() - startTime;
+                        document.getElementById('ping-val').innerText = `${pingTime} ms`;
+                    })
+                    .catch(() => {
+                        document.getElementById('ping-val').innerText = "Offline";
+                    });
+            }, 3000);
         }
 
         function gecHesapEkrani() {
@@ -391,12 +449,12 @@
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-            // SABİT İKON (YANIP SÖNMEYEN)
+            // BÜYÜTÜLMÜŞ İKON HİZALAMASI (36px x 36px için anchor [18, 18])
             const playerIcon = L.divIcon({
                 className: 'custom-icon',
                 html: '<div class="radar-player-icon"></div>',
-                iconSize: [28, 28],
-                iconAnchor: [14, 14]
+                iconSize: [36, 36],
+                iconAnchor: [18, 18]
             });
 
             playerMarker = L.marker([lat, lon], { icon: playerIcon }).addTo(map);
@@ -411,7 +469,7 @@
             document.getElementById('prof-alliance').innerText = playerStats.alliance !== "" ? playerStats.alliance : "Unaffiliated";
             
             document.getElementById('prof-hp').innerText = `${playerStats.currentHp}/${playerStats.maxHp}hp`;
-            document.getElementById('prof-money').innerText = `£${playerStats.money.toLocaleString()}`;
+            document.getElementById('prof-money').innerText = `€${playerStats.money.toLocaleString()}`;
             
             document.getElementById('prof-rank').innerText = playerStats.rank;
             document.getElementById('prof-xp').innerText = playerStats.xp;
