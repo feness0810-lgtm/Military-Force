@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Military Force</title>
     
-    <!-- Leaflet.js CSS & JS (OpenStreetMap Motoru) -->
+    <!-- Leaflet.js CSS & JS (OpenStreetMap) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -26,16 +26,16 @@
         #map-container { display: none; width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
         #map { 
             width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
-            background: #000;
+            background: #050505;
         }
 
-        /* AKICI HARİTA VE KOYU ASKERİ TEMA FİLTRESİ */
-        .leaflet-tile {
-            filter: brightness(0.65) invert(1) contrast(1.4) hue-rotate(200deg) saturate(0.3);
+        /* OPENSTREETMAP KOYU ASKERİ RADAR FİLTRESİ */
+        .leaflet-tile-container img {
+            filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) !important;
             will-change: transform;
         }
 
-        /* LEAFLET VARSAYILAN BUTONLARI GİZLE */
+        /* LEAFLET VARSAYILAN BUTONLARI VE METİNLERİ GİZLE */
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
         /* HUD PANEL VE GÖSTERGELER */
@@ -95,7 +95,7 @@
 </head>
 <body>
 
-    <!-- 1. GİRİŞ EKRANI (TAM ESKİ TASARIM) -->
+    <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
         <div class="target-icon">
             <svg width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#ff0000" stroke-width="6">
@@ -135,23 +135,20 @@
         </div>
     </div>
 
-    <!-- 2. ANA OYUN EKRANI (HARİTA + HUD) -->
+    <!-- 2. ANA OYUN EKRANI -->
     <div id="map-container">
         <div id="map"></div>
 
-        <!-- ÜST PANEL (CAN & ENERJİ) -->
         <div id="hud-top">
             <div class="hud-card">🔋 107,761,809</div>
             <div class="hud-card">❤️ 200/200 HP</div>
         </div>
 
-        <!-- GPS VERİ BARI -->
         <div id="gps-bar">
             <span id="coords-text">🛰️ LAT: --- | LON: ---</span>
             <span style="color: #ff3232;">📡 PING: 42ms</span>
         </div>
 
-        <!-- TAKTİKSEL İNŞA MENÜSÜ -->
         <div id="build-modal" class="modal">
             <div class="modal-title">🛠️ TAKTİKSEL İNŞA MENÜSÜ</div>
             <div class="build-item">
@@ -173,7 +170,6 @@
             <button style="width:100%; margin-top:10px; background:#ff3232; color:#fff; border:none; padding:6px; font-size:10px;" onclick="kapatModal()">KAPAT</button>
         </div>
 
-        <!-- ALT EYLEM BUTONLARI -->
         <div id="hud-bottom">
             <button class="hud-btn" onclick="acModal()">🛠️<br>İNŞA</button>
             <button class="hud-btn" onclick="alert('🚀 MIRV Hedefleme Sistemi Aktif!')">🚀<br>MIRV</button>
@@ -182,14 +178,12 @@
         </div>
     </div>
 
-    <!-- SCRIPT / MOTOR KODLARI -->
     <script>
         let map, playerMarker;
 
         function initMap(lat, lon) {
             document.getElementById('map-container').style.display = 'block';
 
-            // Akıcı ve Yüksek Performanslı Harita Ayarları
             map = L.map('map', {
                 zoomControl: false,
                 attributionControl: false,
@@ -198,13 +192,11 @@
                 zoomAnimation: true
             }).setView([lat, lon], 16);
 
-            // Koyu Siyah Katman (CartoDB Dark Matter)
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                maxZoom: 19,
-                subdomains: 'abcd'
+            // Doğrudan Resmi OpenStreetMap Sunucusu (API Key İstemez)
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19
             }).addTo(map);
 
-            // Yeşil Yanıp Sönen Askeri Oyuncu İkonu
             const playerIcon = L.divIcon({
                 className: 'custom-icon',
                 html: '<div class="radar-player-icon"></div>',
@@ -214,13 +206,11 @@
 
             playerMarker = L.marker([lat, lon], { icon: playerIcon }).addTo(map);
 
-            // Giriş ekranını akıcı şekilde kapat
             setTimeout(() => {
                 document.getElementById('splash-screen').style.display = 'none';
             }, 600);
         }
 
-        // Canlı GPS Takip Motoru
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(function (position) {
                 const lat = position.coords.latitude;
@@ -242,7 +232,7 @@
                 const statusElem = document.getElementById('gps-status-text');
                 statusElem.innerText = "GPS SİNYALİ YEDEK MODA GEÇTİ";
                 statusElem.style.color = "#ff3232";
-                if (!map) initMap(41.0082, 28.9784); // Varsayılan Koordinat
+                if (!map) initMap(41.0082, 28.9784);
             }, {
                 enableHighAccuracy: true,
                 maximumAge: 0
@@ -251,7 +241,6 @@
             initMap(41.0082, 28.9784);
         }
 
-        // Modal ve Buton Fonksiyonları
         function acModal() { document.getElementById('build-modal').style.display = 'block'; }
         function kapatModal() { document.getElementById('build-modal').style.display = 'none'; }
         function kurBina(bina) {
