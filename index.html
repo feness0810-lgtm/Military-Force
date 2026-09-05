@@ -164,7 +164,7 @@
         .signal-icons { display: flex; flex-direction: column; justify-content: space-around; height: 80%; }
         .signal-values { display: flex; flex-direction: column; justify-content: space-around; height: 80%; text-align: right; font-size: 11px; font-weight: 900; color: #ffaa00; }
 
-        /* BİLDİRİM KUTUSU (MILITARY TEMALI) */
+        /* BİLDİRİM KUTUSU BANNERI */
         #notification-box {
             position: absolute;
             top: 70px;
@@ -606,6 +606,7 @@
             </div>
         </div>
 
+        <!-- BİLDİRİM KUTUSU BANNERI -->
         <div id="notification-box"></div>
 
         <div id="location-panel">
@@ -723,7 +724,7 @@
         let rawAccuracyMeters = 0;
         let isTransitioning = false;
         let selectedAvatarData = null;
-        let placedMapStructures = []; // Haritada inşa edilen yapılar dizisi
+        let placedMapStructures = []; // Haritada inşa edilen yapılar
         let notificationTimeout = null;
 
         let permissionsState = {
@@ -756,68 +757,20 @@
         let selectedTargetLat = null, selectedTargetLng = null;
         let countdownValue = 5;
 
-        // 12 GELİŞMİŞ YAPININ LİSTESİ VE İKONLARI
+        // YAPILAR LİSTESİ
         const structuresList = [
-            {
-                id: 1, name: "Military Base", price: 1000000,
-                desc: "Serves as the main headquarters for heavy troop deployment and overall command.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`
-            },
-            {
-                id: 2, name: "SAM Battery", price: 50000,
-                desc: "SAM batteries store interceptor missiles and engage enemy cruise missiles with them.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>`
-            },
-            {
-                id: 3, name: "Missile Battery", price: 50000,
-                desc: "Missile launch sites fire cruise missiles, allowing you to attack other players.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 20l16-16M14 4h6v6M5 19l3 3"/></svg>`
-            },
-            {
-                id: 4, name: "Artillery Battery", price: 10000,
-                desc: "Artillery Batteries store and fire artillery shells at target locations.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 17h16M7 11l10-6M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0"/></svg>`
-            },
-            {
-                id: 5, name: "ICBM Silo", price: 200000,
-                desc: "ICBM silos hold powerful nuclear ICBMs that can bring devastation to far-away enemies.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 3v18M9 9l3-6 3 6M8 21h8M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>`
-            },
-            {
-                id: 6, name: "ABM Silo", price: 150000,
-                desc: "Anti-Ballistic Missile silos detect and intercept long-range strategic warheads.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v6M12 8l-2 2M12 8l2 2"/></svg>`
-            },
-            {
-                id: 7, name: "Airbase", price: 75000,
-                desc: "Airbases allow the player to purchase, design, and store aircraft.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M17.8 19.2L16 11l3.5-3.5c.8-.8.8-2 0-2.8s-2-.8-2.8 0L13 8.2 4.8 6.4c-.5-.1-.9.1-1.1.5l-1.1 2 5.2 3.2-3.1 3.1-2.1-.6-.9.9 2.7 2.7 2.7 2.7.9-.9-.6-2.1 3.1-3.1 3.2 5.2 2-1.1c.4-.2.6-.6.5-1.1z"/></svg>`
-            },
-            {
-                id: 8, name: "Armory", price: 60000,
-                desc: "Armory structures produce tanks for the player and store ground units.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12H4z"/><path d="M9 21v-6h6v6"/></svg>`
-            },
-            {
-                id: 9, name: "Warehouse", price: 20000,
-                desc: "Warehouses link to the player's inventory, allowing resources to be deposited remotely.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M3 21h18V8L12 3 3 8v13z"/><path d="M9 13h6v8H9z"/></svg>`
-            },
-            {
-                id: 10, name: "Radar Station", price: 40000,
-                desc: "Radar Stations scan within an 800 km radius to uncover hostile units.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 12l4-4M12 12v-8"/></svg>`
-            },
-            {
-                id: 11, name: "Bunker", price: 5000,
-                desc: "Bunkers protect players from radiation, strikes, and heavy attacks.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M2 20h20M4 20a8 8 0 0 1 16 0M9 14h6"/></svg>`
-            },
-            {
-                id: 12, name: "Market", price: 1000,
-                desc: "Markets allow players to list and trade items on the server market.",
-                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>`
-            }
+            { id: 1, name: "Military Base", price: 1000000, desc: "Serves as the main headquarters for heavy troop deployment and overall command.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>` },
+            { id: 2, name: "SAM Battery", price: 50000, desc: "SAM batteries store interceptor missiles and engage enemy cruise missiles with them.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>` },
+            { id: 3, name: "Missile Battery", price: 50000, desc: "Missile launch sites fire cruise missiles, allowing you to attack other players.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 20l16-16M14 4h6v6M5 19l3 3"/></svg>` },
+            { id: 4, name: "Artillery Battery", price: 10000, desc: "Artillery Batteries store and fire artillery shells at target locations.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 17h16M7 11l10-6M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0"/></svg>` },
+            { id: 5, name: "ICBM Silo", price: 200000, desc: "ICBM silos hold powerful nuclear ICBMs that can bring devastation to far-away enemies.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 3v18M9 9l3-6 3 6M8 21h8M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>` },
+            { id: 6, name: "ABM Silo", price: 150000, desc: "Anti-Ballistic Missile silos detect and intercept long-range strategic warheads.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v6M12 8l-2 2M12 8l2 2"/></svg>` },
+            { id: 7, name: "Airbase", price: 75000, desc: "Airbases allow the player to purchase, design, and store aircraft.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M17.8 19.2L16 11l3.5-3.5c.8-.8.8-2 0-2.8s-2-.8-2.8 0L13 8.2 4.8 6.4c-.5-.1-.9.1-1.1.5l-1.1 2 5.2 3.2-3.1 3.1-2.1-.6-.9.9 2.7 2.7 2.7 2.7.9-.9-.6-2.1 3.1-3.1 3.2 5.2 2-1.1c.4-.2.6-.6.5-1.1z"/></svg>` },
+            { id: 8, name: "Armory", price: 60000, desc: "Armory structures produce tanks for the player and store ground units.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12H4z"/><path d="M9 21v-6h6v6"/></svg>` },
+            { id: 9, name: "Warehouse", price: 20000, desc: "Warehouses link to the player's inventory, allowing resources to be deposited remotely.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M3 21h18V8L12 3 3 8v13z"/><path d="M9 13h6v8H9z"/></svg>` },
+            { id: 10, name: "Radar Station", price: 40000, desc: "Radar Stations scan within an 800 km radius to uncover hostile units.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 12l4-4M12 12v-8"/></svg>` },
+            { id: 11, name: "Bunker", price: 5000, desc: "Bunkers protect players from radiation, strikes, and heavy attacks.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M2 20h20M4 20a8 8 0 0 1 16 0M9 14h6"/></svg>` },
+            { id: 12, name: "Market", price: 1000, desc: "Markets allow players to list and trade items on the server market.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>` }
         ];
 
         window.onload = function() {
@@ -828,52 +781,38 @@
             renderBuildMenu();
         };
 
-        // BİLDİRİM SİSTEMİ (5 Saniye Sonra Otomatik Kaybolur)
+        // BİLDİRİM KUTUSU
         function showNotification(message) {
             const box = document.getElementById('notification-box');
             box.textContent = message;
             box.style.display = "block";
 
-            if (notificationTimeout) {
-                clearTimeout(notificationTimeout);
-            }
-
-            notificationTimeout = setTimeout(() => {
-                box.style.display = "none";
-            }, 5000);
+            if (notificationTimeout) clearTimeout(notificationTimeout);
+            notificationTimeout = setTimeout(() => { box.style.display = "none"; }, 5000);
         }
 
-        // İNŞA SESİ EFEKTİ (Synthesizer Çekiç Vuruşları)
+        // ÇEKİÇ SESİ EFEKTİ
         function playConstructionSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const ctx = new AudioContext();
-
-                const hits = [0, 0.15, 0.3]; // 3 Seri Vuruş
-
+                const hits = [0, 0.15, 0.3];
                 hits.forEach(delay => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
-
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(120, ctx.currentTime + delay);
                     osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + delay + 0.08);
-
                     gain.gain.setValueAtTime(1, ctx.currentTime + delay);
                     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.08);
-
                     osc.connect(gain);
                     gain.connect(ctx.destination);
-
                     osc.start(ctx.currentTime + delay);
                     osc.stop(ctx.currentTime + delay + 0.08);
                 });
-            } catch (e) {
-                console.log("Ses çalınamadı:", e);
-            }
+            } catch (e) { console.log("Ses çalınamadı:", e); }
         }
 
-        // İNŞA MENÜSÜNÜ İÇERİKLE DOLDURMA
         function renderBuildMenu() {
             const listContainer = document.getElementById('buildMenuList');
             listContainer.innerHTML = structuresList.map(item => `
@@ -902,44 +841,40 @@
             else overlay.classList.remove('active');
         }
 
-        // İNŞA KONTROLÜ & KURAL MANTIĞI
+        // YENİ İNŞA MANTIĞI: DİREKT OYUNCU (PROFİL) KONUMUNA İNŞA EDİLİR
         function secYapiveInsaEt(id) {
             const struct = structuresList.find(s => s.id === id);
 
-            // A) Hedef Konum Seçilmiş mi?
-            if (selectedTargetLat === null || selectedTargetLng === null) {
-                alert("Lütfen önce harita üzerinde inşa etmek istediğiniz konumu seçin (kırmızı nişangah koyun)!");
-                toggleBuildMenu(false);
+            // 1) GPS Konumu Alındı mı?
+            if (currentLat === null || currentLon === null) {
+                alert("GPS konumunuz alınamadı, inşa yapılamıyor!");
                 return;
             }
 
-            // B) Yeterli Bütçe Var mı?
+            // 2) Yeterli Bütçe Var mı?
             if (playerStats.money < struct.price) {
                 alert("Yetersiz bütçe!");
                 return;
             }
 
-            // C) 25 Metre Mesafe / Çakışma Kontrolü
-            const targetLatLng = L.latLng(selectedTargetLat, selectedTargetLng);
+            // 3) 25 Metre Mesafe Kontrolü (Mevcut diğer yapılara çok yakın mı?)
+            const playerLatLng = L.latLng(currentLat, currentLon);
 
             for (let b of placedMapStructures) {
                 const existingLatLng = L.latLng(b.lat, b.lng);
-                const distance = targetLatLng.distanceTo(existingLatLng); // Metre cinsinden mesafe
+                const distance = playerLatLng.distanceTo(existingLatLng); // Metre cinsinden mesafe
 
                 if (distance < 25) {
-                    alert(`İnşa yapılamaz! Yakınınızda (${Math.round(distance)} metre uzakta) zaten bir yapı var. Başka bir yapının en az 25 metre uzağına inşa edebilirsiniz.`);
+                    alert(`İnşa yapılamaz! Yakınınızda (${Math.round(distance)} metre uzağınızda) zaten bir yapınız var. Yeni bina yapabilmek için en az 25 metre uzaklaşmalısınız!`);
                     return;
                 }
             }
 
-            // D) İnşa İşlemini Gerçekleştir
+            // 4) İnşayı Tamamla (Tam Karakterin Üstüne Kurulur)
             playerStats.money -= struct.price;
             guncelleArayuzBirimleri();
-
-            // Çekiç Ses Efektini Çal
             playConstructionSound();
 
-            // Haritaya İnşa Edilen Yapı İkonunu Ekleme
             const buildIcon = L.divIcon({
                 className: 'custom-building-icon',
                 html: `<div class="building-marker-icon">${struct.symbol}</div>`,
@@ -947,20 +882,20 @@
                 iconAnchor: [15, 15]
             });
 
-            const m = L.marker([selectedTargetLat, selectedTargetLng], { icon: buildIcon }).addTo(map);
+            const m = L.marker([currentLat, currentLon], { icon: buildIcon }).addTo(map);
             m.bindPopup(`<b>${struct.name}</b><br>Sahibi: ${playerStats.fullName || 'Operatör'}<br>Durum: Operasyonel`);
 
-            // Yapıyı Listeye Kaydet (25m kontrolü için)
+            // Yapıyı Listeye Ekle
             placedMapStructures.push({
                 name: struct.name,
-                lat: selectedTargetLat,
-                lng: selectedTargetLng,
+                lat: currentLat,
+                lng: currentLon,
                 marker: m
             });
 
             toggleBuildMenu(false);
 
-            // Pop-Up Bildirim Göster
+            // Bildirim Göster
             const operatorName = playerStats.fullName || "Operatör";
             showNotification(`${operatorName} constructed ${struct.name}`);
         }
@@ -1249,7 +1184,7 @@
                 acProfil(); 
             });
 
-            // HARİTA TIKLAMA OLAYI
+            // HARİTAYA TIKLAYINCA SADECE YEŞİL BİLGİ PANELİ AÇILIR VE NİŞANGAH KOYULUR
             map.on('click', function(e) {
                 selectedTargetLat = e.latlng.lat;
                 selectedTargetLng = e.latlng.lng;
