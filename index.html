@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Military Force</title>
     
+    <!-- Leaflet.js CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -95,7 +96,7 @@
             height: 18px;
         }
 
-        /* YENİ: PERMISSIONS (İZİNLER) EKRANI */
+        /* PERMISSIONS (İZİNLER) EKRANI */
         #permissions-screen {
             display: none;
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -160,12 +161,12 @@
         }
 
         .status-granted {
-            color: #00ff66; /* Granted - Yesil */
+            color: #00ff66; /* Granted - Yeşil */
             text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
         }
 
         .status-denied {
-            color: #ff3333; /* Not Granted - Kirmizi */
+            color: #ff3333; /* Not Granted - Kırmızı */
             text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);
         }
 
@@ -496,6 +497,7 @@
 </head>
 <body>
 
+    <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
         <div class="splash-header">
             <div class="target-icon">
@@ -539,6 +541,7 @@
         </div>
     </div>
 
+    <!-- PERMISSIONS (SİSTEM İZİNLERİ) EKRANI -->
     <div id="permissions-screen">
         <div class="perm-header">
             <h2 class="perm-title">Permissions</h2>
@@ -571,6 +574,7 @@
         </div>
     </div>
 
+    <!-- AYARLAR MODALI -->
     <div id="settings-modal">
         <div class="settings-scroll-area">
             <div class="settings-title">Units</div>
@@ -643,6 +647,7 @@
         <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
     </div>
 
+    <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="register-box">
             <h2 style="font-size: 16px; color: #ffaa00; margin-bottom: 10px;">🪖 OYUNCU KAYDI</h2>
@@ -654,6 +659,7 @@
         </div>
     </div>
 
+    <!-- 3. ANA OYUN EKRANI -->
     <div id="map-container">
         <div id="map"></div>
 
@@ -757,6 +763,7 @@
     <script>
         let map, playerMarker;
         let rawAccuracyMeters = 0;
+        let isTransitioning = false; // Mükerrer tetiklenmeyi engellemek için
 
         let permissionsState = {
             internet: false,
@@ -911,11 +918,21 @@
                     if (playerMarker) {
                         playerMarker.setLatLng([currentLat, currentLon]);
                     }
+
+                    // İzinler ekranı açıksa canlı durum güncelle
+                    if (document.getElementById('permissions-screen').style.display === 'flex') {
+                        taraveGuncelleIzinler();
+                    }
+
                 }, function (error) {
                     permissionsState.location = false;
                     document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
                     document.getElementById('gps-status-text').style.color = "#ff3333";
                     document.getElementById('gps-accuracy-val').innerText = "ERR";
+                    
+                    if (document.getElementById('permissions-screen').style.display === 'flex') {
+                        taraveGuncelleIzinler();
+                    }
                 }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
             }
         }
@@ -960,11 +977,14 @@
                 elLoc.className = "perm-status status-denied";
             }
 
-            // Hepsi GRANTED mi kontrol et
+            // Bütün izinler GRANTED ise tam 2 saniye bekleyip sonra geçiş yapar
             if (permissionsState.internet && permissionsState.location && permissionsState.vibrate) {
-                setTimeout(() => {
-                    gecHesapEkrani();
-                }, 800);
+                if (!isTransitioning) {
+                    isTransitioning = true;
+                    setTimeout(() => {
+                        gecHesapEkrani();
+                    }, 2000); // 2000 ms = Tam 2 saniye bekleme süresi
+                }
             }
         }
 
