@@ -191,18 +191,29 @@
             color: #000;
         }
 
+        /* GÖRSELDEKİ STİLDE ASKERİ CLOSE BUTONU */
         .settings-close-btn {
             margin-top: auto;
+            margin-bottom: 10px;
             width: 100%;
+            background: transparent;
+            color: #ffaa00;
+            border: 2px solid #ffaa00;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .settings-close-btn:active {
             background: #ffaa00;
             color: #000;
-            border: none;
-            padding: 14px;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.8);
         }
 
         /* 2. HESAP OLUŞTURMA EKRANI */
@@ -483,7 +494,7 @@
                 <span>km/h</span>
             </div>
             <div class="custom-checkbox" id="chk-mph" onclick="selectSpeedUnit('mph')">
-                <div class="checkbox-box" id="box-[#box-mph]"></div>
+                <div class="checkbox-box" id="box-mph"></div>
                 <span>mph</span>
             </div>
             <div class="custom-checkbox" id="chk-kts" onclick="selectSpeedUnit('kts')">
@@ -501,7 +512,8 @@
             <button class="currency-btn" id="curr-TRY" onclick="selectCurrency('₺')">₺</button>
         </div>
 
-        <button class="settings-close-btn" onclick="kapatAyarlar()">KAYDET VE KAPAT</button>
+        <!-- EN ALTA EKLENEN ASKERİ CLOSE / KAPAT TUŞU -->
+        <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
     </div>
 
     <!-- 2. HESAP OLUŞTURMA EKRANI -->
