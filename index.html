@@ -11,12 +11,21 @@
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body { background-color: #000000; font-family: 'Courier New', monospace; color: #ffaa00; overflow: hidden; height: 100vh; width: 100vw; }
+        
+        /* GENEL TEMA: Askeri Sarı Arka Plan, Koyu Gece Mavisi Metinler */
+        body { 
+            background-color: #ffaa00; 
+            font-family: 'Courier New', monospace; 
+            color: #121824; 
+            overflow: hidden; 
+            height: 100vh; 
+            width: 100vw; 
+        }
 
         /* 1. GİRİŞ EKRANI */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9999; display: flex; flex-direction: column;
+            background: #ffaa00; z-index: 9999; display: flex; flex-direction: column;
             justify-content: flex-start; align-items: center;
             padding: 40px 20px; box-sizing: border-box;
         }
@@ -40,22 +49,23 @@
 
         .splash-card {
             width: 100%;
-            border: 1.5px dashed #ffaa00;
-            background: rgba(20, 10, 0, 0.5);
+            border: 2px dashed #121824;
+            background: rgba(18, 24, 36, 0.08);
             padding: 22px 18px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+            box-shadow: 0 0 15px rgba(18, 24, 36, 0.15);
             margin-bottom: 15px;
+            color: #121824;
         }
 
         .start-btn {
-            width: 100%; background: #111; border: 1px solid #ffaa00; color: #ffaa00;
+            width: 100%; background: rgba(18, 24, 36, 0.2); border: 2px solid #121824; color: #121824;
             padding: 15px; font-family: inherit; font-size: 14px; font-weight: bold;
-            border-radius: 2px; cursor: not-allowed; text-align: center; transition: 0.3s; opacity: 0.5;
+            border-radius: 2px; cursor: not-allowed; text-align: center; transition: 0.3s; opacity: 0.6;
         }
         .start-btn.active {
-            background: #ffaa00; color: #000; cursor: pointer; opacity: 1;
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
+            background: #121824; color: #ffaa00; cursor: pointer; opacity: 1;
+            box-shadow: 0 0 15px rgba(18, 24, 36, 0.4);
         }
 
         .splash-extra-btns {
@@ -69,8 +79,8 @@
 
         .extra-btn {
             flex: 1;
-            background: rgba(20, 10, 0, 0.6);
-            border: 1px solid #ffaa00;
+            background: #121824;
+            border: 2px solid #121824;
             color: #ffaa00;
             padding: 12px;
             font-family: inherit;
@@ -81,13 +91,13 @@
             justify-content: center;
             gap: 8px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+            box-shadow: 0 0 10px rgba(18, 24, 36, 0.3);
             transition: 0.2s;
         }
 
         .extra-btn:active {
             background: #ffaa00;
-            color: #000;
+            color: #121824;
         }
 
         .extra-btn svg {
@@ -100,7 +110,7 @@
         #permissions-screen {
             display: none;
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9998; flex-direction: column;
+            background: #ffaa00; z-index: 9998; flex-direction: column;
             justify-content: space-between; align-items: center;
             padding: 30px 20px 40px 20px; box-sizing: border-box;
         }
@@ -111,18 +121,19 @@
         }
 
         .perm-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
-            color: #ffaa00;
+            color: #121824;
             letter-spacing: 1px;
         }
 
         .perm-sub {
-            font-size: 11px;
-            color: rgba(255, 170, 0, 0.7);
+            font-size: 12px;
+            color: rgba(18, 24, 36, 0.85);
             margin-top: 6px;
             line-height: 1.4;
             max-width: 400px;
+            font-weight: bold;
         }
 
         .perm-list {
@@ -139,17 +150,19 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
+            border-bottom: 1px dashed rgba(18, 24, 36, 0.3);
+            padding-bottom: 8px;
         }
 
         .perm-name {
             font-size: 15px;
             font-weight: bold;
-            color: #ffaa00;
+            color: #121824;
         }
 
         .perm-desc {
             font-size: 11px;
-            color: rgba(255, 170, 0, 0.6);
+            color: rgba(18, 24, 36, 0.8);
             line-height: 1.3;
         }
 
@@ -161,34 +174,32 @@
         }
 
         .status-granted {
-            color: #00ff66;
-            text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+            color: #006622;
         }
 
         .status-denied {
-            color: #ff3333;
-            text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);
+            color: #cc0000;
         }
 
         .perm-action-btn {
             width: 100%;
             max-width: 450px;
-            background: rgba(20, 10, 0, 0.8);
-            border: 1.5px solid #ffaa00;
+            background: #121824;
+            border: 2px solid #121824;
             color: #ffaa00;
             padding: 14px;
             font-family: inherit;
             font-size: 13px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(255, 170, 0, 0.3);
+            box-shadow: 0 0 12px rgba(18, 24, 36, 0.3);
             transition: 0.2s;
             margin-bottom: 10px;
         }
 
         .perm-action-btn:active {
             background: #ffaa00;
-            color: #000;
+            color: #121824;
         }
 
         /* AYARLAR PENCERESİ */
@@ -197,12 +208,13 @@
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             max-height: 100vh;
-            background: rgba(0, 0, 0, 0.98);
+            background: #ffaa00;
             z-index: 10000;
             flex-direction: column;
             padding: 20px 20px 80px 20px;
             box-sizing: border-box;
             justify-content: space-between;
+            color: #121824;
         }
 
         .settings-scroll-area {
@@ -216,7 +228,7 @@
             text-align: center;
             font-size: 26px;
             font-weight: bold;
-            color: #ffaa00;
+            color: #121824;
             margin-bottom: 8px;
             letter-spacing: 1px;
         }
@@ -224,14 +236,13 @@
         .settings-divider {
             width: 100%;
             height: 2px;
-            background: #ffaa00;
+            background: #121824;
             margin-bottom: 20px;
-            box-shadow: 0 0 8px #ffaa00;
         }
 
         .setting-group-title {
             font-size: 14px;
-            color: #ffaa00;
+            color: #121824;
             margin: 15px 0 10px 0;
             font-weight: bold;
         }
@@ -250,26 +261,26 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            color: #ffaa00;
+            color: #121824;
             user-select: none;
         }
 
         .checkbox-box {
             width: 26px;
             height: 26px;
-            border: 2px solid #ffaa00;
+            border: 2px solid #121824;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
             font-weight: 900;
-            background: #000;
-            box-shadow: 0 0 5px rgba(255, 170, 0, 0.3);
+            background: #ffaa00;
+            color: #121824;
         }
 
         .custom-checkbox.active .checkbox-box {
-            background: rgba(255, 170, 0, 0.2);
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+            background: #121824;
+            color: #ffaa00;
         }
 
         .currency-selector {
@@ -279,9 +290,9 @@
         }
 
         .currency-btn {
-            background: #000;
-            border: 1.5px solid #ffaa00;
-            color: #ffaa00;
+            background: #ffaa00;
+            border: 2px solid #121824;
+            color: #121824;
             padding: 6px 12px;
             font-family: inherit;
             font-size: 16px;
@@ -290,15 +301,15 @@
         }
 
         .currency-btn.active {
-            background: #ffaa00;
-            color: #000;
+            background: #121824;
+            color: #ffaa00;
         }
 
         .settings-close-btn {
             width: 100%;
-            background: #000;
+            background: #121824;
             color: #ffaa00;
-            border: 2px solid #ffaa00;
+            border: 2px solid #121824;
             padding: 16px;
             font-family: inherit;
             font-size: 18px;
@@ -306,7 +317,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
+            box-shadow: 0 0 15px rgba(18, 24, 36, 0.4);
             transition: all 0.2s ease;
             flex-shrink: 0;
             margin-bottom: 25px;
@@ -314,14 +325,13 @@
 
         .settings-close-btn:active {
             background: #ffaa00;
-            color: #000;
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.9);
+            color: #121824;
         }
 
         /* 2. YENİ HESAP OLUŞTURMA EKRANI */
         #register-screen {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9997; flex-direction: column;
+            background: #ffaa00; z-index: 9997; flex-direction: column;
             justify-content: flex-start; align-items: center; padding: 40px 20px; box-sizing: border-box;
         }
 
@@ -334,23 +344,22 @@
         .reg-title {
             font-size: 26px;
             font-weight: bold;
-            color: #ffaa00;
+            color: #121824;
             margin-bottom: 12px;
-            text-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
         }
 
         .reg-divider {
             width: 100%;
             max-width: 450px;
             height: 2px;
-            background: #ffaa00;
+            background: #121824;
             margin: 0 auto 20px auto;
-            box-shadow: 0 0 8px #ffaa00;
         }
 
         .reg-sub {
-            font-size: 13px;
-            color: rgba(255, 170, 0, 0.9);
+            font-size: 14px;
+            color: #121824;
+            font-weight: bold;
             text-align: center;
             margin-bottom: 25px;
         }
@@ -373,13 +382,13 @@
         .avatar-picker-box {
             width: 80px;
             height: 80px;
-            border: 2px solid #ffaa00;
-            background: rgba(20, 10, 0, 0.6);
+            border: 2px solid #121824;
+            background: rgba(18, 24, 36, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+            box-shadow: 0 0 10px rgba(18, 24, 36, 0.15);
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
@@ -394,7 +403,7 @@
         .avatar-picker-box svg {
             width: 40px;
             height: 40px;
-            fill: #ffaa00;
+            fill: #121824;
         }
 
         .username-input-wrapper {
@@ -408,8 +417,8 @@
             width: 100%;
             background: transparent;
             border: none;
-            border-bottom: 2px solid #ffaa00;
-            color: #ffaa00;
+            border-bottom: 2px solid #121824;
+            color: #121824;
             padding: 10px 30px 10px 5px;
             font-family: inherit;
             font-size: 15px;
@@ -419,7 +428,7 @@
         }
 
         .username-input-field::placeholder {
-            color: rgba(255, 170, 0, 0.5);
+            color: rgba(18, 24, 36, 0.5);
         }
 
         .input-alert-icon {
@@ -427,8 +436,8 @@
             right: 5px;
             width: 18px;
             height: 18px;
-            background: #ff3333;
-            color: #000;
+            background: #cc0000;
+            color: #ffaa00;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -447,13 +456,13 @@
         .create-account-btn {
             width: 80px;
             height: 80px;
-            border: 2px solid #ffaa00;
-            background: rgba(20, 10, 0, 0.6);
+            border: 2px solid #121824;
+            background: #121824;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+            box-shadow: 0 0 12px rgba(18, 24, 36, 0.3);
             transition: 0.2s;
         }
 
@@ -462,7 +471,7 @@
         }
 
         .create-account-btn:active svg {
-            fill: #000;
+            fill: #121824;
         }
 
         .create-account-btn svg {
@@ -475,11 +484,12 @@
         #map-container { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden; }
         #map { 
             width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
-            background: #000000;
+            background: #ffaa00;
         }
 
+        /* Harita kaplaması - Askeri Sarı / Gece Mavisi Tonları */
         .leaflet-tile-container img {
-            filter: brightness(0.6) invert(1) contrast(3) hue-rotate(330deg) saturate(0.5) !important;
+            filter: brightness(0.9) contrast(1.5) hue-rotate(5deg) saturate(1.8) !important;
             will-change: transform;
         }
 
@@ -488,28 +498,28 @@
         /* HUD PANELİ */
         #hud-top-unified {
             position: absolute; top: 12px; left: 10px; right: 10px; z-index: 1000;
-            background: rgba(0, 0, 0, 0.88);
-            border: 2px solid #ffaa00;
+            background: #ffaa00;
+            border: 2px solid #121824;
             display: flex;
             height: 48px;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+            box-shadow: 0 0 10px rgba(18, 24, 36, 0.3);
         }
 
         .hud-section {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffaa00;
+            color: #121824;
             font-weight: bold;
             padding: 0 6px;
         }
 
         .hud-section:not(:last-child) {
-            border-right: 1.5px solid #ffaa00;
+            border-right: 2px solid #121824;
         }
 
         .hud-section-money { flex: 1.3; font-size: 15px; font-weight: 900; }
-        .hud-section-hp { flex: 1.2; font-size: 14px; color: #ffaa00; }
+        .hud-section-hp { flex: 1.2; font-size: 14px; color: #121824; }
         
         .hud-section-signal { 
             flex: 1.1; 
@@ -519,7 +529,7 @@
             cursor: pointer;
         }
         .hud-section-signal:active {
-            background: rgba(255, 170, 0, 0.25);
+            background: rgba(18, 24, 36, 0.2);
         }
 
         .signal-icons {
@@ -537,17 +547,19 @@
             text-align: right;
             font-size: 11px;
             font-weight: 900;
+            color: #121824;
         }
 
         .radar-player-icon {
             width: 36px; height: 36px;
-            border: 2.5px solid #ffaa00;
+            border: 2.5px solid #121824;
             border-radius: 50%;
-            background: rgba(35, 15, 0, 0.75);
+            background: #ffaa00;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+            box-shadow: 0 0 10px rgba(18, 24, 36, 0.4);
             overflow: hidden;
+            color: #121824;
         }
         .radar-player-icon img {
             width: 100%;
@@ -558,17 +570,17 @@
         /* PROFİL PENCERESİ */
         #profile-modal {
             display: none; position: fixed; bottom: 150px; left: 10px; right: 10px;
-            background: rgba(15, 5, 0, 0.95); border: 2px solid #ffaa00; z-index: 2500;
-            padding: 12px; font-family: Arial, sans-serif; color: #ffaa00; box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+            background: #ffaa00; border: 2px solid #121824; z-index: 2500;
+            padding: 12px; font-family: 'Courier New', monospace; color: #121824; box-shadow: 0 0 20px rgba(18, 24, 36, 0.4);
         }
 
         .profile-header { display: flex; justify-content: flex-end; margin-bottom: 5px; }
-        .profile-close-btn { color: #ffaa00; font-size: 18px; font-weight: bold; cursor: pointer; border: 1px solid #ffaa00; padding: 0 6px; line-height: 18px; }
+        .profile-close-btn { color: #ffaa00; background: #121824; font-size: 16px; font-weight: bold; cursor: pointer; border: 1px solid #121824; padding: 0 6px; line-height: 18px; }
 
         .profile-user-info { display: flex; align-items: center; gap: 12px; }
         .profile-avatar {
-            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffff00;
-            background: #111; display: flex; align-items: center; justify-content: center; font-size: 24px;
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #121824;
+            background: #121824; color: #ffaa00; display: flex; align-items: center; justify-content: center; font-size: 24px;
             overflow: hidden;
         }
         .profile-avatar img {
@@ -577,20 +589,20 @@
             object-fit: cover;
         }
         .profile-details { flex: 1; }
-        .profile-name { font-size: 17px; font-weight: bold; color: #ffaa00; }
-        .profile-alliance { font-size: 13px; font-weight: bold; color: #ffff00; margin-top: 2px; }
+        .profile-name { font-size: 17px; font-weight: bold; color: #121824; }
+        .profile-alliance { font-size: 13px; font-weight: bold; color: #121824; margin-top: 2px; }
         
         .profile-hp-money { display: flex; justify-content: space-between; margin-top: 8px; font-size: 13px; }
-        .profile-hp { color: #ff3333; font-weight: bold; }
-        .profile-money { color: #ffaa00; font-weight: bold; }
+        .profile-hp { color: #cc0000; font-weight: bold; }
+        .profile-money { color: #121824; font-weight: bold; }
 
-        .profile-divider { border: 0; border-top: 1px solid #ffaa00; margin: 8px 0; }
-        .profile-status { font-size: 14px; font-weight: bold; color: #ffff00; margin: 4px 0; }
-        .profile-stats-title { text-align: center; font-size: 15px; color: #ffaa00; margin: 6px 0; font-weight: bold; }
-        .profile-stat-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; color: #ffaa00; }
+        .profile-divider { border: 0; border-top: 1.5px solid #121824; margin: 8px 0; }
+        .profile-status { font-size: 14px; font-weight: bold; color: #121824; margin: 4px 0; }
+        .profile-stats-title { text-align: center; font-size: 15px; color: #121824; margin: 6px 0; font-weight: bold; }
+        .profile-stat-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; color: #121824; font-weight: bold; }
 
-        .profile-xp-bar { width: 100%; height: 5px; background: #331500; margin: 4px 0 8px 0; border: 1px solid #ffaa00; }
-        .profile-xp-fill { height: 100%; background: #ffaa00; box-shadow: 0 0 5px #ffaa00; }
+        .profile-xp-bar { width: 100%; height: 8px; background: rgba(18, 24, 36, 0.2); margin: 4px 0 8px 0; border: 1px solid #121824; }
+        .profile-xp-fill { height: 100%; background: #121824; }
 
         /* ALT MENÜ */
         #hud-bottom {
@@ -606,33 +618,33 @@
         .hud-btn-box {
             flex: 1; 
             height: 48px; 
-            background: rgba(0, 0, 0, 0.92); 
-            border: 2px solid #ffaa00;
+            background: #ffaa00; 
+            border: 2px solid #121824;
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: center;
-            color: #ffaa00; 
+            color: #121824; 
             cursor: pointer; 
             text-align: center;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3); 
+            box-shadow: 0 0 10px rgba(18, 24, 36, 0.3); 
             padding: 2px 1px;
         }
-        .hud-btn-box:active { background: #ffaa00; color: #000; }
+        .hud-btn-box:active { background: #121824; color: #ffaa00; }
         
         .hud-btn-icon { font-size: 14px; line-height: 1; margin-bottom: 2px; }
         .hud-btn-label { font-size: 9px; font-weight: bold; text-transform: uppercase; font-family: 'Courier New', monospace; white-space: nowrap; }
 
-        .rank-stars { display: flex; gap: 1px; font-size: 6px; color: #ffff00; margin-top: 1px; }
+        .rank-stars { display: flex; gap: 1px; font-size: 6px; color: #121824; margin-top: 1px; }
 
         .modal {
             display: none; position: fixed; bottom: 150px; left: 10px; right: 10px;
-            background: rgba(15, 5, 0, 0.95); border: 2px solid #ffaa00; z-index: 2000;
-            padding: 15px; color: #ffaa00;
+            background: #ffaa00; border: 2px solid #121824; z-index: 2000;
+            padding: 15px; color: #121824;
         }
-        .modal-title { font-size: 13px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px dashed #ffaa00; padding-bottom: 5px; }
-        .build-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,170,0,0.2); }
-        .build-btn-action { background: #ffaa00; color: #000; border: none; padding: 4px 8px; font-weight: bold; font-size: 10px; cursor: pointer; }
+        .modal-title { font-size: 13px; font-weight: bold; margin-bottom: 10px; border-bottom: 1.5px dashed #121824; padding-bottom: 5px; }
+        .build-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(18,24,36,0.3); }
+        .build-btn-action { background: #121824; color: #ffaa00; border: none; padding: 6px 10px; font-weight: bold; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -641,23 +653,23 @@
     <div id="splash-screen">
         <div class="splash-header">
             <div class="target-icon">
-                <svg width="36" height="36" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="6">
+                <svg width="36" height="36" viewBox="0 0 100 100" fill="none" stroke="#121824" stroke-width="6">
                     <circle cx="50" cy="50" r="35"/>
                     <line x1="10" y1="50" x2="90" y2="50"/>
                     <line x1="50" y1="10" x2="50" y2="90"/>
                 </svg>
             </div>
-            <h1 style="text-align: center; font-size: 24px; color: #ffaa00; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
-            <p style="text-align: center; font-size: 10px; color: rgba(255, 170, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
+            <h1 style="text-align: center; font-size: 24px; color: #121824; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
+            <p style="text-align: center; font-size: 10px; color: rgba(18, 24, 36, 0.7); font-weight: bold;">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
         <div class="splash-content-center">
             <div class="splash-card">
-                <p style="font-size: 13px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #ffaa00; padding-bottom: 6px;">[ SİSTEM DURUMU ]</p>
-                <div style="font-size: 13px; line-height: 2; text-align: left;">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #121824; padding-bottom: 6px;">[ SİSTEM DURUMU ]</p>
+                <div style="font-size: 13px; line-height: 2; text-align: left; font-weight: bold;">
                     <p>• SYSTEM INITIALISING...</p>
                     <p>• Scanning Hardware...</p>
-                    <p>• GPS Status: <span id="gps-status-text" style="color: #ffff00;">Konum Aranıyor...</span></p>
+                    <p>• GPS Status: <span id="gps-status-text" style="color: #121824;">Konum Aranıyor...</span></p>
                 </div>
             </div>
 
@@ -710,7 +722,7 @@
 
         <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <button class="perm-action-btn" onclick="talepEtIzinler()">GRANT PERMISSIONS</button>
-            <p style="font-size: 10px; color: rgba(255, 170, 0, 0.5); text-align: center;">Press the button above to request permissions from system browser.</p>
+            <p style="font-size: 10px; color: rgba(18, 24, 36, 0.7); font-weight: bold; text-align: center;">Press the button above to request permissions from system browser.</p>
         </div>
     </div>
 
@@ -787,7 +799,7 @@
         <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
     </div>
 
-    <!-- 2. HESAP OLUŞTURMA EKRANI (Tasarım Güncellendi) -->
+    <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="reg-header">
             <h1 class="reg-title">Welcome, Soldier!</h1>
@@ -797,7 +809,7 @@
 
         <div class="reg-form-container">
             <div class="reg-input-row">
-                <!-- Sol Profil Kutusu (Galeriye Erişir) -->
+                <!-- Sol Profil Kutusu -->
                 <div class="avatar-picker-box" onclick="document.getElementById('avatar-file-input').click()">
                     <div id="avatar-preview-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
                         <svg viewBox="0 0 24 24">
@@ -815,7 +827,7 @@
                 </div>
             </div>
 
-            <!-- Sağ Alttaki Simge Buton (Yazısız Kayıt Butonu) -->
+            <!-- Sağ Alttaki Simge Buton -->
             <div class="reg-action-area">
                 <div class="create-account-btn" onclick="kaydetVeBaslat()">
                     <svg viewBox="0 0 24 24">
@@ -836,16 +848,16 @@
             
             <div class="hud-section hud-section-signal" onclick="konumaOdaklan()" title="Konumuma Git">
                 <div class="signal-icons">
-                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8">
+                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#121824" stroke-width="8">
                         <circle cx="50" cy="50" r="30"/>
                         <line x1="50" y1="0" x2="50" y2="100"/>
                         <line x1="0" y1="50" x2="100" y2="50"/>
                     </svg>
-                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8">
+                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#121824" stroke-width="8">
                         <path d="M 20 20 Q 50 0 80 20"/>
                         <path d="M 35 40 Q 50 25 65 40"/>
                         <line x1="50" y1="50" x2="50" y2="100"/>
-                        <circle cx="50" cy="50" r="6" fill="#ffaa00"/>
+                        <circle cx="50" cy="50" r="6" fill="#121824"/>
                     </svg>
                 </div>
 
@@ -892,14 +904,14 @@
         <div id="build-modal" class="modal">
             <div class="modal-title">🛠️ TAKTİKSEL İNŞA MENÜSÜ</div>
             <div class="build-item">
-                <div><b>Banka Üssü</b><br><small style="color:#aaa" id="bank-price">€500.000 - Faiz Geliri</small></div>
+                <div><b>Banka Üssü</b><br><small style="color:#121824; font-weight:bold" id="bank-price">€500.000 - Faiz Geliri</small></div>
                 <button class="build-btn-action" onclick="kurBina('Banka')">KUR</button>
             </div>
             <div class="build-item">
-                <div><b>Radar Üssü</b><br><small style="color:#aaa" id="radar-price">€150.000 - Erken Uyarı</small></div>
+                <div><b>Radar Üssü</b><br><small style="color:#121824; font-weight:bold" id="radar-price">€150.000 - Erken Uyarı</small></div>
                 <button class="build-btn-action" onclick="kurBina('Radar')">KUR</button>
             </div>
-            <button style="width:100%; margin-top:10px; background:#ffaa00; color:#000; border:none; padding:6px; font-size:10px; font-weight:bold;" onclick="kapatModal()">KAPAT</button>
+            <button style="width:100%; margin-top:10px; background:#121824; color:#ffaa00; border:none; padding:8px; font-size:11px; font-weight:bold; cursor:pointer;" onclick="kapatModal()">KAPAT</button>
         </div>
 
         <div id="hud-bottom">
@@ -931,7 +943,7 @@
         let map, playerMarker;
         let rawAccuracyMeters = 0;
         let isTransitioning = false;
-        let selectedAvatarData = null; // Seçilen resmi tutar
+        let selectedAvatarData = null;
 
         let permissionsState = {
             internet: false,
@@ -976,7 +988,6 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     selectedAvatarData = e.target.result;
-                    // Giriş ekranındaki avatar kutusunu güncelle
                     const container = document.getElementById('avatar-preview-container');
                     container.innerHTML = `<img src="${selectedAvatarData}" alt="Avatar">`;
                 };
@@ -1089,7 +1100,7 @@
                     guncelleArayuzBirimleri();
 
                     document.getElementById('gps-status-text').innerText = "SECURE LINK ESTABLISHED";
-                    document.getElementById('gps-status-text').style.color = "#ffaa00";
+                    document.getElementById('gps-status-text').style.color = "#121824";
 
                     const startBtn = document.getElementById('start-btn');
                     if(countdownValue <= 0 && startBtn) {
@@ -1109,7 +1120,7 @@
                 }, function (error) {
                     permissionsState.location = false;
                     document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
-                    document.getElementById('gps-status-text').style.color = "#ff3333";
+                    document.getElementById('gps-status-text').style.color = "#cc0000";
                     document.getElementById('gps-accuracy-val').innerText = "ERR";
                     
                     if (document.getElementById('permissions-screen').style.display === 'flex') {
@@ -1239,7 +1250,6 @@
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-            // Oyuncu ikonu - Galeriden resim seçildiyse onu koyar, yoksa varsayılan
             let avatarHtml = selectedAvatarData 
                 ? `<div class="radar-player-icon"><img src="${selectedAvatarData}" /></div>` 
                 : `<div class="radar-player-icon" style="line-height:36px; text-align:center;">👤</div>`;
@@ -1263,7 +1273,6 @@
             document.getElementById('prof-rank').innerText = playerStats.rank;
             document.getElementById('prof-xp').innerText = playerStats.xp;
             
-            // Profildeki avatar resmini güncelle
             const profAvatarBox = document.getElementById('prof-avatar-box');
             if (selectedAvatarData) {
                 profAvatarBox.innerHTML = `<img src="${selectedAvatarData}" />`;
