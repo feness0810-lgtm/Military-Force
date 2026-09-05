@@ -283,23 +283,75 @@
         
         .hud-btn-svg { width: 38px; height: 38px; fill: #ffaa00; }
 
-        .modal {
-            display: none; position: fixed; bottom: 175px; left: 10px; right: 10px;
-            background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00; z-index: 2000;
-            padding: 15px; color: #ffaa00;
+        /* YENİ GELİŞMİŞ İNŞA MENÜSÜ OVERLAY & STİLLERİ */
+        .build-menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(10, 14, 22, 0.92);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 3000;
+            visibility: hidden; opacity: 0;
+            transition: all 0.2s ease-in-out;
         }
-        .modal-title { font-size: 13px; font-weight: bold; margin-bottom: 10px; border-bottom: 1.5px dashed #ffaa00; padding-bottom: 5px; }
-        .build-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,170,0,0.3); }
-        .build-btn-action { background: #ffaa00; color: #121824; border: none; padding: 6px 10px; font-weight: bold; font-size: 10px; cursor: pointer; }
+        .build-menu-overlay.active {
+            visibility: visible; opacity: 1;
+        }
+        .build-menu-container {
+            width: 92%; max-width: 650px; max-height: 85vh;
+            background: #121824; border: 2px solid #ffaa00;
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
+            display: flex; flex-direction: column;
+        }
+        .build-menu-header {
+            background: rgba(255, 170, 0, 0.1);
+            padding: 12px 16px; border-bottom: 2px solid #ffaa00;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .build-menu-header h2 {
+            font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color: #ffaa00; font-weight: bold;
+        }
+        .close-build-btn {
+            background: transparent; border: 1px solid #ffaa00; color: #ffaa00;
+            padding: 4px 10px; cursor: pointer; font-weight: bold; font-family: inherit;
+        }
+        .close-build-btn:hover { background: #ffaa00; color: #121824; }
+        
+        .build-menu-list {
+            padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+        }
+        .build-menu-list::-webkit-scrollbar { width: 6px; }
+        .build-menu-list::-webkit-scrollbar-thumb { background: #ffaa00; }
+
+        .build-card {
+            border: 1px solid #ffaa00; background: rgba(255, 170, 0, 0.03);
+            padding: 10px; display: flex; flex-direction: column; gap: 8px;
+        }
+        .build-card-desc {
+            font-size: 12px; color: rgba(255, 170, 0, 0.85); line-height: 1.3;
+        }
+        .build-card-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px dashed rgba(255, 170, 0, 0.3); padding-top: 8px;
+        }
+        .symbol-box { display: flex; align-items: center; gap: 8px; }
+        .symbol-svg {
+            width: 26px; height: 26px; fill: none; stroke: #ffaa00; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+        .price-box {
+            display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 14px; color: #ffaa00;
+        }
+        .build-action-btn {
+            background: rgba(255, 170, 0, 0.15); border: 1px solid #ffaa00; color: #ffaa00;
+            padding: 6px 12px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: inherit;
+            transition: 0.2s;
+        }
+        .build-action-btn:hover { background: #ffaa00; color: #121824; }
 
         /* HEDEF NİŞANGAHI NİŞANI */
         .target-marker-icon {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #ff3333;
-            border-radius: 50%;
-            position: relative;
-            box-shadow: 0 0 10px #ff3333;
+            width: 24px; height: 24px; border: 2px solid #ff3333; border-radius: 50%;
+            position: relative; box-shadow: 0 0 10px #ff3333;
         }
         .target-marker-icon::before {
             content: ''; position: absolute; top: 9px; left: -5px; width: 30px; height: 2px; background: #ff3333;
@@ -307,6 +359,14 @@
         .target-marker-icon::after {
             content: ''; position: absolute; top: -5px; left: 9px; width: 2px; height: 30px; background: #ff3333;
         }
+
+        /* DİNAMİK YAPILAR İÇİN HARİTA SİMGESİ */
+        .building-marker-icon {
+            width: 30px; height: 30px; border: 2px solid #00ff66; border-radius: 4px;
+            background: rgba(18, 24, 36, 0.9); display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+        }
+        .building-marker-icon svg { width: 18px; height: 18px; stroke: #00ff66; fill: none; stroke-width: 2; }
     </style>
 </head>
 <body>
@@ -564,21 +624,18 @@
             <div class="profile-stat-row"><span>Cities:</span><span id="prof-cities">0</span></div>
         </div>
 
-        <div id="build-modal" class="modal">
-            <div class="modal-title">TAKTİKSEL İNŞA MENÜSÜ</div>
-            <div class="build-item">
-                <div><b>Banka Üssü</b><br><small style="color:#ffaa00; font-weight:bold" id="bank-price">€500.000 - Faiz Geliri</small></div>
-                <button class="build-btn-action" onclick="kurBina('Banka')">KUR</button>
+        <div class="build-menu-overlay" id="buildMenuOverlay">
+            <div class="build-menu-container">
+                <div class="build-menu-header">
+                    <h2>SORTED BY: ALL STRUCTURES</h2>
+                    <button class="close-build-btn" onclick="toggleBuildMenu(false)">X</button>
+                </div>
+                <div class="build-menu-list" id="buildMenuList"></div>
             </div>
-            <div class="build-item">
-                <div><b>Radar Üssü</b><br><small style="color:#ffaa00; font-weight:bold" id="radar-price">€150.000 - Erken Uyarı</small></div>
-                <button class="build-btn-action" onclick="kurBina('Radar')">KUR</button>
-            </div>
-            <button style="width:100%; margin-top:10px; background:#ffaa00; color:#121824; border:none; padding:8px; font-size:11px; font-weight:bold; cursor:pointer;" onclick="kapatModal()">KAPAT</button>
         </div>
 
         <div id="hud-bottom">
-            <div class="hud-btn-box" onclick="acModal()" title="İnşa">
+            <div class="hud-btn-box" onclick="toggleBuildMenu(true)" title="İnşa Et">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
                 </svg>
@@ -639,6 +696,8 @@
         let rawAccuracyMeters = 0;
         let isTransitioning = false;
         let selectedAvatarData = null;
+        let selectedStructureToBuild = null;
+        let placedMapStructures = [];
 
         let permissionsState = {
             internet: false,
@@ -667,14 +726,143 @@
         };
 
         let currentLat = null, currentLon = null;
+        let selectedTargetLat = null, selectedTargetLng = null;
         let countdownValue = 5;
+
+        // 12 GELİŞMİŞ YAPININ LİSTESİ VE İKONLARI
+        const structuresList = [
+            {
+                id: 1, name: "Military Base", price: 1000000,
+                desc: "Serves as the main headquarters for heavy troop deployment and overall command.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`
+            },
+            {
+                id: 2, name: "SAM Battery", price: 50000,
+                desc: "SAM batteries store interceptor missiles and engage enemy cruise missiles with them.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>`
+            },
+            {
+                id: 3, name: "Missile Battery", price: 50000,
+                desc: "Missile launch sites fire cruise missiles, allowing you to attack other players.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 20l16-16M14 4h6v6M5 19l3 3"/></svg>`
+            },
+            {
+                id: 4, name: "Artillery Battery", price: 10000,
+                desc: "Artillery Batteries store and fire artillery shells at target locations.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 17h16M7 11l10-6M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0"/></svg>`
+            },
+            {
+                id: 5, name: "ICBM Silo", price: 200000,
+                desc: "ICBM silos hold powerful nuclear ICBMs that can bring devastation to far-away enemies.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 3v18M9 9l3-6 3 6M8 21h8M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>`
+            },
+            {
+                id: 6, name: "ABM Silo", price: 150000,
+                desc: "Anti-Ballistic Missile silos detect and intercept long-range strategic warheads.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v6M12 8l-2 2M12 8l2 2"/></svg>`
+            },
+            {
+                id: 7, name: "Airbase", price: 75000,
+                desc: "Airbases allow the player to purchase, design, and store aircraft.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M17.8 19.2L16 11l3.5-3.5c.8-.8.8-2 0-2.8s-2-.8-2.8 0L13 8.2 4.8 6.4c-.5-.1-.9.1-1.1.5l-1.1 2 5.2 3.2-3.1 3.1-2.1-.6-.9.9 2.7 2.7 2.7 2.7.9-.9-.6-2.1 3.1-3.1 3.2 5.2 2-1.1c.4-.2.6-.6.5-1.1z"/></svg>`
+            },
+            {
+                id: 8, name: "Armory", price: 60000,
+                desc: "Armory structures produce tanks for the player and store ground units.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12H4z"/><path d="M9 21v-6h6v6"/></svg>`
+            },
+            {
+                id: 9, name: "Warehouse", price: 20000,
+                desc: "Warehouses link to the player's inventory, allowing resources to be deposited remotely.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M3 21h18V8L12 3 3 8v13z"/><path d="M9 13h6v8H9z"/></svg>`
+            },
+            {
+                id: 10, name: "Radar Station", price: 40000,
+                desc: "Radar Stations scan within an 800 km radius to uncover hostile units.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 12l4-4M12 12v-8"/></svg>`
+            },
+            {
+                id: 11, name: "Bunker", price: 5000,
+                desc: "Bunkers protect players from radiation, strikes, and heavy attacks.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M2 20h20M4 20a8 8 0 0 1 16 0M9 14h6"/></svg>`
+            },
+            {
+                id: 12, name: "Market", price: 1000,
+                desc: "Markets allow players to list and trade items on the server market.",
+                symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>`
+            }
+        ];
 
         window.onload = function() {
             yukleAyarlari();
             baslatGPS();
             baslatGeriSayim();
             baslatPingOlcumu();
+            renderBuildMenu();
         };
+
+        // İNŞA MENÜSÜNÜ İÇERİKLE DOLDURMA
+        function renderBuildMenu() {
+            const listContainer = document.getElementById('buildMenuList');
+            listContainer.innerHTML = structuresList.map(item => `
+                <div class="build-card">
+                    <div class="build-card-desc">${item.desc}</div>
+                    <div class="build-card-footer">
+                        <div class="symbol-box">
+                            ${item.symbol}
+                            <span style="font-weight: bold; color: #ffffff;">${item.name}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="price-box">
+                                <span>${gameSettings.currency}${item.price.toLocaleString('tr-TR')}</span>
+                            </div>
+                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">INŞA ET</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleBuildMenu(show) {
+            kapatProfil();
+            const overlay = document.getElementById('buildMenuOverlay');
+            if (show) overlay.classList.add('active');
+            else overlay.classList.remove('active');
+        }
+
+        function secYapiveInsaEt(id) {
+            const struct = structuresList.find(s => s.id === id);
+            if (playerStats.money < struct.price) {
+                alert("Yetersiz bütçe!");
+                return;
+            }
+
+            if (selectedTargetLat === null || selectedTargetLng === null) {
+                alert("Lütfen önce harita üzerinde inşa etmek istediğiniz konumu seçin (kırmızı nişangah koyun)!");
+                toggleBuildMenu(false);
+                return;
+            }
+
+            // Bütçeden Düşme
+            playerStats.money -= struct.price;
+            guncelleArayuzBirimleri();
+
+            // Haritaya İnşa Edilen Yapı İkonunu Ekleme
+            const buildIcon = L.divIcon({
+                className: 'custom-building-icon',
+                html: `<div class="building-marker-icon">${struct.symbol}</div>`,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+
+            const m = L.marker([selectedTargetLat, selectedTargetLng], { icon: buildIcon }).addTo(map);
+            m.bindPopup(`<b>${struct.name}</b><br>Durum: Aktif/Operasyonel`);
+
+            placedMapStructures.push({ name: struct.name, lat: selectedTargetLat, lng: selectedTargetLng });
+
+            toggleBuildMenu(false);
+            alert(`${struct.name} başarıyla seçilen koordinatlara inşa edildi!`);
+        }
 
         function resimYukle(event) {
             const file = event.target.files[0];
@@ -694,6 +882,7 @@
             document.getElementById('settings-modal').style.display = 'none'; 
             kaydetAyarlari();
             guncelleArayuzBirimleri();
+            renderBuildMenu();
         }
 
         function toggleWarheadYields() {
@@ -744,10 +933,8 @@
         }
 
         function guncelleArayuzBirimleri() {
-            document.getElementById('hud-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString()}`;
-            document.getElementById('prof-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString()}`;
-            document.getElementById('bank-price').innerText = `${gameSettings.currency}500.000 - Faiz Geliri`;
-            document.getElementById('radar-price').innerText = `${gameSettings.currency}150.000 - Erken Uyarı`;
+            document.getElementById('hud-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString('tr-TR')}`;
+            document.getElementById('prof-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString('tr-TR')}`;
 
             if (rawAccuracyMeters > 0) {
                 let val = rawAccuracyMeters;
@@ -961,20 +1148,21 @@
                 acProfil(); 
             });
 
-            // HARİTA TIKLAMA OLAYI (KOORDİNAT PANLEİNİ AÇAR)
+            // HARİTA TIKLAMA OLAYI
             map.on('click', function(e) {
-                let clickedLat = e.latlng.lat.toFixed(6);
-                let clickedLng = e.latlng.lng.toFixed(6);
+                selectedTargetLat = e.latlng.lat;
+                selectedTargetLng = e.latlng.lng;
 
-                document.getElementById('selected-coords').innerText = `(${clickedLat}, ${clickedLng})`;
+                let clickedLatText = selectedTargetLat.toFixed(6);
+                let clickedLngText = selectedTargetLng.toFixed(6);
+
+                document.getElementById('selected-coords').innerText = `(${clickedLatText}, ${clickedLngText})`;
                 document.getElementById('location-panel').style.display = 'block';
 
-                // Önceki kırmızı nişangahı temizle
                 if (targetMarker) {
                     map.removeLayer(targetMarker);
                 }
 
-                // Tıklanan yere kırmızı nişangah ikonu koy
                 const targetIcon = L.divIcon({
                     className: 'custom-target-icon',
                     html: `<div class="target-marker-icon"></div>`,
@@ -991,13 +1179,15 @@
             if (targetMarker) {
                 map.removeLayer(targetMarker);
             }
+            selectedTargetLat = null;
+            selectedTargetLng = null;
         }
 
         function acProfil() {
             document.getElementById('prof-name').innerText = playerStats.fullName || "Operatör";
             document.getElementById('prof-alliance').innerText = playerStats.alliance !== "" ? playerStats.alliance : "Unaffiliated";
             document.getElementById('prof-hp').innerText = `${playerStats.currentHp}/${playerStats.maxHp}hp`;
-            document.getElementById('prof-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString()}`;
+            document.getElementById('prof-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString('tr-TR')}`;
             document.getElementById('prof-rank').innerText = playerStats.rank;
             document.getElementById('prof-xp').innerText = playerStats.xp;
             
@@ -1016,9 +1206,6 @@
         }
 
         function kapatProfil() { document.getElementById('profile-modal').style.display = 'none'; }
-        function acModal() { kapatProfil(); document.getElementById('build-modal').style.display = 'block'; }
-        function kapatModal() { document.getElementById('build-modal').style.display = 'none'; }
-        function kurBina(bina) { alert(bina + " inşa ediliyor!"); kapatModal(); }
     </script>
 </body>
 </html>
