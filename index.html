@@ -13,17 +13,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body { background-color: #000000; font-family: 'Courier New', monospace; color: #00ff00; overflow: hidden; height: 100vh; width: 100vw; }
 
-        /* 1. GİRİŞ EKRANI (MERKEZİ YERLEŞİM) */
+        /* 1. GİRİŞ EKRANI */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9999; display: flex; flex-direction: column;
             justify-content: space-between;
-            padding: 40px 20px 30px 20px; box-sizing: border-box;
+            padding: 30px 20px 40px 20px; box-sizing: border-box;
         }
 
-        .target-icon { text-align: center; margin-bottom: 8px; }
+        .target-icon { text-align: center; margin-bottom: 6px; }
 
-        /* EKRANIN ORTISINA HİZALANAN İÇERİK KUTUSU */
+        /* ORTALANMIŞ VE HAFİF YUKARI ÇEKİLMİŞ İÇERİK KUTUSU */
         .splash-content-center {
             display: flex;
             flex-direction: column;
@@ -31,6 +31,7 @@
             align-items: center;
             flex: 1;
             width: 100%;
+            margin-bottom: 25px; /* Alt butondan yukarı uzaklaştırıldı */
         }
 
         .splash-card {
@@ -38,7 +39,7 @@
             max-width: 320px;
             border: 1px dashed #00ff00;
             background: rgba(0, 20, 0, 0.4);
-            padding: 20px;
+            padding: 18px;
             text-align: center;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.15);
         }
@@ -190,7 +191,7 @@
         .profile-xp-bar { width: 100%; height: 5px; background: #003300; margin: 4px 0 8px 0; border: 1px solid #00ff00; }
         .profile-xp-fill { height: 100%; background: #00ff00; box-shadow: 0 0 5px #00ff00; }
 
-        /* YUKARI KALDIRILMIŞ ALT MENÜ */
+        /* ALT MENÜ */
         #hud-bottom {
             position: absolute; 
             bottom: 85px; 
@@ -252,7 +253,7 @@
             <p style="text-align: center; font-size: 9px; color: rgba(0, 255, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
-        <!-- ORTA HİZALANMIŞ GPS & SİSTEM BİLGİSİ -->
+        <!-- HAFİF YUKARI ÇEKİLMİŞ GPS & SİSTEM BİLGİSİ -->
         <div class="splash-content-center">
             <div class="splash-card">
                 <p style="font-size: 12px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #00ff00; padding-bottom: 5px;">[ SİSTEM DURUMU ]</p>
