@@ -21,7 +21,6 @@
             padding: 40px 20px; box-sizing: border-box;
         }
 
-        /* YUKARIDA BAĞIMSIZ DURAN LOGO VE BAŞLIK */
         .splash-header { 
             width: 100%; 
             text-align: center; 
@@ -29,7 +28,6 @@
         }
         .target-icon { text-align: center; margin-bottom: 8px; }
 
-        /* SİSTEM DURUMU KUTUSU VE BUTON */
         .splash-content-center {
             display: flex;
             flex-direction: column;
@@ -60,13 +58,12 @@
             box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
         }
 
-        /* 3-4 PARMAK ALTINDAKİ AYARLAR VE DISCORD BUTONLARI */
         .splash-extra-btns {
             display: flex;
             justify-content: space-between;
             width: 100%;
             max-width: 500px;
-            margin-top: 55px; /* Yaklaşık 3-4 parmak boşluk */
+            margin-top: 55px;
             gap: 15px;
         }
 
@@ -97,6 +94,115 @@
             fill: currentColor;
             width: 18px;
             height: 18px;
+        }
+
+        /* COUNTERFORCE STİLİ AYARLAR PENCERESİ */
+        #settings-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            flex-direction: column;
+            padding: 25px 20px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .settings-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: #ffaa00;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .settings-divider {
+            width: 100%;
+            height: 2px;
+            background: #ffaa00;
+            margin-bottom: 20px;
+            box-shadow: 0 0 8px #ffaa00;
+        }
+
+        .setting-group-title {
+            font-size: 14px;
+            color: #ffaa00;
+            margin: 15px 0 10px 0;
+            font-weight: bold;
+        }
+
+        .setting-options-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffaa00;
+            user-select: none;
+        }
+
+        .checkbox-box {
+            width: 26px;
+            height: 26px;
+            border: 2px solid #ffaa00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            background: #000;
+            box-shadow: 0 0 5px rgba(255, 170, 0, 0.3);
+        }
+
+        .custom-checkbox.active .checkbox-box {
+            background: rgba(255, 170, 0, 0.2);
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+        }
+
+        .currency-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .currency-btn {
+            background: #000;
+            border: 1.5px solid #ffaa00;
+            color: #ffaa00;
+            padding: 6px 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .currency-btn.active {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        .settings-close-btn {
+            margin-top: auto;
+            width: 100%;
+            background: #ffaa00;
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
         }
 
         /* 2. HESAP OLUŞTURMA EKRANI */
@@ -132,7 +238,7 @@
 
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
-        /* BİRLEŞİK ÜST HUD PANELİ */
+        /* HUD PANELİ */
         #hud-top-unified {
             position: absolute; top: 12px; left: 10px; right: 10px; z-index: 1000;
             background: rgba(0, 0, 0, 0.88);
@@ -186,7 +292,6 @@
             font-weight: 900;
         }
 
-        /* HARİTA PROFİL İKONU */
         .radar-player-icon {
             width: 36px; height: 36px;
             border: 2.5px solid #ffaa00;
@@ -227,9 +332,7 @@
         .profile-money { color: #ffaa00; font-weight: bold; }
 
         .profile-divider { border: 0; border-top: 1px solid #ffaa00; margin: 8px 0; }
-
         .profile-status { font-size: 14px; font-weight: bold; color: #ffff00; margin: 4px 0; }
-
         .profile-stats-title { text-align: center; font-size: 15px; color: #ffaa00; margin: 6px 0; font-weight: bold; }
         .profile-stat-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; color: #ffaa00; }
 
@@ -267,9 +370,7 @@
         .hud-btn-icon { font-size: 14px; line-height: 1; margin-bottom: 2px; }
         .hud-btn-label { font-size: 9px; font-weight: bold; text-transform: uppercase; font-family: 'Courier New', monospace; white-space: nowrap; }
 
-        .rank-stars {
-            display: flex; gap: 1px; font-size: 6px; color: #ffff00; margin-top: 1px;
-        }
+        .rank-stars { display: flex; gap: 1px; font-size: 6px; color: #ffff00; margin-top: 1px; }
 
         .modal {
             display: none; position: fixed; bottom: 150px; left: 10px; right: 10px;
@@ -285,7 +386,6 @@
 
     <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
-        <!-- LOGO VE BAŞLIK -->
         <div class="splash-header">
             <div class="target-icon">
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="6">
@@ -298,7 +398,6 @@
             <p style="text-align: center; font-size: 10px; color: rgba(255, 170, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
-        <!-- SİSTEM DURUMU KUTUSU VE BAŞLA BUTONU -->
         <div class="splash-content-center">
             <div class="splash-card">
                 <p style="font-size: 13px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #ffaa00; padding-bottom: 6px;">[ SİSTEM DURUMU ]</p>
@@ -312,17 +411,14 @@
             <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
         </div>
 
-        <!-- AYARLAR VE ÖZEL DISCORD LINK BUTONU -->
         <div class="splash-extra-btns">
-            <!-- SOL: AYARLAR BUTONU -->
-            <button class="extra-btn" onclick="alert('Ayarlar yakında eklenecek!')">
+            <button class="extra-btn" onclick="acAyarlar()">
                 <svg viewBox="0 0 24 24">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/>
                 </svg>
                 AYARLAR
             </button>
 
-            <!-- SAĞ: ÖZEL DISCORD GRUP LINKI BUTONU -->
             <button class="extra-btn" onclick="window.open('https://discord.gg/xsDQt8AjDZ', '_blank')">
                 <svg viewBox="0 0 24 24">
                     <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
@@ -330,6 +426,82 @@
                 DISCORD
             </button>
         </div>
+    </div>
+
+    <!-- COUNTERFORCE AYARLAR MODALI -->
+    <div id="settings-modal">
+        <div class="settings-title">Units</div>
+        <div class="settings-divider"></div>
+
+        <!-- WARHEAD YIELDS -->
+        <div class="setting-options-row">
+            <div class="custom-checkbox" id="chk-lbs" onclick="toggleWarheadYields()">
+                <div class="checkbox-box" id="box-lbs"></div>
+                <span>Use lbs for warhead yields</span>
+            </div>
+        </div>
+
+        <!-- SHORT DISTANCE UNITS -->
+        <div class="setting-group-title">Short distance units:</div>
+        <div class="setting-options-row">
+            <div class="custom-checkbox" id="chk-m" onclick="selectShortUnit('m')">
+                <div class="checkbox-box" id="box-m">X</div>
+                <span>m</span>
+            </div>
+            <div class="custom-checkbox" id="chk-yd" onclick="selectShortUnit('yd')">
+                <div class="checkbox-box" id="box-yd"></div>
+                <span>yd</span>
+            </div>
+            <div class="custom-checkbox" id="chk-ft" onclick="selectShortUnit('ft')">
+                <div class="checkbox-box" id="box-ft"></div>
+                <span>ft</span>
+            </div>
+        </div>
+
+        <!-- LONG DISTANCE UNITS -->
+        <div class="setting-group-title">Long distance units:</div>
+        <div class="setting-options-row">
+            <div class="custom-checkbox" id="chk-km" onclick="selectLongUnit('km')">
+                <div class="checkbox-box" id="box-km">X</div>
+                <span>km</span>
+            </div>
+            <div class="custom-checkbox" id="chk-mi" onclick="selectLongUnit('mi')">
+                <div class="checkbox-box" id="box-mi"></div>
+                <span>mi</span>
+            </div>
+            <div class="custom-checkbox" id="chk-nm" onclick="selectLongUnit('nm')">
+                <div class="checkbox-box" id="box-nm"></div>
+                <span>nm</span>
+            </div>
+        </div>
+
+        <!-- SPEED UNITS -->
+        <div class="setting-group-title">Speed units:</div>
+        <div class="setting-options-row">
+            <div class="custom-checkbox" id="chk-kmh" onclick="selectSpeedUnit('kmh')">
+                <div class="checkbox-box" id="box-kmh">X</div>
+                <span>km/h</span>
+            </div>
+            <div class="custom-checkbox" id="chk-mph" onclick="selectSpeedUnit('mph')">
+                <div class="checkbox-box" id="box-[#box-mph]"></div>
+                <span>mph</span>
+            </div>
+            <div class="custom-checkbox" id="chk-kts" onclick="selectSpeedUnit('kts')">
+                <div class="checkbox-box" id="box-kts"></div>
+                <span>kts</span>
+            </div>
+        </div>
+
+        <!-- CURRENCY SYMBOL -->
+        <div class="setting-group-title">Currency symbol:</div>
+        <div class="currency-selector">
+            <button class="currency-btn active" id="curr-EUR" onclick="selectCurrency('€')">€</button>
+            <button class="currency-btn" id="curr-USD" onclick="selectCurrency('$')">$</button>
+            <button class="currency-btn" id="curr-GBP" onclick="selectCurrency('£')">£</button>
+            <button class="currency-btn" id="curr-TRY" onclick="selectCurrency('₺')">₺</button>
+        </div>
+
+        <button class="settings-close-btn" onclick="kapatAyarlar()">KAYDET VE KAPAT</button>
     </div>
 
     <!-- 2. HESAP OLUŞTURMA EKRANI -->
@@ -348,15 +520,10 @@
     <div id="map-container">
         <div id="map"></div>
 
-        <!-- BİRLEŞİK ÜST HUD PANELİ -->
         <div id="hud-top-unified">
-            <!-- PARA BÖLÜMÜ -->
-            <div class="hud-section hud-section-money" id="hud-money">€2023625</div>
-            
-            <!-- HP BÖLÜMÜ -->
+            <div class="hud-section hud-section-money" id="hud-money">€2,023,625</div>
             <div class="hud-section hud-section-hp" id="hud-hp">200/200hp</div>
             
-            <!-- GPS & PING BÖLÜMÜ -->
             <div class="hud-section hud-section-signal" onclick="konumaOdaklan()" title="Konumuma Git">
                 <div class="signal-icons">
                     <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8">
@@ -379,7 +546,6 @@
             </div>
         </div>
 
-        <!-- PROFİL PENCERESİ -->
         <div id="profile-modal">
             <div class="profile-header">
                 <div class="profile-close-btn" onclick="kapatProfil()">X</div>
@@ -399,46 +565,33 @@
             </div>
 
             <div class="profile-divider"></div>
-
             <div class="profile-status">Online now.</div>
-
             <div class="profile-divider"></div>
 
             <div class="profile-stats-title">Stats</div>
-            <div class="profile-stat-row">
-                <span>Rank:</span>
-                <span id="prof-rank">1</span>
-            </div>
-            <div class="profile-stat-row">
-                <span>XP:</span>
-                <span id="prof-xp">0</span>
-            </div>
+            <div class="profile-stat-row"><span>Rank:</span><span id="prof-rank">1</span></div>
+            <div class="profile-stat-row"><span>XP:</span><span id="prof-xp">0</span></div>
             
             <div class="profile-xp-bar">
                 <div id="prof-xp-fill" class="profile-xp-fill" style="width: 0%;"></div>
             </div>
 
-            <div class="profile-stat-row">
-                <span>Cities:</span>
-                <span id="prof-cities">0</span>
-            </div>
+            <div class="profile-stat-row"><span>Cities:</span><span id="prof-cities">0</span></div>
         </div>
 
-        <!-- İNŞA MENÜSÜ -->
         <div id="build-modal" class="modal">
             <div class="modal-title">🛠️ TAKTİKSEL İNŞA MENÜSÜ</div>
             <div class="build-item">
-                <div><b>Banka Üssü</b><br><small style="color:#aaa">€500.000 - Faiz Geliri</small></div>
+                <div><b>Banka Üssü</b><br><small style="color:#aaa" id="bank-price">€500.000 - Faiz Geliri</small></div>
                 <button class="build-btn-action" onclick="kurBina('Banka')">KUR</button>
             </div>
             <div class="build-item">
-                <div><b>Radar Üssü</b><br><small style="color:#aaa">€150.000 - Erken Uyarı</small></div>
+                <div><b>Radar Üssü</b><br><small style="color:#aaa" id="radar-price">€150.000 - Erken Uyarı</small></div>
                 <button class="build-btn-action" onclick="kurBina('Radar')">KUR</button>
             </div>
             <button style="width:100%; margin-top:10px; background:#ffaa00; color:#000; border:none; padding:6px; font-size:10px; font-weight:bold;" onclick="kapatModal()">KAPAT</button>
         </div>
 
-        <!-- ALT MENÜ BUTONLARI -->
         <div id="hud-bottom">
             <div class="hud-btn-box" onclick="acProfil()">
                 <div class="hud-btn-icon">👤</div>
@@ -466,7 +619,16 @@
 
     <script>
         let map, playerMarker;
-        
+        let rawAccuracyMeters = 0;
+
+        let gameSettings = {
+            useLbs: false,
+            shortUnit: 'm', // m, yd, ft
+            longUnit: 'km', // km, mi, nm
+            speedUnit: 'kmh', // kmh, mph, kts
+            currency: '€'
+        };
+
         let playerStats = {
             fullName: "",
             alliance: "",
@@ -483,10 +645,88 @@
         let countdownValue = 5;
 
         window.onload = function() {
+            yukleAyarlari();
             baslatGPS();
             baslatGeriSayim();
             baslatPingOlcumu();
         };
+
+        /* AYARLAR MANTIĞI VE DÖNÜŞÜMLER */
+        function acAyarlar() { document.getElementById('settings-modal').style.display = 'flex'; }
+        function kapatAyarlar() { 
+            document.getElementById('settings-modal').style.display = 'none'; 
+            kaydetAyarlari();
+            guncelleArayuzBirimleri();
+        }
+
+        function toggleWarheadYields() {
+            gameSettings.useLbs = !gameSettings.useLbs;
+            document.getElementById('box-lbs').innerText = gameSettings.useLbs ? 'X' : '';
+        }
+
+        function selectShortUnit(unit) {
+            gameSettings.shortUnit = unit;
+            ['m', 'yd', 'ft'].forEach(u => document.getElementById(`box-${u}`).innerText = u === unit ? 'X' : '');
+        }
+
+        function selectLongUnit(unit) {
+            gameSettings.longUnit = unit;
+            ['km', 'mi', 'nm'].forEach(u => document.getElementById(`box-${u}`).innerText = u === unit ? 'X' : '');
+        }
+
+        function selectSpeedUnit(unit) {
+            gameSettings.speedUnit = unit;
+            ['kmh', 'mph', 'kts'].forEach(u => {
+                const el = document.getElementById(`box-${u}`);
+                if(el) el.innerText = u === unit ? 'X' : '';
+            });
+        }
+
+        function selectCurrency(symbol) {
+            gameSettings.currency = symbol;
+            document.querySelectorAll('.currency-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === symbol);
+            });
+        }
+
+        function kaydetAyarlari() {
+            localStorage.setItem('mf_settings', JSON.stringify(gameSettings));
+        }
+
+        function yukleAyarlari() {
+            const saved = localStorage.getItem('mf_settings');
+            if (saved) {
+                gameSettings = JSON.parse(saved);
+                document.getElementById('box-lbs').innerText = gameSettings.useLbs ? 'X' : '';
+                selectShortUnit(gameSettings.shortUnit);
+                selectLongUnit(gameSettings.longUnit);
+                selectSpeedUnit(gameSettings.speedUnit);
+                selectCurrency(gameSettings.currency);
+            }
+            guncelleArayuzBirimleri();
+        }
+
+        function guncelleArayuzBirimleri() {
+            // Para birimini güncelle
+            document.getElementById('hud-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString()}`;
+            document.getElementById('prof-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString()}`;
+            document.getElementById('bank-price').innerText = `${gameSettings.currency}500.000 - Faiz Geliri`;
+            document.getElementById('radar-price').innerText = `${gameSettings.currency}150.000 - Erken Uyarı`;
+
+            // Mesafe birimini güncelle
+            if (rawAccuracyMeters > 0) {
+                let val = rawAccuracyMeters;
+                let unitLabel = 'm';
+                if (gameSettings.shortUnit === 'yd') {
+                    val = Math.round(rawAccuracyMeters * 1.09361);
+                    unitLabel = 'yd';
+                } else if (gameSettings.shortUnit === 'ft') {
+                    val = Math.round(rawAccuracyMeters * 3.28084);
+                    unitLabel = 'ft';
+                }
+                document.getElementById('gps-accuracy-val').innerText = `${val} ${unitLabel}`;
+            }
+        }
 
         function baslatGeriSayim() {
             const startBtn = document.getElementById('start-btn');
@@ -512,9 +752,9 @@
                 navigator.geolocation.watchPosition(function (position) {
                     currentLat = position.coords.latitude;
                     currentLon = position.coords.longitude;
+                    rawAccuracyMeters = Math.round(position.coords.accuracy);
 
-                    let accMeters = Math.round(position.coords.accuracy);
-                    document.getElementById('gps-accuracy-val').innerText = `${accMeters} m`;
+                    guncelleArayuzBirimleri();
 
                     document.getElementById('gps-status-text').innerText = "SECURE LINK ESTABLISHED";
                     document.getElementById('gps-status-text').style.color = "#ffaa00";
@@ -539,10 +779,7 @@
 
         function konumaOdaklan() {
             if (map && currentLat !== null && currentLon !== null) {
-                map.flyTo([currentLat, currentLon], 16, {
-                    animate: true,
-                    duration: 1.2
-                });
+                map.flyTo([currentLat, currentLon], 16, { animate: true, duration: 1.2 });
             } else {
                 alert("GPS Konumunuz henüz alınamadı!");
             }
@@ -575,7 +812,6 @@
             }
 
             playerStats.fullName = inputVal;
-
             document.getElementById('register-screen').style.display = 'none';
             document.getElementById('map-container').style.display = 'block';
 
@@ -599,25 +835,19 @@
             });
 
             playerMarker = L.marker([lat, lon], { icon: playerIcon }).addTo(map);
-            
-            playerMarker.on('click', function() {
-                acProfil();
-            });
+            playerMarker.on('click', function() { acProfil(); });
         }
 
         function acProfil() {
             document.getElementById('prof-name').innerText = playerStats.fullName || "Operatör";
             document.getElementById('prof-alliance').innerText = playerStats.alliance !== "" ? playerStats.alliance : "Unaffiliated";
-            
             document.getElementById('prof-hp').innerText = `${playerStats.currentHp}/${playerStats.maxHp}hp`;
-            document.getElementById('prof-money').innerText = `€${playerStats.money.toLocaleString()}`;
-            
+            document.getElementById('prof-money').innerText = `${gameSettings.currency}${playerStats.money.toLocaleString()}`;
             document.getElementById('prof-rank').innerText = playerStats.rank;
             document.getElementById('prof-xp').innerText = playerStats.xp;
             
             let xpPercent = Math.min((playerStats.xp / playerStats.maxXp) * 100, 100);
             document.getElementById('prof-xp-fill').style.width = `${xpPercent}%`;
-            
             document.getElementById('prof-cities').innerText = playerStats.cities;
 
             document.getElementById('profile-modal').style.display = 'block';
