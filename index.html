@@ -11,593 +11,197 @@
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body { background-color: #000000; font-family: 'Courier New', monospace; color: #ffaa00; overflow: hidden; height: 100vh; width: 100vw; }
+        
+        body { 
+            background-color: #121824; 
+            font-family: 'Courier New', monospace; 
+            color: #ffaa00; 
+            overflow: hidden; 
+            height: 100vh; 
+            width: 100vw; 
+        }
 
         /* 1. GİRİŞ EKRANI */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9999; display: flex; flex-direction: column;
+            background: #121824; z-index: 9999; display: flex; flex-direction: column;
             justify-content: flex-start; align-items: center;
             padding: 40px 20px; box-sizing: border-box;
         }
 
-        .splash-header { 
-            width: 100%; 
-            text-align: center; 
-            margin-bottom: 30px; 
-        }
+        .splash-header { width: 100%; text-align: center; margin-bottom: 30px; }
         .target-icon { text-align: center; margin-bottom: 8px; }
 
         .splash-content-center {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 500px;
-            margin-top: 10px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            width: 100%; max-width: 500px; margin-top: 10px;
         }
 
         .splash-card {
-            width: 100%;
-            border: 1.5px dashed #ffaa00;
-            background: rgba(20, 10, 0, 0.5);
-            padding: 22px 18px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
-            margin-bottom: 15px;
+            width: 100%; border: 2px dashed #ffaa00; background: rgba(255, 170, 0, 0.05);
+            padding: 22px 18px; text-align: center; box-shadow: 0 0 15px rgba(255, 170, 0, 0.2);
+            margin-bottom: 15px; color: #ffaa00;
         }
 
         .start-btn {
-            width: 100%; background: #111; border: 1px solid #ffaa00; color: #ffaa00;
+            width: 100%; background: rgba(255, 170, 0, 0.1); border: 2px solid #ffaa00; color: #ffaa00;
             padding: 15px; font-family: inherit; font-size: 14px; font-weight: bold;
-            border-radius: 2px; cursor: not-allowed; text-align: center; transition: 0.3s; opacity: 0.5;
+            border-radius: 2px; cursor: not-allowed; text-align: center; transition: 0.3s; opacity: 0.6;
         }
         .start-btn.active {
-            background: #ffaa00; color: #000; cursor: pointer; opacity: 1;
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
+            background: #ffaa00; color: #121824; cursor: pointer; opacity: 1;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.6);
         }
 
         .splash-extra-btns {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 500px;
-            margin-top: 55px;
-            gap: 15px;
+            display: flex; justify-content: space-between; width: 100%; max-width: 500px;
+            margin-top: 55px; gap: 15px;
         }
 
         .extra-btn {
-            flex: 1;
-            background: rgba(20, 10, 0, 0.6);
-            border: 1px solid #ffaa00;
-            color: #ffaa00;
-            padding: 12px;
-            font-family: inherit;
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
-            transition: 0.2s;
+            flex: 1; background: #121824; border: 2px solid #ffaa00; color: #ffaa00;
+            padding: 12px; font-family: inherit; font-size: 12px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            cursor: pointer; box-shadow: 0 0 10px rgba(255, 170, 0, 0.2); transition: 0.2s;
         }
+        .extra-btn:active { background: #ffaa00; color: #121824; }
+        .extra-btn svg { fill: currentColor; width: 18px; height: 18px; }
 
-        .extra-btn:active {
-            background: #ffaa00;
-            color: #000;
-        }
-
-        .extra-btn svg {
-            fill: currentColor;
-            width: 18px;
-            height: 18px;
-        }
-
-        /* PERMISSIONS (İZİNLER) EKRANI */
+        /* PERMISSIONS EKRANI */
         #permissions-screen {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9998; flex-direction: column;
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #121824; z-index: 9998; flex-direction: column;
             justify-content: space-between; align-items: center;
             padding: 30px 20px 40px 20px; box-sizing: border-box;
         }
 
-        .perm-header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .perm-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ffaa00;
-            letter-spacing: 1px;
-        }
-
-        .perm-sub {
-            font-size: 11px;
-            color: rgba(255, 170, 0, 0.7);
-            margin-top: 6px;
-            line-height: 1.4;
-            max-width: 400px;
-        }
-
-        .perm-list {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin: 10px 0;
-            overflow-y: auto;
-        }
-
-        .perm-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .perm-name {
-            font-size: 15px;
-            font-weight: bold;
-            color: #ffaa00;
-        }
-
-        .perm-desc {
-            font-size: 11px;
-            color: rgba(255, 170, 0, 0.6);
-            line-height: 1.3;
-        }
-
-        .perm-status {
-            font-size: 13px;
-            font-weight: 900;
-            margin-top: 2px;
-            letter-spacing: 1px;
-        }
-
-        .status-granted {
-            color: #00ff66;
-            text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
-        }
-
-        .status-denied {
-            color: #ff3333;
-            text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);
-        }
+        .perm-header { text-align: center; margin-bottom: 10px; }
+        .perm-title { font-size: 24px; font-weight: bold; color: #ffaa00; letter-spacing: 1px; }
+        .perm-sub { font-size: 12px; color: rgba(255, 170, 0, 0.85); margin-top: 6px; line-height: 1.4; max-width: 400px; }
+        .perm-list { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 18px; margin: 10px 0; overflow-y: auto; }
+        .perm-item { display: flex; flex-direction: column; gap: 4px; border-bottom: 1px dashed rgba(255, 170, 0, 0.3); padding-bottom: 8px; }
+        .perm-name { font-size: 15px; font-weight: bold; color: #ffaa00; }
+        .perm-desc { font-size: 11px; color: rgba(255, 170, 0, 0.7); line-height: 1.3; }
+        .perm-status { font-size: 13px; font-weight: 900; margin-top: 2px; letter-spacing: 1px; }
+        .status-granted { color: #00ff66; }
+        .status-denied { color: #ff3333; }
 
         .perm-action-btn {
-            width: 100%;
-            max-width: 450px;
-            background: rgba(20, 10, 0, 0.8);
-            border: 1.5px solid #ffaa00;
-            color: #ffaa00;
-            padding: 14px;
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 0 12px rgba(255, 170, 0, 0.3);
-            transition: 0.2s;
-            margin-bottom: 10px;
+            width: 100%; max-width: 450px; background: #121824; border: 2px solid #ffaa00;
+            color: #ffaa00; padding: 14px; font-family: inherit; font-size: 13px; font-weight: bold;
+            cursor: pointer; box-shadow: 0 0 12px rgba(255, 170, 0, 0.3); transition: 0.2s; margin-bottom: 10px;
         }
-
-        .perm-action-btn:active {
-            background: #ffaa00;
-            color: #000;
-        }
+        .perm-action-btn:active { background: #ffaa00; color: #121824; }
 
         /* AYARLAR PENCERESİ */
         #settings-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            max-height: 100vh;
-            background: rgba(0, 0, 0, 0.98);
-            z-index: 10000;
-            flex-direction: column;
-            padding: 20px 20px 80px 20px;
-            box-sizing: border-box;
-            justify-content: space-between;
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            max-height: 100vh; background: #121824; z-index: 10000; flex-direction: column;
+            padding: 20px 20px 80px 20px; box-sizing: border-box; justify-content: space-between; color: #ffaa00;
         }
-
-        .settings-scroll-area {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 25px;
-            padding-right: 5px;
-        }
-
-        .settings-title {
-            text-align: center;
-            font-size: 26px;
-            font-weight: bold;
-            color: #ffaa00;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        .settings-divider {
-            width: 100%;
-            height: 2px;
-            background: #ffaa00;
-            margin-bottom: 20px;
-            box-shadow: 0 0 8px #ffaa00;
-        }
-
-        .setting-group-title {
-            font-size: 14px;
-            color: #ffaa00;
-            margin: 15px 0 10px 0;
-            font-weight: bold;
-        }
-
-        .setting-options-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
-
-        .custom-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffaa00;
-            user-select: none;
-        }
-
-        .checkbox-box {
-            width: 26px;
-            height: 26px;
-            border: 2px solid #ffaa00;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 900;
-            background: #000;
-            box-shadow: 0 0 5px rgba(255, 170, 0, 0.3);
-        }
-
-        .custom-checkbox.active .checkbox-box {
-            background: rgba(255, 170, 0, 0.2);
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
-        }
-
-        .currency-selector {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .currency-btn {
-            background: #000;
-            border: 1.5px solid #ffaa00;
-            color: #ffaa00;
-            padding: 6px 12px;
-            font-family: inherit;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .currency-btn.active {
-            background: #ffaa00;
-            color: #000;
-        }
+        .settings-scroll-area { flex: 1; overflow-y: auto; margin-bottom: 25px; padding-right: 5px; }
+        .settings-title { text-align: center; font-size: 26px; font-weight: bold; color: #ffaa00; margin-bottom: 8px; letter-spacing: 1px; }
+        .settings-divider { width: 100%; height: 2px; background: #ffaa00; margin-bottom: 20px; }
+        .setting-group-title { font-size: 14px; color: #ffaa00; margin: 15px 0 10px 0; font-weight: bold; }
+        .setting-options-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+        .custom-checkbox { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 16px; font-weight: bold; color: #ffaa00; user-select: none; }
+        .checkbox-box { width: 26px; height: 26px; border: 2px solid #ffaa00; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; background: transparent; color: #ffaa00; }
+        .custom-checkbox.active .checkbox-box { background: #ffaa00; color: #121824; }
+        .currency-selector { display: flex; gap: 10px; margin-top: 5px; }
+        .currency-btn { background: transparent; border: 2px solid #ffaa00; color: #ffaa00; padding: 6px 12px; font-family: inherit; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .currency-btn.active { background: #ffaa00; color: #121824; }
 
         .settings-close-btn {
-            width: 100%;
-            background: #000;
-            color: #ffaa00;
-            border: 2px solid #ffaa00;
-            padding: 16px;
-            font-family: inherit;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-            margin-bottom: 25px;
+            width: 100%; background: #ffaa00; color: #121824; border: 2px solid #ffaa00; padding: 16px;
+            font-family: inherit; font-size: 18px; font-weight: bold; letter-spacing: 2px;
+            text-transform: uppercase; cursor: pointer; box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+            transition: all 0.2s ease; flex-shrink: 0; margin-bottom: 25px;
         }
+        .settings-close-btn:active { background: #121824; color: #ffaa00; }
 
-        .settings-close-btn:active {
-            background: #ffaa00;
-            color: #000;
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.9);
-        }
-
-        /* 2. YENİ HESAP OLUŞTURMA EKRANI */
+        /* 2. REGISTRATION EKRANI */
         #register-screen {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9997; flex-direction: column;
+            background: #121824; z-index: 9997; flex-direction: column;
             justify-content: flex-start; align-items: center; padding: 40px 20px; box-sizing: border-box;
         }
-
-        .reg-header {
-            text-align: center;
-            width: 100%;
-            margin-bottom: 25px;
-        }
-
-        .reg-title {
-            font-size: 26px;
-            font-weight: bold;
-            color: #ffaa00;
-            margin-bottom: 12px;
-            text-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
-        }
-
-        .reg-divider {
-            width: 100%;
-            max-width: 450px;
-            height: 2px;
-            background: #ffaa00;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 0 8px #ffaa00;
-        }
-
-        .reg-sub {
-            font-size: 13px;
-            color: rgba(255, 170, 0, 0.9);
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .reg-form-container {
-            width: 100%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .reg-input-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .avatar-picker-box {
-            width: 80px;
-            height: 80px;
-            border: 2px solid #ffaa00;
-            background: rgba(20, 10, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .avatar-picker-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .avatar-picker-box svg {
-            width: 40px;
-            height: 40px;
-            fill: #ffaa00;
-        }
-
-        .username-input-wrapper {
-            flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .username-input-field {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid #ffaa00;
-            color: #ffaa00;
-            padding: 10px 30px 10px 5px;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: bold;
-            outline: none;
-            letter-spacing: 1px;
-        }
-
-        .username-input-field::placeholder {
-            color: rgba(255, 170, 0, 0.5);
-        }
-
-        .input-alert-icon {
-            position: absolute;
-            right: 5px;
-            width: 18px;
-            height: 18px;
-            background: #ff3333;
-            color: #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 900;
-        }
-
-        .reg-action-area {
-            display: flex;
-            justify-content: flex-end;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .create-account-btn {
-            width: 80px;
-            height: 80px;
-            border: 2px solid #ffaa00;
-            background: rgba(20, 10, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
-            transition: 0.2s;
-        }
-
-        .create-account-btn:active {
-            background: #ffaa00;
-        }
-
-        .create-account-btn:active svg {
-            fill: #000;
-        }
-
-        .create-account-btn svg {
-            width: 42px;
-            height: 42px;
-            fill: #ffaa00;
-        }
+        .reg-header { text-align: center; width: 100%; margin-bottom: 25px; }
+        .reg-title { font-size: 26px; font-weight: bold; color: #ffaa00; margin-bottom: 12px; }
+        .reg-divider { width: 100%; max-width: 450px; height: 2px; background: #ffaa00; margin: 0 auto 20px auto; }
+        .reg-sub { font-size: 14px; color: #ffaa00; font-weight: bold; text-align: center; margin-bottom: 25px; }
+        .reg-form-container { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 30px; }
+        .reg-input-row { display: flex; align-items: center; gap: 15px; width: 100%; }
+        .avatar-picker-box { width: 80px; height: 80px; border: 2px solid #ffaa00; background: rgba(255, 170, 0, 0.05); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 10px rgba(255, 170, 0, 0.2); position: relative; overflow: hidden; flex-shrink: 0; }
+        .avatar-picker-box img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-picker-box svg { width: 40px; height: 40px; fill: #ffaa00; }
+        .username-input-wrapper { flex: 1; position: relative; display: flex; align-items: center; }
+        .username-input-field { width: 100%; background: transparent; border: none; border-bottom: 2px solid #ffaa00; color: #ffaa00; padding: 10px 30px 10px 5px; font-family: inherit; font-size: 15px; font-weight: bold; outline: none; letter-spacing: 1px; }
+        .username-input-field::placeholder { color: rgba(255, 170, 0, 0.4); }
+        .input-alert-icon { position: absolute; right: 5px; width: 18px; height: 18px; background: #ff3333; color: #121824; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; }
+        .reg-action-area { display: flex; justify-content: flex-end; width: 100%; margin-top: 10px; }
+        .create-account-btn { width: 80px; height: 80px; border: 2px solid #ffaa00; background: #ffaa00; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 15px rgba(255, 170, 0, 0.4); transition: 0.2s; }
+        .create-account-btn:active { background: #121824; }
+        .create-account-btn:active svg { fill: #ffaa00; }
+        .create-account-btn svg { width: 42px; height: 42px; fill: #121824; }
 
         /* 3. OYUN & HARİTA EKRANI */
         #map-container { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden; }
-        #map { 
-            width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
-            background: #000000;
-        }
-
-        .leaflet-tile-container img {
-            filter: brightness(0.6) invert(1) contrast(3) hue-rotate(330deg) saturate(0.5) !important;
-            will-change: transform;
-        }
-
+        #map { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; background: #121824; }
+        .leaflet-tile-container img { filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7) !important; will-change: transform; }
         .leaflet-control-attribution, .leaflet-control-zoom { display: none !important; }
 
-        /* HUD PANELİ */
+        /* HUD TOP PANEL */
         #hud-top-unified {
             position: absolute; top: 12px; left: 10px; right: 10px; z-index: 1000;
-            background: rgba(0, 0, 0, 0.88);
-            border: 2px solid #ffaa00;
-            display: flex;
-            height: 48px;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.2);
+            background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00;
+            display: flex; height: 48px; box-shadow: 0 0 15px rgba(255, 170, 0, 0.3);
         }
-
-        .hud-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffaa00;
-            font-weight: bold;
-            padding: 0 6px;
-        }
-
-        .hud-section:not(:last-child) {
-            border-right: 1.5px solid #ffaa00;
-        }
-
+        .hud-section { display: flex; align-items: center; justify-content: center; color: #ffaa00; font-weight: bold; padding: 0 6px; }
+        .hud-section:not(:last-child) { border-right: 2px solid #ffaa00; }
         .hud-section-money { flex: 1.3; font-size: 15px; font-weight: 900; }
         .hud-section-hp { flex: 1.2; font-size: 14px; color: #ffaa00; }
-        
-        .hud-section-signal { 
-            flex: 1.1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-around;
-            cursor: pointer;
-        }
-        .hud-section-signal:active {
-            background: rgba(255, 170, 0, 0.25);
-        }
-
-        .signal-icons {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            height: 80%;
-        }
-
-        .signal-values {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            height: 80%;
-            text-align: right;
-            font-size: 11px;
-            font-weight: 900;
-        }
+        .hud-section-signal { flex: 1.1; display: flex; align-items: center; justify-content: space-around; cursor: pointer; }
+        .hud-section-signal:active { background: rgba(255, 170, 0, 0.2); }
+        .signal-icons { display: flex; flex-direction: column; justify-content: space-around; height: 80%; }
+        .signal-values { display: flex; flex-direction: column; justify-content: space-around; height: 80%; text-align: right; font-size: 11px; font-weight: 900; color: #ffaa00; }
 
         .radar-player-icon {
-            width: 36px; height: 36px;
-            border: 2.5px solid #ffaa00;
-            border-radius: 50%;
-            background: rgba(35, 15, 0, 0.75);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
-            overflow: hidden;
+            width: 36px; height: 36px; border: 2.5px solid #ffaa00; border-radius: 50%;
+            background: #121824; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 0 12px rgba(255, 170, 0, 0.5); overflow: hidden; color: #ffaa00;
         }
-        .radar-player-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .radar-player-icon img { width: 100%; height: 100%; object-fit: cover; }
 
         /* PROFİL PENCERESİ */
         #profile-modal {
-            display: none; position: fixed; bottom: 150px; left: 10px; right: 10px;
-            background: rgba(15, 5, 0, 0.95); border: 2px solid #ffaa00; z-index: 2500;
-            padding: 12px; font-family: Arial, sans-serif; color: #ffaa00; box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+            display: none; position: fixed; bottom: 100px; left: 10px; right: 10px;
+            background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00; z-index: 2500;
+            padding: 12px; font-family: 'Courier New', monospace; color: #ffaa00; box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
         }
-
         .profile-header { display: flex; justify-content: flex-end; margin-bottom: 5px; }
-        .profile-close-btn { color: #ffaa00; font-size: 18px; font-weight: bold; cursor: pointer; border: 1px solid #ffaa00; padding: 0 6px; line-height: 18px; }
-
+        .profile-close-btn { color: #121824; background: #ffaa00; font-size: 16px; font-weight: bold; cursor: pointer; border: 1px solid #ffaa00; padding: 0 6px; line-height: 18px; }
         .profile-user-info { display: flex; align-items: center; gap: 12px; }
-        .profile-avatar {
-            width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffff00;
-            background: #111; display: flex; align-items: center; justify-content: center; font-size: 24px;
-            overflow: hidden;
-        }
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .profile-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffaa00; background: #ffaa00; color: #121824; display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .profile-details { flex: 1; }
         .profile-name { font-size: 17px; font-weight: bold; color: #ffaa00; }
-        .profile-alliance { font-size: 13px; font-weight: bold; color: #ffff00; margin-top: 2px; }
-        
+        .profile-alliance { font-size: 13px; font-weight: bold; color: #ffaa00; margin-top: 2px; }
         .profile-hp-money { display: flex; justify-content: space-between; margin-top: 8px; font-size: 13px; }
         .profile-hp { color: #ff3333; font-weight: bold; }
         .profile-money { color: #ffaa00; font-weight: bold; }
-
-        .profile-divider { border: 0; border-top: 1px solid #ffaa00; margin: 8px 0; }
-        .profile-status { font-size: 14px; font-weight: bold; color: #ffff00; margin: 4px 0; }
+        .profile-divider { border: 0; border-top: 1.5px solid #ffaa00; margin: 8px 0; }
+        .profile-status { font-size: 14px; font-weight: bold; color: #ffaa00; margin: 4px 0; }
         .profile-stats-title { text-align: center; font-size: 15px; color: #ffaa00; margin: 6px 0; font-weight: bold; }
-        .profile-stat-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; color: #ffaa00; }
+        .profile-stat-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; color: #ffaa00; font-weight: bold; }
+        .profile-xp-bar { width: 100%; height: 8px; background: rgba(255, 170, 0, 0.2); margin: 4px 0 8px 0; border: 1px solid #ffaa00; }
+        .profile-xp-fill { height: 100%; background: #ffaa00; }
 
-        .profile-xp-bar { width: 100%; height: 5px; background: #331500; margin: 4px 0 8px 0; border: 1px solid #ffaa00; }
-        .profile-xp-fill { height: 100%; background: #ffaa00; box-shadow: 0 0 5px #ffaa00; }
-
-        /* ALT MENÜ */
+        /* YENİ ALT MENÜ (9 SİMGE HİZALAMASI) */
         #hud-bottom {
             position: absolute; 
-            bottom: 85px; 
-            left: 8px; 
-            right: 8px; 
+            bottom: 12px; 
+            left: 6px; 
+            right: 6px; 
             z-index: 1000;
             display: flex; 
             gap: 4px; 
@@ -605,34 +209,35 @@
         }
         .hud-btn-box {
             flex: 1; 
-            height: 48px; 
-            background: rgba(0, 0, 0, 0.92); 
+            height: 52px; 
+            background: rgba(18, 24, 36, 0.95); 
             border: 2px solid #ffaa00;
             display: flex; 
-            flex-direction: column; 
             align-items: center; 
             justify-content: center;
             color: #ffaa00; 
             cursor: pointer; 
-            text-align: center;
             box-shadow: 0 0 10px rgba(255, 170, 0, 0.3); 
-            padding: 2px 1px;
+            padding: 4px;
+            transition: 0.2s;
         }
-        .hud-btn-box:active { background: #ffaa00; color: #000; }
+        .hud-btn-box:active { background: #ffaa00; color: #121824; }
+        .hud-btn-box:active svg { fill: #121824; stroke: #121824; }
         
-        .hud-btn-icon { font-size: 14px; line-height: 1; margin-bottom: 2px; }
-        .hud-btn-label { font-size: 9px; font-weight: bold; text-transform: uppercase; font-family: 'Courier New', monospace; white-space: nowrap; }
-
-        .rank-stars { display: flex; gap: 1px; font-size: 6px; color: #ffff00; margin-top: 1px; }
+        .hud-btn-svg {
+            width: 26px;
+            height: 26px;
+            fill: #ffaa00;
+        }
 
         .modal {
-            display: none; position: fixed; bottom: 150px; left: 10px; right: 10px;
-            background: rgba(15, 5, 0, 0.95); border: 2px solid #ffaa00; z-index: 2000;
+            display: none; position: fixed; bottom: 100px; left: 10px; right: 10px;
+            background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00; z-index: 2000;
             padding: 15px; color: #ffaa00;
         }
-        .modal-title { font-size: 13px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px dashed #ffaa00; padding-bottom: 5px; }
-        .build-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,170,0,0.2); }
-        .build-btn-action { background: #ffaa00; color: #000; border: none; padding: 4px 8px; font-weight: bold; font-size: 10px; cursor: pointer; }
+        .modal-title { font-size: 13px; font-weight: bold; margin-bottom: 10px; border-bottom: 1.5px dashed #ffaa00; padding-bottom: 5px; }
+        .build-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,170,0,0.3); }
+        .build-btn-action { background: #ffaa00; color: #121824; border: none; padding: 6px 10px; font-weight: bold; font-size: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -648,16 +253,16 @@
                 </svg>
             </div>
             <h1 style="text-align: center; font-size: 24px; color: #ffaa00; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
-            <p style="text-align: center; font-size: 10px; color: rgba(255, 170, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
+            <p style="text-align: center; font-size: 10px; color: rgba(255, 170, 0, 0.7); font-weight: bold;">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
         <div class="splash-content-center">
             <div class="splash-card">
                 <p style="font-size: 13px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #ffaa00; padding-bottom: 6px;">[ SİSTEM DURUMU ]</p>
-                <div style="font-size: 13px; line-height: 2; text-align: left;">
+                <div style="font-size: 13px; line-height: 2; text-align: left; font-weight: bold;">
                     <p>• SYSTEM INITIALISING...</p>
                     <p>• Scanning Hardware...</p>
-                    <p>• GPS Status: <span id="gps-status-text" style="color: #ffff00;">Konum Aranıyor...</span></p>
+                    <p>• GPS Status: <span id="gps-status-text" style="color: #ffaa00;">Konum Aranıyor...</span></p>
                 </div>
             </div>
 
@@ -681,7 +286,7 @@
         </div>
     </div>
 
-    <!-- PERMISSIONS (SİSTEM İZİNLERİ) EKRANI -->
+    <!-- PERMISSIONS EKRANI -->
     <div id="permissions-screen">
         <div class="perm-header">
             <h2 class="perm-title">Permissions</h2>
@@ -710,7 +315,7 @@
 
         <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <button class="perm-action-btn" onclick="talepEtIzinler()">GRANT PERMISSIONS</button>
-            <p style="font-size: 10px; color: rgba(255, 170, 0, 0.5); text-align: center;">Press the button above to request permissions from system browser.</p>
+            <p style="font-size: 10px; color: rgba(255, 170, 0, 0.7); font-weight: bold; text-align: center;">Press the button above to request permissions from system browser.</p>
         </div>
     </div>
 
@@ -787,7 +392,7 @@
         <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
     </div>
 
-    <!-- 2. HESAP OLUŞTURMA EKRANI (Tasarım Güncellendi) -->
+    <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="reg-header">
             <h1 class="reg-title">Welcome, Soldier!</h1>
@@ -797,7 +402,6 @@
 
         <div class="reg-form-container">
             <div class="reg-input-row">
-                <!-- Sol Profil Kutusu (Galeriye Erişir) -->
                 <div class="avatar-picker-box" onclick="document.getElementById('avatar-file-input').click()">
                     <div id="avatar-preview-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
                         <svg viewBox="0 0 24 24">
@@ -805,17 +409,14 @@
                         </svg>
                     </div>
                 </div>
-                <!-- Gizli File Input -->
                 <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="resimYukle(event)">
 
-                <!-- Sağ Username Giriş Alanı -->
                 <div class="username-input-wrapper">
                     <input type="text" id="player-fullname" class="username-input-field" placeholder="ENTER USERNAME" maxlength="25" autocomplete="off">
                     <div class="input-alert-icon">!</div>
                 </div>
             </div>
 
-            <!-- Sağ Alttaki Simge Buton (Yazısız Kayıt Butonu) -->
             <div class="reg-action-area">
                 <div class="create-account-btn" onclick="kaydetVeBaslat()">
                     <svg viewBox="0 0 24 24">
@@ -862,7 +463,9 @@
             </div>
 
             <div class="profile-user-info">
-                <div class="profile-avatar" id="prof-avatar-box">🪖</div>
+                <div class="profile-avatar" id="prof-avatar-box">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="#121824"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
                 <div class="profile-details">
                     <div id="prof-name" class="profile-name">Operatör</div>
                     <div id="prof-alliance" class="profile-alliance">Unaffiliated</div>
@@ -890,39 +493,81 @@
         </div>
 
         <div id="build-modal" class="modal">
-            <div class="modal-title">🛠️ TAKTİKSEL İNŞA MENÜSÜ</div>
+            <div class="modal-title">TAKTİKSEL İNŞA MENÜSÜ</div>
             <div class="build-item">
-                <div><b>Banka Üssü</b><br><small style="color:#aaa" id="bank-price">€500.000 - Faiz Geliri</small></div>
+                <div><b>Banka Üssü</b><br><small style="color:#ffaa00; font-weight:bold" id="bank-price">€500.000 - Faiz Geliri</small></div>
                 <button class="build-btn-action" onclick="kurBina('Banka')">KUR</button>
             </div>
             <div class="build-item">
-                <div><b>Radar Üssü</b><br><small style="color:#aaa" id="radar-price">€150.000 - Erken Uyarı</small></div>
+                <div><b>Radar Üssü</b><br><small style="color:#ffaa00; font-weight:bold" id="radar-price">€150.000 - Erken Uyarı</small></div>
                 <button class="build-btn-action" onclick="kurBina('Radar')">KUR</button>
             </div>
-            <button style="width:100%; margin-top:10px; background:#ffaa00; color:#000; border:none; padding:6px; font-size:10px; font-weight:bold;" onclick="kapatModal()">KAPAT</button>
+            <button style="width:100%; margin-top:10px; background:#ffaa00; color:#121824; border:none; padding:8px; font-size:11px; font-weight:bold; cursor:pointer;" onclick="kapatModal()">KAPAT</button>
         </div>
 
+        <!-- YENİ ALT MENÜ (Sadece Vektörel Görsel Simgeleri) -->
         <div id="hud-bottom">
-            <div class="hud-btn-box" onclick="acProfil()">
-                <div class="hud-btn-icon">👤</div>
-                <div class="hud-btn-label">PROFİL</div>
-                <div class="rank-stars">★ ★ ★</div>
+            <!-- 1. İNŞA -->
+            <div class="hud-btn-box" onclick="acModal()" title="İnşa">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+                </svg>
             </div>
-            <div class="hud-btn-box" onclick="acModal()">
-                <div class="hud-btn-icon">🛠️</div>
-                <div class="hud-btn-label">İNŞA ET</div>
+
+            <!-- 2. ÇANTA -->
+            <div class="hud-btn-box" onclick="alert('Çanta açıldı.')" title="Çanta">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M20 8h-3V6c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-4h3v1h2v-1h6v1h2v-1h3v4z"/>
+                </svg>
             </div>
-            <div class="hud-btn-box" onclick="alert('Çanta açıldı.')">
-                <div class="hud-btn-icon">🎒</div>
-                <div class="hud-btn-label">ÇANTA</div>
+
+            <!-- 3. MARKET -->
+            <div class="hud-btn-box" onclick="alert('Market açıldı.')" title="Market">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                </svg>
             </div>
-            <div class="hud-btn-box" onclick="alert('Market açıldı.')">
-                <div class="hud-btn-icon">🛒</div>
-                <div class="hud-btn-label">MARKET</div>
+
+            <!-- 4. BİLDİRİM -->
+            <div class="hud-btn-box" onclick="alert('Bildirimler')" title="Bildirim">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/>
+                </svg>
             </div>
-            <div class="hud-btn-box" onclick="alert('Banka işlemleri.')">
-                <div class="hud-btn-icon">💵</div>
-                <div class="hud-btn-label">BANKA</div>
+
+            <!-- 5. MESAJ ATMA -->
+            <div class="hud-btn-box" onclick="alert('Mesajlaşma paneli')" title="Mesaj Atma">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 11H7v-2h4v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
+                </svg>
+            </div>
+
+            <!-- 6. İTTİFAK -->
+            <div class="hud-btn-box" onclick="alert('İttifak menüsü')" title="İttifak">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+            </div>
+
+            <!-- 7. OYUNCULAR -->
+            <div class="hud-btn-box" onclick="alert('Oyuncular listesi')" title="Oyuncular">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm8-10c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zm-1 4c-1.3 0-2.42.52-3.26 1.35 1.25.86 2.16 2.1 2.58 3.55 1.83.25 3.68 1.2 3.68 2.1v2h3v-2c0-2.22-3.67-3.68-6-4z"/>
+                </svg>
+            </div>
+
+            <!-- 8. DISCORD -->
+            <div class="hud-btn-box" onclick="window.open('https://discord.gg/xsDQt8AjDZ', '_blank')" title="Discord Sunucusu">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                </svg>
+            </div>
+
+            <!-- 9. AYARLAR -->
+            <div class="hud-btn-box" onclick="acAyarlar()" title="Ayarlar">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/>
+                </svg>
             </div>
         </div>
     </div>
@@ -931,7 +576,7 @@
         let map, playerMarker;
         let rawAccuracyMeters = 0;
         let isTransitioning = false;
-        let selectedAvatarData = null; // Seçilen resmi tutar
+        let selectedAvatarData = null;
 
         let permissionsState = {
             internet: false,
@@ -969,14 +614,12 @@
             baslatPingOlcumu();
         };
 
-        /* GALERİDEN RESİM YÜKLEME */
         function resimYukle(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     selectedAvatarData = e.target.result;
-                    // Giriş ekranındaki avatar kutusunu güncelle
                     const container = document.getElementById('avatar-preview-container');
                     container.innerHTML = `<img src="${selectedAvatarData}" alt="Avatar">`;
                 };
@@ -1239,10 +882,9 @@
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-            // Oyuncu ikonu - Galeriden resim seçildiyse onu koyar, yoksa varsayılan
             let avatarHtml = selectedAvatarData 
                 ? `<div class="radar-player-icon"><img src="${selectedAvatarData}" /></div>` 
-                : `<div class="radar-player-icon" style="line-height:36px; text-align:center;">👤</div>`;
+                : `<div class="radar-player-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#ffaa00"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>`;
 
             const playerIcon = L.divIcon({
                 className: 'custom-icon',
@@ -1263,12 +905,11 @@
             document.getElementById('prof-rank').innerText = playerStats.rank;
             document.getElementById('prof-xp').innerText = playerStats.xp;
             
-            // Profildeki avatar resmini güncelle
             const profAvatarBox = document.getElementById('prof-avatar-box');
             if (selectedAvatarData) {
                 profAvatarBox.innerHTML = `<img src="${selectedAvatarData}" />`;
             } else {
-                profAvatarBox.innerText = "🪖";
+                profAvatarBox.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="#121824"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
             }
 
             let xpPercent = Math.min((playerStats.xp / playerStats.maxXp) * 100, 100);
