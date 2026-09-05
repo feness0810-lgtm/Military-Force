@@ -164,6 +164,31 @@
         .signal-icons { display: flex; flex-direction: column; justify-content: space-around; height: 80%; }
         .signal-values { display: flex; flex-direction: column; justify-content: space-around; height: 80%; text-align: right; font-size: 11px; font-weight: 900; color: #ffaa00; }
 
+        /* BİLDİRİM KUTUSU (MILITARY TEMALI) */
+        #notification-box {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+            z-index: 2000;
+            background: rgba(18, 24, 36, 0.95);
+            color: #00ff66;
+            padding: 10px 16px;
+            border: 1px solid #00ff66;
+            border-left: 4px solid #00ff66;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+            max-width: 280px;
+            word-wrap: break-word;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .radar-player-icon {
             width: 36px; height: 36px; border: 2.5px solid #ffaa00; border-radius: 50%;
             background: #121824; display: flex; align-items: center; justify-content: center;
@@ -217,11 +242,9 @@
         }
 
         .loc-type-text {
-            font-size: 13px;
+            font-size: 15px;
             font-weight: bold;
             color: #ffcc00;
-            display: flex;
-            justify-content: space-between;
         }
 
         /* PROFİL PENCERESİ */
@@ -369,33 +392,6 @@
             box-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
         }
         .building-marker-icon svg { width: 18px; height: 18px; stroke: #00ff66; fill: none; stroke-width: 2; }
-
-        /* YENİ: DİNAMİK BİLDİRİM TOAST CONTAINER */
-        #notification-toast {
-            position: absolute; top: 125px; right: 10px; z-index: 4000;
-            display: flex; flex-direction: column; gap: 8px; pointer-events: none;
-        }
-        .toast-msg {
-            background: rgba(18, 24, 36, 0.95); border: 1.5px solid #ffaa00;
-            color: #ffaa00; padding: 10px 14px; font-weight: bold; font-size: 12px;
-            box-shadow: 0 0 12px rgba(255, 170, 0, 0.4); text-transform: uppercase;
-            animation: slideIn 0.3s ease-out forwards;
-        }
-        .toast-msg.error {
-            border-color: #ff3333; color: #ff3333; box-shadow: 0 0 12px rgba(255, 51, 51, 0.4);
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* YENİ: SOL ÜST YAPILANDIRMA LOGU */
-        #build-log-panel {
-            position: absolute; top: 130px; left: 10px; z-index: 1000;
-            background: rgba(18, 24, 36, 0.85); border: 1px solid rgba(255, 170, 0, 0.4);
-            padding: 8px; font-size: 10px; color: #ffaa00; max-width: 180px; display: none;
-        }
-        #build-log-panel h4 { border-bottom: 1px solid #ffaa00; padding-bottom: 2px; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -584,15 +580,6 @@
     <div id="map-container">
         <div id="map"></div>
 
-        <!-- YENİ: DİNAMİK BİLDİRİM PANOLARI -->
-        <div id="notification-toast"></div>
-
-        <!-- YENİ: YAPILANDIRMA LOG PANELİ -->
-        <div id="build-log-panel">
-            <h4>[ YAPILANDIRMALAR ]</h4>
-            <div id="build-log-list">Henüz tesis kurulmadı.</div>
-        </div>
-
         <div id="hud-top-unified">
             <div class="hud-section hud-section-money" id="hud-money">€2,023,625</div>
             <div class="hud-section hud-section-hp" id="hud-hp">200/200hp</div>
@@ -619,15 +606,14 @@
             </div>
         </div>
 
+        <div id="notification-box"></div>
+
         <div id="location-panel">
             <div class="loc-header-bar">
                 <div class="loc-close-btn" onclick="kapatLokasyonPaneli()">X</div>
             </div>
             <div id="selected-coords" class="loc-coords-text">(00.000000, 00.000000)</div>
-            <div class="loc-type-text">
-                <span>Land</span>
-                <span id="target-distance-text" style="color: #00ff66;">Mesafe: -- m</span>
-            </div>
+            <div class="loc-type-text">Land</div>
         </div>
 
         <div id="profile-modal">
@@ -682,37 +668,37 @@
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="gosterBildirim('Çanta açıldı.')" title="Çanta">
+            <div class="hud-btn-box" onclick="alert('Çanta açıldı.')" title="Çanta">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M20 8h-3V6c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-4h3v1h2v-1h6v1h2v-1h3v4z"/>
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="gosterBildirim('Market açıldı.')" title="Market">
+            <div class="hud-btn-box" onclick="alert('Market açıldı.')" title="Market">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="gosterBildirim('Yeni bildirim yok.')" title="Bildirim">
+            <div class="hud-btn-box" onclick="alert('Bildirimler')" title="Bildirim">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/>
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="gosterBildirim('Mesajlaşma paneli')" title="Mesaj Atma">
+            <div class="hud-btn-box" onclick="alert('Mesajlaşma paneli')" title="Mesaj Atma">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 11H7v-2h4v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="gosterBildirim('İttifak menüsü aktif')" title="İttifak">
+            <div class="hud-btn-box" onclick="alert('İttifak menüsü')" title="İttifak">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="gosterBildirim('Oyuncu taranıyor...')" title="Oyuncular">
+            <div class="hud-btn-box" onclick="alert('Oyuncular listesi')" title="Oyuncular">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm8-10c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zm-1 4c-1.3 0-2.42.52-3.26 1.35 1.25.86 2.16 2.1 2.58 3.55 1.83.25 3.68 1.2 3.68 2.1v2h3v-2c0-2.22-3.67-3.68-6-4z"/>
                 </svg>
@@ -733,14 +719,12 @@
     </div>
 
     <script>
-        let map, playerMarker, targetMarker, buildRadiusCircle;
+        let map, playerMarker, targetMarker;
         let rawAccuracyMeters = 0;
         let isTransitioning = false;
         let selectedAvatarData = null;
-        let placedMapStructures = [];
-
-        // MAKSİMUM İNŞA YARIÇAPI (METRE CİNSİNDEN)
-        const MAX_BUILD_RADIUS_METERS = 500;
+        let placedMapStructures = []; // Haritada inşa edilen yapılar dizisi
+        let notificationTimeout = null;
 
         let permissionsState = {
             internet: false,
@@ -772,64 +756,7 @@
         let selectedTargetLat = null, selectedTargetLng = null;
         let countdownValue = 5;
 
-        // --- YENİ SES SENTEZLEYİCİ (WEB AUDIO API) ---
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function calInsaSesi() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.25);
-            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.25);
-        }
-
-        function calHataSesi() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-            osc.frequency.setValueAtTime(110, audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.3);
-        }
-
-        // MESAFE HESAPLAMA (HAVERSINE FORMÜLÜ)
-        function mesafeHesaplaMetre(lat1, lon1, lat2, lon2) {
-            const R = 6371e3;
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                      Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return Math.round(R * c);
-        }
-
-        // GELİŞMİŞ BİLDİRİM TOAST
-        function gosterBildirim(metin, isError = false) {
-            const container = document.getElementById('notification-toast');
-            const toast = document.createElement('div');
-            toast.className = `toast-msg ${isError ? 'error' : ''}`;
-            toast.innerText = metin;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 3500);
-        }
-
-        // YAPILANDIRMA LİSTESİ
+        // 12 GELİŞMİŞ YAPININ LİSTESİ VE İKONLARI
         const structuresList = [
             {
                 id: 1, name: "Military Base", price: 1000000,
@@ -901,6 +828,52 @@
             renderBuildMenu();
         };
 
+        // BİLDİRİM SİSTEMİ (5 Saniye Sonra Otomatik Kaybolur)
+        function showNotification(message) {
+            const box = document.getElementById('notification-box');
+            box.textContent = message;
+            box.style.display = "block";
+
+            if (notificationTimeout) {
+                clearTimeout(notificationTimeout);
+            }
+
+            notificationTimeout = setTimeout(() => {
+                box.style.display = "none";
+            }, 5000);
+        }
+
+        // İNŞA SESİ EFEKTİ (Synthesizer Çekiç Vuruşları)
+        function playConstructionSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+
+                const hits = [0, 0.15, 0.3]; // 3 Seri Vuruş
+
+                hits.forEach(delay => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(120, ctx.currentTime + delay);
+                    osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + delay + 0.08);
+
+                    gain.gain.setValueAtTime(1, ctx.currentTime + delay);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + delay + 0.08);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(ctx.currentTime + delay);
+                    osc.stop(ctx.currentTime + delay + 0.08);
+                });
+            } catch (e) {
+                console.log("Ses çalınamadı:", e);
+            }
+        }
+
+        // İNŞA MENÜSÜNÜ İÇERİKLE DOLDURMA
         function renderBuildMenu() {
             const listContainer = document.getElementById('buildMenuList');
             listContainer.innerHTML = structuresList.map(item => `
@@ -915,7 +888,7 @@
                             <div class="price-box">
                                 <span>${gameSettings.currency}${item.price.toLocaleString('tr-TR')}</span>
                             </div>
-                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">İNŞA ET</button>
+                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">INŞA ET</button>
                         </div>
                     </div>
                 </div>
@@ -929,39 +902,42 @@
             else overlay.classList.remove('active');
         }
 
-        // ENTEGRE İNŞA FONKSİYONU (SES, MESAFE, BİLDİRİM KONTROLLÜ)
+        // İNŞA KONTROLÜ & KURAL MANTIĞI
         function secYapiveInsaEt(id) {
             const struct = structuresList.find(s => s.id === id);
 
+            // A) Hedef Konum Seçilmiş mi?
             if (selectedTargetLat === null || selectedTargetLng === null) {
-                calHataSesi();
-                gosterBildirim("Lütfen önce haritadan bir konum seçin!", true);
+                alert("Lütfen önce harita üzerinde inşa etmek istediğiniz konumu seçin (kırmızı nişangah koyun)!");
                 toggleBuildMenu(false);
                 return;
             }
 
-            // MESAFE KONTROLÜ (Maksimum Yarıçap Sınırı)
-            const dist = mesafeHesaplaMetre(currentLat, currentLon, selectedTargetLat, selectedTargetLng);
-            if (dist > MAX_BUILD_RADIUS_METERS) {
-                calHataSesi();
-                gosterBildirim(`HATA: Hedef çok uzak! (${dist}m) Max: ${MAX_BUILD_RADIUS_METERS}m`, true);
-                toggleBuildMenu(false);
-                return;
-            }
-
-            // BÜTÇE KONTROLÜ
+            // B) Yeterli Bütçe Var mı?
             if (playerStats.money < struct.price) {
-                calHataSesi();
-                gosterBildirim("Yetersiz Askeri Bütçe!", true);
+                alert("Yetersiz bütçe!");
                 return;
             }
 
-            // Bütçeden Düşme
+            // C) 25 Metre Mesafe / Çakışma Kontrolü
+            const targetLatLng = L.latLng(selectedTargetLat, selectedTargetLng);
+
+            for (let b of placedMapStructures) {
+                const existingLatLng = L.latLng(b.lat, b.lng);
+                const distance = targetLatLng.distanceTo(existingLatLng); // Metre cinsinden mesafe
+
+                if (distance < 25) {
+                    alert(`İnşa yapılamaz! Yakınınızda (${Math.round(distance)} metre uzakta) zaten bir yapı var. Başka bir yapının en az 25 metre uzağına inşa edebilirsiniz.`);
+                    return;
+                }
+            }
+
+            // D) İnşa İşlemini Gerçekleştir
             playerStats.money -= struct.price;
             guncelleArayuzBirimleri();
 
-            // SES EFEKTİ ÇALMA
-            calInsaSesi();
+            // Çekiç Ses Efektini Çal
+            playConstructionSound();
 
             // Haritaya İnşa Edilen Yapı İkonunu Ekleme
             const buildIcon = L.divIcon({
@@ -972,22 +948,21 @@
             });
 
             const m = L.marker([selectedTargetLat, selectedTargetLng], { icon: buildIcon }).addTo(map);
-            m.bindPopup(`<b>${struct.name}</b><br>Durum: Operasyonel<br>Mesafe: ${dist}m`);
+            m.bindPopup(`<b>${struct.name}</b><br>Sahibi: ${playerStats.fullName || 'Operatör'}<br>Durum: Operasyonel`);
 
-            placedMapStructures.push({ name: struct.name, lat: selectedTargetLat, lng: selectedTargetLng });
-            guncelleBuildLog();
+            // Yapıyı Listeye Kaydet (25m kontrolü için)
+            placedMapStructures.push({
+                name: struct.name,
+                lat: selectedTargetLat,
+                lng: selectedTargetLng,
+                marker: m
+            });
 
             toggleBuildMenu(false);
-            gosterBildirim(`${struct.name} başarıyla inşa edildi!`);
-        }
 
-        function guncelleBuildLog() {
-            const panel = document.getElementById('build-log-panel');
-            const list = document.getElementById('build-log-list');
-            if (placedMapStructures.length > 0) {
-                panel.style.display = 'block';
-                list.innerHTML = placedMapStructures.map(s => `<div>• ${s.name}</div>`).join('');
-            }
+            // Pop-Up Bildirim Göster
+            const operatorName = playerStats.fullName || "Operatör";
+            showNotification(`${operatorName} constructed ${struct.name}`);
         }
 
         function resimYukle(event) {
@@ -1120,10 +1095,6 @@
                         playerMarker.setLatLng([currentLat, currentLon]);
                     }
 
-                    if (buildRadiusCircle) {
-                        buildRadiusCircle.setLatLng([currentLat, currentLon]);
-                    }
-
                     if (document.getElementById('permissions-screen').style.display === 'flex') {
                         taraveGuncelleIzinler();
                     }
@@ -1217,7 +1188,7 @@
             if (map && currentLat !== null && currentLon !== null) {
                 map.flyTo([currentLat, currentLon], 16, { animate: true, duration: 1.2 });
             } else {
-                gosterBildirim("GPS Konumu bekleniyor...", true);
+                alert("GPS Konumunuz henüz alınamadı!");
             }
         }
 
@@ -1241,7 +1212,7 @@
         function kaydetVeBaslat() {
             const inputVal = document.getElementById('player-fullname').value.trim();
             if (inputVal === "") {
-                gosterBildirim("Kullanıcı adı boş olamaz!", true);
+                alert("Lütfen bir kullanıcı adı giriniz!");
                 return;
             }
 
@@ -1260,16 +1231,6 @@
             }).setView([lat, lon], 16);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
-
-            // İNŞA İZİN YARIÇAPI ÇEMBERİ (500 Metre Görsel Yarıçap)
-            buildRadiusCircle = L.circle([lat, lon], {
-                color: '#ffaa00',
-                fillColor: '#ffaa00',
-                fillOpacity: 0.08,
-                radius: MAX_BUILD_RADIUS_METERS,
-                dashArray: '5, 5',
-                weight: 1.5
-            }).addTo(map);
 
             let avatarHtml = selectedAvatarData 
                 ? `<div class="radar-player-icon"><img src="${selectedAvatarData}" /></div>` 
@@ -1296,18 +1257,7 @@
                 let clickedLatText = selectedTargetLat.toFixed(6);
                 let clickedLngText = selectedTargetLng.toFixed(6);
 
-                const dist = mesafeHesaplaMetre(currentLat, currentLon, selectedTargetLat, selectedTargetLng);
-
                 document.getElementById('selected-coords').innerText = `(${clickedLatText}, ${clickedLngText})`;
-                const distEl = document.getElementById('target-distance-text');
-                distEl.innerText = `Mesafe: ${dist}m`;
-
-                if (dist > MAX_BUILD_RADIUS_METERS) {
-                    distEl.style.color = '#ff3333';
-                } else {
-                    distEl.style.color = '#00ff66';
-                }
-
                 document.getElementById('location-panel').style.display = 'block';
 
                 if (targetMarker) {
