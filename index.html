@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Military Force</title>
     
-    <!-- Leaflet.js CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -96,7 +95,102 @@
             height: 18px;
         }
 
-        /* YÜKSELTİLMİŞ & TAM GÖRÜNÜR AYARLAR PENCERESİ */
+        /* YENİ: PERMISSIONS (İZİNLER) EKRANI */
+        #permissions-screen {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000000; z-index: 9998; flex-direction: column;
+            justify-content: space-between; align-items: center;
+            padding: 30px 20px 40px 20px; box-sizing: border-box;
+        }
+
+        .perm-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .perm-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffaa00;
+            letter-spacing: 1px;
+        }
+
+        .perm-sub {
+            font-size: 11px;
+            color: rgba(255, 170, 0, 0.7);
+            margin-top: 6px;
+            line-height: 1.4;
+            max-width: 400px;
+        }
+
+        .perm-list {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 10px 0;
+            overflow-y: auto;
+        }
+
+        .perm-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .perm-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffaa00;
+        }
+
+        .perm-desc {
+            font-size: 11px;
+            color: rgba(255, 170, 0, 0.6);
+            line-height: 1.3;
+        }
+
+        .perm-status {
+            font-size: 13px;
+            font-weight: 900;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+
+        .status-granted {
+            color: #00ff66; /* Granted - Yesil */
+            text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+        }
+
+        .status-denied {
+            color: #ff3333; /* Not Granted - Kirmizi */
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);
+        }
+
+        .perm-action-btn {
+            width: 100%;
+            max-width: 450px;
+            background: rgba(20, 10, 0, 0.8);
+            border: 1.5px solid #ffaa00;
+            color: #ffaa00;
+            padding: 14px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 170, 0, 0.3);
+            transition: 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .perm-action-btn:active {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        /* AYARLAR PENCERESİ */
         #settings-modal {
             display: none;
             position: fixed;
@@ -105,7 +199,7 @@
             background: rgba(0, 0, 0, 0.98);
             z-index: 10000;
             flex-direction: column;
-            padding: 20px 20px 80px 20px; /* Alt kisim yukari kaydirildi */
+            padding: 20px 20px 80px 20px;
             box-sizing: border-box;
             justify-content: space-between;
         }
@@ -199,7 +293,6 @@
             color: #000;
         }
 
-        /* YUKARIDA VE TAM GÖRÜNÜR CLOSE BUTONU */
         .settings-close-btn {
             width: 100%;
             background: #000;
@@ -215,7 +308,7 @@
             box-shadow: 0 0 15px rgba(255, 170, 0, 0.5);
             transition: all 0.2s ease;
             flex-shrink: 0;
-            margin-bottom: 25px; /* Buton ekranin en altindan bolca yukariya cekildi */
+            margin-bottom: 25px;
         }
 
         .settings-close-btn:active {
@@ -224,10 +317,10 @@
             box-shadow: 0 0 25px rgba(255, 170, 0, 0.9);
         }
 
-        /* 2. HESAP OLUŞTURMA EKRANI */
+        /* HESAP OLUŞTURMA EKRANI */
         #register-screen {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000; z-index: 9998; flex-direction: column;
+            background: #000000; z-index: 9997; flex-direction: column;
             justify-content: center; align-items: center; padding: 25px 20px; box-sizing: border-box;
         }
         .register-box {
@@ -243,7 +336,7 @@
             font-weight: bold; font-family: inherit; font-size: 13px; cursor: pointer;
         }
 
-        /* 3. OYUN & HARİTA EKRANI */
+        /* OYUN & HARİTA EKRANI */
         #map-container { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden; }
         #map { 
             width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
@@ -403,7 +496,6 @@
 </head>
 <body>
 
-    <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
         <div class="splash-header">
             <div class="target-icon">
@@ -427,7 +519,7 @@
                 </div>
             </div>
 
-            <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
+            <button id="start-btn" class="start-btn" onclick="gecIzinEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
         </div>
 
         <div class="splash-extra-btns">
@@ -447,13 +539,43 @@
         </div>
     </div>
 
-    <!-- YENİDEN DÜZENLENMİŞ AYARLAR MODALI -->
+    <div id="permissions-screen">
+        <div class="perm-header">
+            <h2 class="perm-title">Permissions</h2>
+            <p class="perm-sub">Military Force requires the following permissions to be enabled:</p>
+        </div>
+
+        <div class="perm-list">
+            <div class="perm-item">
+                <div class="perm-name">Internet</div>
+                <div class="perm-desc">Military Force is an online game, and therefore requires active internet access.</div>
+                <div id="status-internet" class="perm-status status-denied">NOT GRANTED</div>
+            </div>
+
+            <div class="perm-item">
+                <div class="perm-name">Location</div>
+                <div class="perm-desc">Military Force is a location-based game that uses your device's GPS to place your unit in the game world.</div>
+                <div id="status-location" class="perm-status status-denied">NOT GRANTED</div>
+            </div>
+
+            <div class="perm-item">
+                <div class="perm-name">Vibrate</div>
+                <div class="perm-desc">Military Force offers tactile feedback to accompany "under attack" tactical warnings.</div>
+                <div id="status-vibrate" class="perm-status status-denied">NOT GRANTED</div>
+            </div>
+        </div>
+
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <button class="perm-action-btn" onclick="talepEtIzinler()">GRANT PERMISSIONS</button>
+            <p style="font-size: 10px; color: rgba(255, 170, 0, 0.5); text-align: center;">Press the button above to request permissions from system browser.</p>
+        </div>
+    </div>
+
     <div id="settings-modal">
         <div class="settings-scroll-area">
             <div class="settings-title">Units</div>
             <div class="settings-divider"></div>
 
-            <!-- WARHEAD YIELDS -->
             <div class="setting-options-row">
                 <div class="custom-checkbox" id="chk-lbs" onclick="toggleWarheadYields()">
                     <div class="checkbox-box" id="box-lbs"></div>
@@ -461,7 +583,6 @@
                 </div>
             </div>
 
-            <!-- SHORT DISTANCE UNITS -->
             <div class="setting-group-title">Short distance units:</div>
             <div class="setting-options-row">
                 <div class="custom-checkbox" id="chk-m" onclick="selectShortUnit('m')">
@@ -478,7 +599,6 @@
                 </div>
             </div>
 
-            <!-- LONG DISTANCE UNITS -->
             <div class="setting-group-title">Long distance units:</div>
             <div class="setting-options-row">
                 <div class="custom-checkbox" id="chk-km" onclick="selectLongUnit('km')">
@@ -495,7 +615,6 @@
                 </div>
             </div>
 
-            <!-- SPEED UNITS -->
             <div class="setting-group-title">Speed units:</div>
             <div class="setting-options-row">
                 <div class="custom-checkbox" id="chk-kmh" onclick="selectSpeedUnit('kmh')">
@@ -512,7 +631,6 @@
                 </div>
             </div>
 
-            <!-- CURRENCY SYMBOL -->
             <div class="setting-group-title">Currency symbol:</div>
             <div class="currency-selector">
                 <button class="currency-btn active" id="curr-EUR" onclick="selectCurrency('€')">€</button>
@@ -522,11 +640,9 @@
             </div>
         </div>
 
-        <!-- YUKARIYA ÇEKİLMİŞ VE YÜKSELTİLMİŞ CLOSE BUTONU -->
         <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
     </div>
 
-    <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="register-box">
             <h2 style="font-size: 16px; color: #ffaa00; margin-bottom: 10px;">🪖 OYUNCU KAYDI</h2>
@@ -538,7 +654,6 @@
         </div>
     </div>
 
-    <!-- 3. ANA OYUN EKRANI -->
     <div id="map-container">
         <div id="map"></div>
 
@@ -642,6 +757,12 @@
     <script>
         let map, playerMarker;
         let rawAccuracyMeters = 0;
+
+        let permissionsState = {
+            internet: false,
+            location: false,
+            vibrate: false
+        };
 
         let gameSettings = {
             useLbs: false,
@@ -773,6 +894,8 @@
                     currentLon = position.coords.longitude;
                     rawAccuracyMeters = Math.round(position.coords.accuracy);
 
+                    permissionsState.location = true; // Location GRANTED oldu
+
                     guncelleArayuzBirimleri();
 
                     document.getElementById('gps-status-text').innerText = "SECURE LINK ESTABLISHED";
@@ -789,11 +912,88 @@
                         playerMarker.setLatLng([currentLat, currentLon]);
                     }
                 }, function (error) {
+                    permissionsState.location = false;
                     document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
                     document.getElementById('gps-status-text').style.color = "#ff3333";
                     document.getElementById('gps-accuracy-val').innerText = "ERR";
                 }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
             }
+        }
+
+        /* İZİN SORGULAMA VE KONTROL MANTIĞI */
+        function gecIzinEkrani() {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('permissions-screen').style.display = 'flex';
+            taraveGuncelleIzinler();
+        }
+
+        function taraveGuncelleIzinler() {
+            // 1. Internet Kontrolü
+            permissionsState.internet = navigator.onLine;
+            let elNet = document.getElementById('status-internet');
+            if (permissionsState.internet) {
+                elNet.innerText = "GRANTED";
+                elNet.className = "perm-status status-granted";
+            } else {
+                elNet.innerText = "NOT GRANTED";
+                elNet.className = "perm-status status-denied";
+            }
+
+            // 2. Titreşim Kontrolü
+            permissionsState.vibrate = "vibrate" in navigator;
+            let elVib = document.getElementById('status-vibrate');
+            if (permissionsState.vibrate) {
+                elVib.innerText = "GRANTED";
+                elVib.className = "perm-status status-granted";
+            } else {
+                elVib.innerText = "NOT GRANTED";
+                elVib.className = "perm-status status-denied";
+            }
+
+            // 3. Konum Kontrolü
+            let elLoc = document.getElementById('status-location');
+            if (permissionsState.location) {
+                elLoc.innerText = "GRANTED";
+                elLoc.className = "perm-status status-granted";
+            } else {
+                elLoc.innerText = "NOT GRANTED";
+                elLoc.className = "perm-status status-denied";
+            }
+
+            // Hepsi GRANTED mi kontrol et
+            if (permissionsState.internet && permissionsState.location && permissionsState.vibrate) {
+                setTimeout(() => {
+                    gecHesapEkrani();
+                }, 800);
+            }
+        }
+
+        function talepEtIzinler() {
+            // Titreşimi tetikle
+            if (navigator.vibrate) navigator.vibrate(100);
+
+            // Konum izni tekrar iste
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    pos => {
+                        currentLat = pos.coords.latitude;
+                        currentLon = pos.coords.longitude;
+                        permissionsState.location = true;
+                        taraveGuncelleIzinler();
+                    },
+                    err => {
+                        permissionsState.location = false;
+                        taraveGuncelleIzinler();
+                    }
+                );
+            } else {
+                taraveGuncelleIzinler();
+            }
+        }
+
+        function gecHesapEkrani() {
+            document.getElementById('permissions-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'flex';
         }
 
         function konumaOdaklan() {
@@ -811,16 +1011,14 @@
                     .then(() => {
                         let pingTime = Date.now() - startTime;
                         document.getElementById('ping-val').innerText = `${pingTime} ms`;
+                        if (document.getElementById('permissions-screen').style.display === 'flex') {
+                            taraveGuncelleIzinler();
+                        }
                     })
                     .catch(() => {
                         document.getElementById('ping-val').innerText = "Offline";
                     });
             }, 3000);
-        }
-
-        function gecHesapEkrani() {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('register-screen').style.display = 'flex';
         }
 
         function kaydetVeBaslat() {
