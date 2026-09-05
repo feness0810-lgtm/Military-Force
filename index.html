@@ -161,12 +161,12 @@
         }
 
         .status-granted {
-            color: #00ff66; /* Granted - Yeşil */
+            color: #00ff66;
             text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
         }
 
         .status-denied {
-            color: #ff3333; /* Not Granted - Kırmızı */
+            color: #ff3333;
             text-shadow: 0 0 5px rgba(255, 51, 51, 0.4);
         }
 
@@ -318,26 +318,160 @@
             box-shadow: 0 0 25px rgba(255, 170, 0, 0.9);
         }
 
-        /* HESAP OLUŞTURMA EKRANI */
+        /* 2. YENİ HESAP OLUŞTURMA EKRANI */
         #register-screen {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9997; flex-direction: column;
-            justify-content: center; align-items: center; padding: 25px 20px; box-sizing: border-box;
-        }
-        .register-box {
-            width: 100%; max-width: 320px; border: 2px solid #ffaa00; background: #000000;
-            padding: 20px; text-align: center; box-shadow: 0 0 15px rgba(255, 170, 0, 0.2);
-        }
-        .register-input {
-            width: 100%; background: #000; border: 1px solid #ffaa00; color: #ffaa00;
-            padding: 10px; margin: 15px 0; font-family: inherit; font-size: 14px; outline: none; text-align: center;
-        }
-        .register-btn {
-            width: 100%; background: #ffaa00; color: #000; border: none; padding: 12px;
-            font-weight: bold; font-family: inherit; font-size: 13px; cursor: pointer;
+            justify-content: flex-start; align-items: center; padding: 40px 20px; box-sizing: border-box;
         }
 
-        /* OYUN & HARİTA EKRANI */
+        .reg-header {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .reg-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ffaa00;
+            margin-bottom: 12px;
+            text-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+        }
+
+        .reg-divider {
+            width: 100%;
+            max-width: 450px;
+            height: 2px;
+            background: #ffaa00;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 0 8px #ffaa00;
+        }
+
+        .reg-sub {
+            font-size: 13px;
+            color: rgba(255, 170, 0, 0.9);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .reg-form-container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .reg-input-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .avatar-picker-box {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ffaa00;
+            background: rgba(20, 10, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar-picker-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-picker-box svg {
+            width: 40px;
+            height: 40px;
+            fill: #ffaa00;
+        }
+
+        .username-input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .username-input-field {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #ffaa00;
+            color: #ffaa00;
+            padding: 10px 30px 10px 5px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: bold;
+            outline: none;
+            letter-spacing: 1px;
+        }
+
+        .username-input-field::placeholder {
+            color: rgba(255, 170, 0, 0.5);
+        }
+
+        .input-alert-icon {
+            position: absolute;
+            right: 5px;
+            width: 18px;
+            height: 18px;
+            background: #ff3333;
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .reg-action-area {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .create-account-btn {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ffaa00;
+            background: rgba(20, 10, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+            transition: 0.2s;
+        }
+
+        .create-account-btn:active {
+            background: #ffaa00;
+        }
+
+        .create-account-btn:active svg {
+            fill: #000;
+        }
+
+        .create-account-btn svg {
+            width: 42px;
+            height: 42px;
+            fill: #ffaa00;
+        }
+
+        /* 3. OYUN & HARİTA EKRANI */
         #map-container { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden; }
         #map { 
             width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; 
@@ -413,12 +547,12 @@
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(255, 170, 0, 0.4);
+            overflow: hidden;
         }
-        .radar-player-icon::after {
-            content: "👤";
-            font-size: 18px;
-            line-height: 1;
-            filter: grayscale(1) invert(1) sepia(1) hue-rotate(330deg) saturate(5);
+        .radar-player-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* PROFİL PENCERESİ */
@@ -435,6 +569,12 @@
         .profile-avatar {
             width: 50px; height: 50px; border-radius: 50%; border: 2px solid #ffff00;
             background: #111; display: flex; align-items: center; justify-content: center; font-size: 24px;
+            overflow: hidden;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .profile-details { flex: 1; }
         .profile-name { font-size: 17px; font-weight: bold; color: #ffaa00; }
@@ -647,15 +787,42 @@
         <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
     </div>
 
-    <!-- 2. HESAP OLUŞTURMA EKRANI -->
+    <!-- 2. HESAP OLUŞTURMA EKRANI (Tasarım Güncellendi) -->
     <div id="register-screen">
-        <div class="register-box">
-            <h2 style="font-size: 16px; color: #ffaa00; margin-bottom: 10px;">🪖 OYUNCU KAYDI</h2>
-            <p style="font-size: 11px; color: #aaa;">Adınızı girerek operasyona katılın.</p>
-            
-            <input type="text" id="player-fullname" class="register-input" placeholder="Ad ve Soyad" maxlength="30" autocomplete="off">
-            
-            <button class="register-btn" onclick="kaydetVeBaslat()">OPERASYONA KATIL</button>
+        <div class="reg-header">
+            <h1 class="reg-title">Welcome, Soldier!</h1>
+            <div class="reg-divider"></div>
+            <p class="reg-sub">Kullanıcı adı girin:</p>
+        </div>
+
+        <div class="reg-form-container">
+            <div class="reg-input-row">
+                <!-- Sol Profil Kutusu (Galeriye Erişir) -->
+                <div class="avatar-picker-box" onclick="document.getElementById('avatar-file-input').click()">
+                    <div id="avatar-preview-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Gizli File Input -->
+                <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="resimYukle(event)">
+
+                <!-- Sağ Username Giriş Alanı -->
+                <div class="username-input-wrapper">
+                    <input type="text" id="player-fullname" class="username-input-field" placeholder="ENTER USERNAME" maxlength="25" autocomplete="off">
+                    <div class="input-alert-icon">!</div>
+                </div>
+            </div>
+
+            <!-- Sağ Alttaki Simge Buton (Yazısız Kayıt Butonu) -->
+            <div class="reg-action-area">
+                <div class="create-account-btn" onclick="kaydetVeBaslat()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zM6 10V7H4v3H1v2h3v3h2v-3h3v-2H6z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -695,7 +862,7 @@
             </div>
 
             <div class="profile-user-info">
-                <div class="profile-avatar">🪖</div>
+                <div class="profile-avatar" id="prof-avatar-box">🪖</div>
                 <div class="profile-details">
                     <div id="prof-name" class="profile-name">Operatör</div>
                     <div id="prof-alliance" class="profile-alliance">Unaffiliated</div>
@@ -763,7 +930,8 @@
     <script>
         let map, playerMarker;
         let rawAccuracyMeters = 0;
-        let isTransitioning = false; // Mükerrer tetiklenmeyi engellemek için
+        let isTransitioning = false;
+        let selectedAvatarData = null; // Seçilen resmi tutar
 
         let permissionsState = {
             internet: false,
@@ -800,6 +968,21 @@
             baslatGeriSayim();
             baslatPingOlcumu();
         };
+
+        /* GALERİDEN RESİM YÜKLEME */
+        function resimYukle(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedAvatarData = e.target.result;
+                    // Giriş ekranındaki avatar kutusunu güncelle
+                    const container = document.getElementById('avatar-preview-container');
+                    container.innerHTML = `<img src="${selectedAvatarData}" alt="Avatar">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
 
         function acAyarlar() { document.getElementById('settings-modal').style.display = 'flex'; }
         function kapatAyarlar() { 
@@ -901,7 +1084,7 @@
                     currentLon = position.coords.longitude;
                     rawAccuracyMeters = Math.round(position.coords.accuracy);
 
-                    permissionsState.location = true; // Location GRANTED oldu
+                    permissionsState.location = true;
 
                     guncelleArayuzBirimleri();
 
@@ -919,7 +1102,6 @@
                         playerMarker.setLatLng([currentLat, currentLon]);
                     }
 
-                    // İzinler ekranı açıksa canlı durum güncelle
                     if (document.getElementById('permissions-screen').style.display === 'flex') {
                         taraveGuncelleIzinler();
                     }
@@ -937,7 +1119,6 @@
             }
         }
 
-        /* İZİN SORGULAMA VE KONTROL MANTIĞI */
         function gecIzinEkrani() {
             document.getElementById('splash-screen').style.display = 'none';
             document.getElementById('permissions-screen').style.display = 'flex';
@@ -945,7 +1126,6 @@
         }
 
         function taraveGuncelleIzinler() {
-            // 1. Internet Kontrolü
             permissionsState.internet = navigator.onLine;
             let elNet = document.getElementById('status-internet');
             if (permissionsState.internet) {
@@ -956,7 +1136,6 @@
                 elNet.className = "perm-status status-denied";
             }
 
-            // 2. Titreşim Kontrolü
             permissionsState.vibrate = "vibrate" in navigator;
             let elVib = document.getElementById('status-vibrate');
             if (permissionsState.vibrate) {
@@ -967,7 +1146,6 @@
                 elVib.className = "perm-status status-denied";
             }
 
-            // 3. Konum Kontrolü
             let elLoc = document.getElementById('status-location');
             if (permissionsState.location) {
                 elLoc.innerText = "GRANTED";
@@ -977,22 +1155,19 @@
                 elLoc.className = "perm-status status-denied";
             }
 
-            // Bütün izinler GRANTED ise tam 2 saniye bekleyip sonra geçiş yapar
             if (permissionsState.internet && permissionsState.location && permissionsState.vibrate) {
                 if (!isTransitioning) {
                     isTransitioning = true;
                     setTimeout(() => {
                         gecHesapEkrani();
-                    }, 2000); // 2000 ms = Tam 2 saniye bekleme süresi
+                    }, 2000);
                 }
             }
         }
 
         function talepEtIzinler() {
-            // Titreşimi tetikle
             if (navigator.vibrate) navigator.vibrate(100);
 
-            // Konum izni tekrar iste
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     pos => {
@@ -1044,7 +1219,7 @@
         function kaydetVeBaslat() {
             const inputVal = document.getElementById('player-fullname').value.trim();
             if (inputVal === "") {
-                alert("Lütfen bir isim giriniz!");
+                alert("Lütfen bir kullanıcı adı giriniz!");
                 return;
             }
 
@@ -1064,9 +1239,14 @@
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
+            // Oyuncu ikonu - Galeriden resim seçildiyse onu koyar, yoksa varsayılan
+            let avatarHtml = selectedAvatarData 
+                ? `<div class="radar-player-icon"><img src="${selectedAvatarData}" /></div>` 
+                : `<div class="radar-player-icon" style="line-height:36px; text-align:center;">👤</div>`;
+
             const playerIcon = L.divIcon({
                 className: 'custom-icon',
-                html: '<div class="radar-player-icon"></div>',
+                html: avatarHtml,
                 iconSize: [36, 36],
                 iconAnchor: [18, 18]
             });
@@ -1083,6 +1263,14 @@
             document.getElementById('prof-rank').innerText = playerStats.rank;
             document.getElementById('prof-xp').innerText = playerStats.xp;
             
+            // Profildeki avatar resmini güncelle
+            const profAvatarBox = document.getElementById('prof-avatar-box');
+            if (selectedAvatarData) {
+                profAvatarBox.innerHTML = `<img src="${selectedAvatarData}" />`;
+            } else {
+                profAvatarBox.innerText = "🪖";
+            }
+
             let xpPercent = Math.min((playerStats.xp / playerStats.maxXp) * 100, 100);
             document.getElementById('prof-xp-fill').style.width = `${xpPercent}%`;
             document.getElementById('prof-cities').innerText = playerStats.cities;
