@@ -174,7 +174,7 @@
 
         /* PROFİL PENCERESİ */
         #profile-modal {
-            display: none; position: fixed; bottom: 100px; left: 10px; right: 10px;
+            display: none; position: fixed; bottom: 130px; left: 10px; right: 10px;
             background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00; z-index: 2500;
             padding: 12px; font-family: 'Courier New', monospace; color: #ffaa00; box-shadow: 0 0 20px rgba(255, 170, 0, 0.4);
         }
@@ -196,20 +196,29 @@
         .profile-xp-bar { width: 100%; height: 8px; background: rgba(255, 170, 0, 0.2); margin: 4px 0 8px 0; border: 1px solid #ffaa00; }
         .profile-xp-fill { height: 100%; background: #ffaa00; }
 
-        /* YENİ ALT MENÜ (9 SİMGE HİZALAMASI) */
+        /* YENİ KAYDIRILABİLİR VE BÜYÜTÜLMÜŞ ALT MENÜ */
         #hud-bottom {
             position: absolute; 
-            bottom: 12px; 
-            left: 6px; 
-            right: 6px; 
+            bottom: 35px; /* Menü yukarı kaydırıldı */
+            left: 10px; 
+            right: 10px; 
             z-index: 1000;
             display: flex; 
-            gap: 4px; 
-            justify-content: space-between;
+            gap: 12px; 
+            overflow-x: auto; /* Yatay kaydırma açıldı */
+            padding-bottom: 8px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
+
+        /* Kaydırma çubuğunu gizle ama kaymayı sağla */
+        #hud-bottom::-webkit-scrollbar {
+            display: none;
+        }
+
         .hud-btn-box {
-            flex: 1; 
-            height: 52px; 
+            flex: 0 0 65px; /* Simgeler büyük ve geniş tutuldu */
+            height: 65px; 
             background: rgba(18, 24, 36, 0.95); 
             border: 2px solid #ffaa00;
             display: flex; 
@@ -217,21 +226,22 @@
             justify-content: center;
             color: #ffaa00; 
             cursor: pointer; 
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3); 
-            padding: 4px;
+            box-shadow: 0 0 12px rgba(255, 170, 0, 0.4); 
+            padding: 8px;
             transition: 0.2s;
+            border-radius: 4px;
         }
         .hud-btn-box:active { background: #ffaa00; color: #121824; }
         .hud-btn-box:active svg { fill: #121824; stroke: #121824; }
         
         .hud-btn-svg {
-            width: 26px;
-            height: 26px;
+            width: 38px;  /* Simgeler büyük boy yapıldı */
+            height: 38px;
             fill: #ffaa00;
         }
 
         .modal {
-            display: none; position: fixed; bottom: 100px; left: 10px; right: 10px;
+            display: none; position: fixed; bottom: 130px; left: 10px; right: 10px;
             background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00; z-index: 2000;
             padding: 15px; color: #ffaa00;
         }
@@ -505,7 +515,7 @@
             <button style="width:100%; margin-top:10px; background:#ffaa00; color:#121824; border:none; padding:8px; font-size:11px; font-weight:bold; cursor:pointer;" onclick="kapatModal()">KAPAT</button>
         </div>
 
-        <!-- YENİ ALT MENÜ (Sadece Vektörel Görsel Simgeleri) -->
+        <!-- KAYDIRILABİLİR BÜYÜK ALT MENÜ -->
         <div id="hud-bottom">
             <!-- 1. İNŞA -->
             <div class="hud-btn-box" onclick="acModal()" title="İnşa">
@@ -926,4 +936,3 @@
     </script>
 </body>
 </html>
-
