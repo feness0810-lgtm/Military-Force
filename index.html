@@ -199,25 +199,24 @@
         /* YENİ KAYDIRILABİLİR VE BÜYÜTÜLMÜŞ ALT MENÜ */
         #hud-bottom {
             position: absolute; 
-            bottom: 35px; /* Menü yukarı kaydırıldı */
+            bottom: 35px; 
             left: 10px; 
             right: 10px; 
             z-index: 1000;
             display: flex; 
             gap: 12px; 
-            overflow-x: auto; /* Yatay kaydırma açıldı */
+            overflow-x: auto; 
             padding-bottom: 8px;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Kaydırma çubuğunu gizle ama kaymayı sağla */
         #hud-bottom::-webkit-scrollbar {
             display: none;
         }
 
         .hud-btn-box {
-            flex: 0 0 65px; /* Simgeler büyük ve geniş tutuldu */
+            flex: 0 0 65px; 
             height: 65px; 
             background: rgba(18, 24, 36, 0.95); 
             border: 2px solid #ffaa00;
@@ -235,7 +234,7 @@
         .hud-btn-box:active svg { fill: #121824; stroke: #121824; }
         
         .hud-btn-svg {
-            width: 38px;  /* Simgeler büyük boy yapıldı */
+            width: 38px;
             height: 38px;
             fill: #ffaa00;
         }
@@ -936,3 +935,4 @@
     </script>
 </body>
 </html>
+
