@@ -17,21 +17,27 @@
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            padding: 20px; box-sizing: border-box;
+            justify-content: flex-start; align-items: center;
+            padding: 40px 20px; box-sizing: border-box;
         }
 
-        .splash-header { width: 100%; text-align: center; margin-bottom: 20px; }
-        .target-icon { text-align: center; margin-bottom: 6px; }
+        /* YUKARIDA BAĞIMSIZ DURAN LOGO VE BAŞLIK */
+        .splash-header { 
+            width: 100%; 
+            text-align: center; 
+            margin-bottom: 30px; /* Sistem durumu kutusundan ayrıldı */
+        }
+        .target-icon { text-align: center; margin-bottom: 8px; }
 
-        /* BÜYÜTÜLMÜŞ ORTA KISIM VE HEAER-FOOTER İÇERİĞİ */
+        /* BİR TIK YUKARI ÇEKİLMİŞ SİSTEM DURUMU VE BUTON KUTUSU */
         .splash-content-center {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 500px; /* Ekran genişliğine daha çok yayılması için artırıldı */
+            max-width: 500px;
+            margin-top: 10px; /* Yukarıya daha yakın konumlandırıldı */
         }
 
         .splash-card {
@@ -41,7 +47,7 @@
             padding: 22px 18px;
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-            margin-bottom: 15px; /* Altındaki butonla mesafe */
+            margin-bottom: 15px;
         }
 
         .start-btn {
@@ -240,7 +246,7 @@
 
     <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
-        <!-- ÜST BAŞLIK -->
+        <!-- YUKARIDA BAĞIMSIZ LOGO VE BAŞLIK -->
         <div class="splash-header">
             <div class="target-icon">
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="6">
@@ -253,7 +259,7 @@
             <p style="text-align: center; font-size: 10px; color: rgba(0, 255, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
-        <!-- EKRAMA TAM OTURAN GENİŞ KUTU VE HEMEN ALTINDAKİ BUTON -->
+        <!-- BİR TIK YUKARI ÇEKİLMİŞ SİSTEM DURUMU KUTUSU VE BUTON -->
         <div class="splash-content-center">
             <div class="splash-card">
                 <p style="font-size: 13px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #00ff00; padding-bottom: 6px;">[ SİSTEM DURUMU ]</p>
@@ -264,7 +270,7 @@
                 </div>
             </div>
 
-            <!-- HEDEF BUTON: Doğrudan Sistem Durumu Kutusu'nun Altına Alındı -->
+            <!-- HEDEF BUTON: Sistem Durumu Kutusu'nun Altında -->
             <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
         </div>
     </div>
@@ -272,7 +278,7 @@
     <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="register-box">
-            <h2 style="font-size: 16px; color: #00ff00; margin-bottom: 10px;">🚨 OYUNCU KAYDI</h2>
+            <h2 style="font-size: 16px; color: #00ff00; margin-bottom: 10px;">🪖 OYUNCU KAYDI</h2>
             <p style="font-size: 11px; color: #aaa;">Adınızı girerek operasyona katılın.</p>
             
             <input type="text" id="player-fullname" class="register-input" placeholder="Ad ve Soyad" maxlength="30" autocomplete="off">
