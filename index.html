@@ -17,36 +17,36 @@
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: space-between;
-            padding: 30px 20px 40px 20px; box-sizing: border-box;
+            justify-content: center; align-items: center;
+            padding: 20px; box-sizing: border-box;
         }
 
+        .splash-header { width: 100%; text-align: center; margin-bottom: 20px; }
         .target-icon { text-align: center; margin-bottom: 6px; }
 
-        /* ORTALANMIŞ VE HAFİF YUKARI ÇEKİLMİŞ İÇERİK KUTUSU */
+        /* BÜYÜTÜLMÜŞ ORTA KISIM VE HEAER-FOOTER İÇERİĞİ */
         .splash-content-center {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex: 1;
             width: 100%;
-            margin-bottom: 25px; /* Alt butondan yukarı uzaklaştırıldı */
+            max-width: 500px; /* Ekran genişliğine daha çok yayılması için artırıldı */
         }
 
         .splash-card {
             width: 100%;
-            max-width: 320px;
-            border: 1px dashed #00ff00;
-            background: rgba(0, 20, 0, 0.4);
-            padding: 18px;
+            border: 1.5px dashed #00ff00;
+            background: rgba(0, 20, 0, 0.5);
+            padding: 22px 18px;
             text-align: center;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            margin-bottom: 15px; /* Altındaki butonla mesafe */
         }
 
         .start-btn {
             width: 100%; background: #111; border: 1px solid #00ff00; color: #00ff00;
-            padding: 14px; font-family: inherit; font-size: 13px; font-weight: bold;
+            padding: 15px; font-family: inherit; font-size: 14px; font-weight: bold;
             border-radius: 2px; cursor: not-allowed; text-align: center; transition: 0.3s; opacity: 0.5;
         }
         .start-btn.active {
@@ -241,32 +241,30 @@
     <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
         <!-- ÜST BAŞLIK -->
-        <div>
+        <div class="splash-header">
             <div class="target-icon">
-                <svg width="32" height="32" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="6">
+                <svg width="36" height="36" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="6">
                     <circle cx="50" cy="50" r="35"/>
                     <line x1="10" y1="50" x2="90" y2="50"/>
                     <line x1="50" y1="10" x2="50" y2="90"/>
                 </svg>
             </div>
-            <h1 style="text-align: center; font-size: 22px; color: #00ff00; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
-            <p style="text-align: center; font-size: 9px; color: rgba(0, 255, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
+            <h1 style="text-align: center; font-size: 24px; color: #00ff00; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
+            <p style="text-align: center; font-size: 10px; color: rgba(0, 255, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
-        <!-- HAFİF YUKARI ÇEKİLMİŞ GPS & SİSTEM BİLGİSİ -->
+        <!-- EKRAMA TAM OTURAN GENİŞ KUTU VE HEMEN ALTINDAKİ BUTON -->
         <div class="splash-content-center">
             <div class="splash-card">
-                <p style="font-size: 12px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #00ff00; padding-bottom: 5px;">[ SİSTEM DURUMU ]</p>
-                <div style="font-size: 13px; line-height: 1.8; text-align: left;">
+                <p style="font-size: 13px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #00ff00; padding-bottom: 6px;">[ SİSTEM DURUMU ]</p>
+                <div style="font-size: 13px; line-height: 2; text-align: left;">
                     <p>• SYSTEM INITIALISING...</p>
                     <p>• Scanning Hardware...</p>
                     <p>• GPS Status: <span id="gps-status-text" style="color: #ffff00;">Konum Aranıyor...</span></p>
                 </div>
             </div>
-        </div>
 
-        <!-- ALT BUTON -->
-        <div>
+            <!-- HEDEF BUTON: Doğrudan Sistem Durumu Kutusu'nun Altına Alındı -->
             <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
         </div>
     </div>
@@ -274,7 +272,7 @@
     <!-- 2. HESAP OLUŞTURMA EKRANI -->
     <div id="register-screen">
         <div class="register-box">
-            <h2 style="font-size: 16px; color: #00ff00; margin-bottom: 10px;">🪖 OYUNCU KAYDI</h2>
+            <h2 style="font-size: 16px; color: #00ff00; margin-bottom: 10px;">🚨 OYUNCU KAYDI</h2>
             <p style="font-size: 11px; color: #aaa;">Adınızı girerek operasyona katılın.</p>
             
             <input type="text" id="player-fullname" class="register-input" placeholder="Ad ve Soyad" maxlength="30" autocomplete="off">
