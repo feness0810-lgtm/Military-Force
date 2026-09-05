@@ -13,14 +13,35 @@
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
         body { background-color: #000000; font-family: 'Courier New', monospace; color: #00ff00; overflow: hidden; height: 100vh; width: 100vw; }
 
-        /* 1. GİRİŞ EKRANI */
+        /* 1. GİRİŞ EKRANI (MERKEZİ YERLEŞİM) */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000; z-index: 9999; display: flex; flex-direction: column;
-            padding: 25px 20px; box-sizing: border-box;
+            justify-content: space-between;
+            padding: 40px 20px 30px 20px; box-sizing: border-box;
         }
 
-        .target-icon { text-align: center; margin-top: 10px; margin-bottom: 10px; }
+        .target-icon { text-align: center; margin-bottom: 8px; }
+
+        /* EKRANIN ORTISINA HİZALANAN İÇERİK KUTUSU */
+        .splash-content-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            width: 100%;
+        }
+
+        .splash-card {
+            width: 100%;
+            max-width: 320px;
+            border: 1px dashed #00ff00;
+            background: rgba(0, 20, 0, 0.4);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.15);
+        }
 
         .start-btn {
             width: 100%; background: #111; border: 1px solid #00ff00; color: #00ff00;
@@ -169,10 +190,10 @@
         .profile-xp-bar { width: 100%; height: 5px; background: #003300; margin: 4px 0 8px 0; border: 1px solid #00ff00; }
         .profile-xp-fill { height: 100%; background: #00ff00; box-shadow: 0 0 5px #00ff00; }
 
-        /* BELİRGİN BİÇİMDE YUKARI KALDIRILMIŞ ALT MENÜ */
+        /* YUKARI KALDIRILMIŞ ALT MENÜ */
         #hud-bottom {
             position: absolute; 
-            bottom: 85px; /* Belirgin şekilde yukarı çekildi */
+            bottom: 85px; 
             left: 8px; 
             right: 8px; 
             z-index: 1000;
@@ -218,28 +239,35 @@
 
     <!-- 1. GİRİŞ EKRANI -->
     <div id="splash-screen">
-        <div class="target-icon">
-            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="6">
-                <circle cx="50" cy="50" r="35"/>
-                <line x1="10" y1="50" x2="90" y2="50"/>
-                <line x1="50" y1="10" x2="50" y2="90"/>
-            </svg>
+        <!-- ÜST BAŞLIK -->
+        <div>
+            <div class="target-icon">
+                <svg width="32" height="32" viewBox="0 0 100 100" fill="none" stroke="#00ff00" stroke-width="6">
+                    <circle cx="50" cy="50" r="35"/>
+                    <line x1="10" y1="50" x2="90" y2="50"/>
+                    <line x1="50" y1="10" x2="50" y2="90"/>
+                </svg>
+            </div>
+            <h1 style="text-align: center; font-size: 22px; color: #00ff00; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
+            <p style="text-align: center; font-size: 9px; color: rgba(0, 255, 0, 0.6);">/// GLOBAL WARFARE OPERATION ///</p>
         </div>
 
-        <h1 style="text-align: center; font-size: 22px; color: #00ff00; font-weight: bold; margin-bottom: 2px;">MILITARY FORCE</h1>
-        <p style="text-align: center; font-size: 9px; color: rgba(0, 255, 0, 0.6); margin-bottom: 15px;">/// GLOBAL WARFARE OPERATION ///</p>
-
-        <hr style="border: 0; border-top: 2px solid #00ff00; margin-bottom: 20px;">
-
-        <div style="font-size: 13px; line-height: 1.8;">
-            <p>SYSTEM INITIALISING...</p>
-            <p>Scanning Hardware...</p>
-            <p>GPS Connection: <span id="gps-status-text" style="color: #00ff00;">GPS Konumu Aranıyor...</span></p>
+        <!-- ORTA HİZALANMIŞ GPS & SİSTEM BİLGİSİ -->
+        <div class="splash-content-center">
+            <div class="splash-card">
+                <p style="font-size: 12px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #00ff00; padding-bottom: 5px;">[ SİSTEM DURUMU ]</p>
+                <div style="font-size: 13px; line-height: 1.8; text-align: left;">
+                    <p>• SYSTEM INITIALISING...</p>
+                    <p>• Scanning Hardware...</p>
+                    <p>• GPS Status: <span id="gps-status-text" style="color: #ffff00;">Konum Aranıyor...</span></p>
+                </div>
+            </div>
         </div>
 
-        <hr style="border: 0; border-top: 1px solid #00ff00; margin-top: 20px; margin-bottom: 20px;">
-
-        <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
+        <!-- ALT BUTON -->
+        <div>
+            <button id="start-btn" class="start-btn" onclick="gecHesapEkrani()" disabled>SİSTEM TARANIYOR (5sn)...</button>
+        </div>
     </div>
 
     <!-- 2. HESAP OLUŞTURMA EKRANI -->
@@ -348,7 +376,7 @@
             <button style="width:100%; margin-top:10px; background:#ff3232; color:#fff; border:none; padding:6px; font-size:10px;" onclick="kapatModal()">KAPAT</button>
         </div>
 
-        <!-- YUKARI KALDIRILMIŞ ALT MENÜ BUTONLARI -->
+        <!-- ALT MENÜ BUTONLARI -->
         <div id="hud-bottom">
             <div class="hud-btn-box" onclick="acProfil()">
                 <div class="hud-btn-icon">👤</div>
@@ -427,6 +455,7 @@
                     document.getElementById('gps-accuracy-val').innerText = `${accMeters} m`;
 
                     document.getElementById('gps-status-text').innerText = "SECURE LINK ESTABLISHED";
+                    document.getElementById('gps-status-text').style.color = "#00ff00";
 
                     const startBtn = document.getElementById('start-btn');
                     if(countdownValue <= 0 && startBtn) {
@@ -440,6 +469,7 @@
                     }
                 }, function (error) {
                     document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
+                    document.getElementById('gps-status-text').style.color = "#ff3333";
                     document.getElementById('gps-accuracy-val').innerText = "ERR";
                 }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
             }
