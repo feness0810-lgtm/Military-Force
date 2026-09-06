@@ -118,6 +118,43 @@
         }
         .settings-close-btn:active { background: #121824; color: #ffaa00; }
 
+        /* ENVANTER MODAL STİLLERİ */
+        .inventory-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(10, 14, 22, 0.92);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 3500; visibility: hidden; opacity: 0;
+            transition: all 0.2s ease-in-out;
+        }
+        .inventory-modal-overlay.active { visibility: visible; opacity: 1; }
+        .inventory-container {
+            width: 92%; max-width: 500px; max-height: 85vh;
+            background: #121824; border: 2px solid #ffaa00;
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
+            display: flex; flex-direction: column;
+        }
+        .inventory-header {
+            background: rgba(255, 170, 0, 0.1); padding: 12px 16px; border-bottom: 2px solid #ffaa00;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .inventory-header h2 { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color: #ffaa00; font-weight: bold; }
+        .close-inventory-btn {
+            background: transparent; border: 1px solid #ffaa00; color: #ffaa00;
+            padding: 4px 10px; cursor: pointer; font-weight: bold; font-family: inherit;
+        }
+        .close-inventory-btn:hover { background: #ffaa00; color: #121824; }
+        .inventory-list {
+            padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+        }
+        .inventory-list::-webkit-scrollbar { width: 6px; }
+        .inventory-list::-webkit-scrollbar-thumb { background: #ffaa00; }
+        .inventory-row {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px dashed rgba(255, 170, 0, 0.3); padding-bottom: 8px;
+            font-size: 14px; font-weight: bold;
+        }
+        .inventory-value { color: #00ff66; font-weight: 900; }
+
         /* 2. REGISTRATION EKRANI */
         #register-screen {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -166,22 +203,11 @@
 
         /* BİLDİRİM KUTUSU BANNERI */
         #notification-box {
-            position: absolute;
-            top: 70px;
-            right: 10px;
-            z-index: 2000;
-            background: rgba(18, 24, 36, 0.95);
-            color: #00ff66;
-            padding: 10px 16px;
-            border: 1px solid #00ff66;
-            border-left: 4px solid #00ff66;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
-            display: none;
-            animation: fadeIn 0.3s ease-in-out;
-            max-width: 280px;
-            word-wrap: break-word;
+            position: absolute; top: 70px; right: 10px; z-index: 2000;
+            background: rgba(18, 24, 36, 0.95); color: #00ff66; padding: 10px 16px;
+            border: 1px solid #00ff66; border-left: 4px solid #00ff66;
+            font-size: 12px; font-weight: bold; box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+            display: none; animation: fadeIn 0.3s ease-in-out; max-width: 280px; word-wrap: break-word;
         }
 
         @keyframes fadeIn {
@@ -198,54 +224,19 @@
 
         /* YEŞİL ASKERİ KOORDİNAT PANELİ (HEDEFLEME) */
         #location-panel {
-            display: none;
-            position: absolute;
-            top: 70px;
-            left: 10px;
-            right: 10px;
-            z-index: 1001;
-            background: rgba(0, 20, 0, 0.92);
-            border: 2px solid #00ff66;
-            padding: 10px 14px;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
-            color: #00ff66;
-            font-family: 'Courier New', monospace;
+            display: none; position: absolute; top: 70px; left: 10px; right: 10px; z-index: 1001;
+            background: rgba(0, 20, 0, 0.92); border: 2px solid #00ff66; padding: 10px 14px;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4); color: #00ff66; font-family: 'Courier New', monospace;
         }
-
-        .loc-header-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 5px;
-        }
-
+        .loc-header-bar { display: flex; justify-content: flex-end; margin-bottom: 5px; }
         .loc-close-btn {
-            background: transparent;
-            border: 1.5px solid #00ff66;
-            color: #00ff66;
-            font-weight: 900;
-            font-size: 14px;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            background: transparent; border: 1.5px solid #00ff66; color: #00ff66;
+            font-weight: 900; font-size: 14px; width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
         .loc-close-btn:active { background: #00ff66; color: #000; }
-
-        .loc-coords-text {
-            font-size: 18px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #00ff66;
-            margin-bottom: 4px;
-        }
-
-        .loc-type-text {
-            font-size: 15px;
-            font-weight: bold;
-            color: #ffcc00;
-        }
+        .loc-coords-text { font-size: 18px; font-weight: 900; letter-spacing: 1px; color: #00ff66; margin-bottom: 4px; }
+        .loc-type-text { font-size: 15px; font-weight: bold; color: #ffcc00; }
 
         /* PROFİL PENCERESİ */
         #profile-modal {
@@ -271,167 +262,62 @@
         .profile-xp-bar { width: 100%; height: 8px; background: rgba(255, 170, 0, 0.2); margin: 4px 0 8px 0; border: 1px solid #ffaa00; }
         .profile-xp-fill { height: 100%; background: #ffaa00; }
 
-        /* ENVANTER (ÇANTA) PENCERESİ STİLLERİ */
-        .inventory-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(10, 14, 22, 0.92);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 3000;
-            visibility: hidden; opacity: 0;
-            transition: all 0.2s ease-in-out;
-        }
-        .inventory-overlay.active {
-            visibility: visible; opacity: 1;
-        }
-        .inventory-container {
-            width: 92%; max-width: 500px; max-height: 85vh;
-            background: #121824; border: 2px solid #ffaa00;
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
-            display: flex; flex-direction: column;
-        }
-        .inventory-header {
-            background: rgba(255, 170, 0, 0.1);
-            padding: 12px 16px; border-bottom: 2px solid #ffaa00;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .inventory-header h2 {
-            font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color: #ffaa00; font-weight: bold;
-        }
-        .close-inventory-btn {
-            background: transparent; border: 1px solid #ffaa00; color: #ffaa00;
-            padding: 4px 10px; cursor: pointer; font-weight: bold; font-family: inherit;
-        }
-        .close-inventory-btn:hover { background: #ffaa00; color: #121824; }
-        
-        .inventory-grid {
-            padding: 16px; overflow-y: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-        }
-        .inventory-slot {
-            border: 1px solid #ffaa00; background: rgba(255, 170, 0, 0.03);
-            aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 8px; position: relative; cursor: pointer; transition: 0.2s;
-        }
-        .inventory-slot:hover { background: rgba(255, 170, 0, 0.1); }
-        .inventory-slot svg { width: 32px; height: 32px; stroke: #ffaa00; fill: none; stroke-width: 2; margin-bottom: 4px; }
-        .inventory-item-name { font-size: 10px; text-align: center; color: #ffaa00; font-weight: bold; }
-        .inventory-item-count { position: absolute; bottom: 4px; right: 6px; font-size: 11px; font-weight: 900; color: #00ff66; }
-
-        /* YUKARI TAŞINMIŞ VE KAYDIRILABİLİR ALT MENÜ */
+        /* ALT MENÜ */
         #hud-bottom {
-            position: absolute; 
-            bottom: 80px;
-            left: 10px; 
-            right: 10px; 
-            z-index: 1000;
-            display: flex; 
-            gap: 12px; 
-            overflow-x: auto; 
-            padding-bottom: 8px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
+            position: absolute; bottom: 80px; left: 10px; right: 10px; z-index: 1000;
+            display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
+            scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
         }
-
         #hud-bottom::-webkit-scrollbar { display: none; }
-
         .hud-btn-box {
-            flex: 0 0 65px; 
-            height: 65px; 
-            background: rgba(18, 24, 36, 0.95); 
-            border: 2px solid #ffaa00;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            color: #ffaa00; 
-            cursor: pointer; 
-            box-shadow: 0 0 12px rgba(255, 170, 0, 0.4); 
-            padding: 8px;
-            transition: 0.2s;
-            border-radius: 4px;
+            flex: 0 0 65px; height: 65px; background: rgba(18, 24, 36, 0.95); border: 2px solid #ffaa00;
+            display: flex; align-items: center; justify-content: center; color: #ffaa00; cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 170, 0, 0.4); padding: 8px; transition: 0.2s; border-radius: 4px;
         }
         .hud-btn-box:active { background: #ffaa00; color: #121824; }
         .hud-btn-box:active svg { fill: #121824; stroke: #121824; }
-        
         .hud-btn-svg { width: 38px; height: 38px; fill: #ffaa00; }
 
-        /* YENİ GELİŞMİŞ İNŞA MENÜSÜ OVERLAY & STİLLERİ */
+        /* İNŞA MENÜSÜ */
         .build-menu-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(10, 14, 22, 0.92);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 3000;
-            visibility: hidden; opacity: 0;
-            transition: all 0.2s ease-in-out;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(10, 14, 22, 0.92); display: flex; justify-content: center; align-items: center;
+            z-index: 3000; visibility: hidden; opacity: 0; transition: all 0.2s ease-in-out;
         }
-        .build-menu-overlay.active {
-            visibility: visible; opacity: 1;
-        }
+        .build-menu-overlay.active { visibility: visible; opacity: 1; }
         .build-menu-container {
             width: 92%; max-width: 650px; max-height: 85vh;
             background: #121824; border: 2px solid #ffaa00;
-            box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
-            display: flex; flex-direction: column;
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.35); display: flex; flex-direction: column;
         }
         .build-menu-header {
-            background: rgba(255, 170, 0, 0.1);
-            padding: 12px 16px; border-bottom: 2px solid #ffaa00;
+            background: rgba(255, 170, 0, 0.1); padding: 12px 16px; border-bottom: 2px solid #ffaa00;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .build-menu-header h2 {
-            font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color: #ffaa00; font-weight: bold;
-        }
+        .build-menu-header h2 { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color: #ffaa00; font-weight: bold; }
         .close-build-btn {
             background: transparent; border: 1px solid #ffaa00; color: #ffaa00;
             padding: 4px 10px; cursor: pointer; font-weight: bold; font-family: inherit;
         }
         .close-build-btn:hover { background: #ffaa00; color: #121824; }
-        
-        .build-menu-list {
-            padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
-        }
+        .build-menu-list { padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         .build-menu-list::-webkit-scrollbar { width: 6px; }
         .build-menu-list::-webkit-scrollbar-thumb { background: #ffaa00; }
-
-        .build-card {
-            border: 1px solid #ffaa00; background: rgba(255, 170, 0, 0.03);
-            padding: 10px; display: flex; flex-direction: column; gap: 8px;
-        }
-        .build-card-desc {
-            font-size: 12px; color: rgba(255, 170, 0, 0.85); line-height: 1.3;
-        }
-        .build-card-footer {
-            display: flex; justify-content: space-between; align-items: center;
-            border-top: 1px dashed rgba(255, 170, 0, 0.3); padding-top: 8px;
-        }
+        .build-card { border: 1px solid #ffaa00; background: rgba(255, 170, 0, 0.03); padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .build-card-desc { font-size: 12px; color: rgba(255, 170, 0, 0.85); line-height: 1.3; }
+        .build-card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255, 170, 0, 0.3); padding-top: 8px; }
         .symbol-box { display: flex; align-items: center; gap: 8px; }
-        .symbol-svg {
-            width: 26px; height: 26px; fill: none; stroke: #ffaa00; stroke-width: 2;
-            stroke-linecap: round; stroke-linejoin: round;
-        }
-        .price-box {
-            display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 14px; color: #ffaa00;
-        }
+        .symbol-svg { width: 26px; height: 26px; fill: none; stroke: #ffaa00; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .price-box { display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 14px; color: #ffaa00; }
         .build-action-btn {
             background: rgba(255, 170, 0, 0.15); border: 1px solid #ffaa00; color: #ffaa00;
-            padding: 6px 12px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: inherit;
-            transition: 0.2s;
+            padding: 6px 12px; font-size: 11px; cursor: pointer; font-weight: bold; font-family: inherit; transition: 0.2s;
         }
         .build-action-btn:hover { background: #ffaa00; color: #121824; }
 
-        /* HEDEF NİŞANGAHI NİŞANI */
-        .target-marker-icon {
-            width: 24px; height: 24px; border: 2px solid #ff3333; border-radius: 50%;
-            position: relative; box-shadow: 0 0 10px #ff3333;
-        }
-        .target-marker-icon::before {
-            content: ''; position: absolute; top: 9px; left: -5px; width: 30px; height: 2px; background: #ff3333;
-        }
-        .target-marker-icon::after {
-            content: ''; position: absolute; top: -5px; left: 9px; width: 2px; height: 30px; background: #ff3333;
-        }
-
-        /* DİNAMİK YAPILAR İÇİN HARİTA SİMGESİ */
+        .target-marker-icon { width: 24px; height: 24px; border: 2px solid #ff3333; border-radius: 50%; position: relative; box-shadow: 0 0 10px #ff3333; }
+        .target-marker-icon::before { content: ''; position: absolute; top: 9px; left: -5px; width: 30px; height: 2px; background: #ff3333; }
+        .target-marker-icon::after { content: ''; position: absolute; top: -5px; left: 9px; width: 2px; height: 30px; background: #ff3333; }
         .building-marker-icon {
             width: 30px; height: 30px; border: 2px solid #00ff66; border-radius: 4px;
             background: rgba(18, 24, 36, 0.9); display: flex; align-items: center; justify-content: center;
@@ -470,16 +356,11 @@
 
         <div class="splash-extra-btns">
             <button class="extra-btn" onclick="acAyarlar()">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/>
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/></svg>
                 AYARLAR
             </button>
-
             <button class="extra-btn" onclick="window.open('https://discord.gg/xsDQt8AjDZ', '_blank')">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                </svg>
+                <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
                 DISCORD
             </button>
         </div>
@@ -490,27 +371,23 @@
             <h2 class="perm-title">Permissions</h2>
             <p class="perm-sub">Military Force requires the following permissions to be enabled:</p>
         </div>
-
         <div class="perm-list">
             <div class="perm-item">
                 <div class="perm-name">Internet</div>
                 <div class="perm-desc">Military Force is an online game, and therefore requires active internet access.</div>
                 <div id="status-internet" class="perm-status status-denied">NOT GRANTED</div>
             </div>
-
             <div class="perm-item">
                 <div class="perm-name">Location</div>
                 <div class="perm-desc">Military Force is a location-based game that uses your device's GPS to place your unit in the game world.</div>
                 <div id="status-location" class="perm-status status-denied">NOT GRANTED</div>
             </div>
-
             <div class="perm-item">
                 <div class="perm-name">Vibrate</div>
                 <div class="perm-desc">Military Force offers tactile feedback to accompany "under attack" tactical warnings.</div>
                 <div id="status-vibrate" class="perm-status status-denied">NOT GRANTED</div>
             </div>
         </div>
-
         <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <button class="perm-action-btn" onclick="talepEtIzinler()">GRANT PERMISSIONS</button>
             <p style="font-size: 10px; color: rgba(255, 170, 0, 0.7); font-weight: bold; text-align: center;">Press the button above to request permissions from system browser.</p>
@@ -521,62 +398,30 @@
         <div class="settings-scroll-area">
             <div class="settings-title">Units</div>
             <div class="settings-divider"></div>
-
             <div class="setting-options-row">
                 <div class="custom-checkbox" id="chk-lbs" onclick="toggleWarheadYields()">
                     <div class="checkbox-box" id="box-lbs"></div>
                     <span>Use lbs for warhead yields</span>
                 </div>
             </div>
-
             <div class="setting-group-title">Short distance units:</div>
             <div class="setting-options-row">
-                <div class="custom-checkbox" id="chk-m" onclick="selectShortUnit('m')">
-                    <div class="checkbox-box" id="box-m">X</div>
-                    <span>m</span>
-                </div>
-                <div class="custom-checkbox" id="chk-yd" onclick="selectShortUnit('yd')">
-                    <div class="checkbox-box" id="box-yd"></div>
-                    <span>yd</span>
-                </div>
-                <div class="custom-checkbox" id="chk-ft" onclick="selectShortUnit('ft')">
-                    <div class="checkbox-box" id="box-ft"></div>
-                    <span>ft</span>
-                </div>
+                <div class="custom-checkbox" id="chk-m" onclick="selectShortUnit('m')"><div class="checkbox-box" id="box-m">X</div><span>m</span></div>
+                <div class="custom-checkbox" id="chk-yd" onclick="selectShortUnit('yd')"><div class="checkbox-box" id="box-yd"></div><span>yd</span></div>
+                <div class="custom-checkbox" id="chk-ft" onclick="selectShortUnit('ft')"><div class="checkbox-box" id="box-ft"></div><span>ft</span></div>
             </div>
-
             <div class="setting-group-title">Long distance units:</div>
             <div class="setting-options-row">
-                <div class="custom-checkbox" id="chk-km" onclick="selectLongUnit('km')">
-                    <div class="checkbox-box" id="box-km">X</div>
-                    <span>km</span>
-                </div>
-                <div class="custom-checkbox" id="chk-mi" onclick="selectLongUnit('mi')">
-                    <div class="checkbox-box" id="box-mi"></div>
-                    <span>mi</span>
-                </div>
-                <div class="custom-checkbox" id="chk-nm" onclick="selectLongUnit('nm')">
-                    <div class="checkbox-box" id="box-nm"></div>
-                    <span>nm</span>
-                </div>
+                <div class="custom-checkbox" id="chk-km" onclick="selectLongUnit('km')"><div class="checkbox-box" id="box-km">X</div><span>km</span></div>
+                <div class="custom-checkbox" id="chk-mi" onclick="selectLongUnit('mi')"><div class="checkbox-box" id="box-mi"></div><span>mi</span></div>
+                <div class="custom-checkbox" id="chk-nm" onclick="selectLongUnit('nm')"><div class="checkbox-box" id="box-nm"></div><span>nm</span></div>
             </div>
-
             <div class="setting-group-title">Speed units:</div>
             <div class="setting-options-row">
-                <div class="custom-checkbox" id="chk-kmh" onclick="selectSpeedUnit('kmh')">
-                    <div class="checkbox-box" id="box-kmh">X</div>
-                    <span>km/h</span>
-                </div>
-                <div class="custom-checkbox" id="chk-mph" onclick="selectSpeedUnit('mph')">
-                    <div class="checkbox-box" id="box-mph"></div>
-                    <span>mph</span>
-                </div>
-                <div class="custom-checkbox" id="chk-kts" onclick="selectSpeedUnit('kts')">
-                    <div class="checkbox-box" id="box-kts"></div>
-                    <span>kts</span>
-                </div>
+                <div class="custom-checkbox" id="chk-kmh" onclick="selectSpeedUnit('kmh')"><div class="checkbox-box" id="box-kmh">X</div><span>km/h</span></div>
+                <div class="custom-checkbox" id="chk-mph" onclick="selectSpeedUnit('mph')"><div class="checkbox-box" id="box-mph"></div><span>mph</span></div>
+                <div class="custom-checkbox" id="chk-kts" onclick="selectSpeedUnit('kts')"><div class="checkbox-box" id="box-kts"></div><span>kts</span></div>
             </div>
-
             <div class="setting-group-title">Currency symbol:</div>
             <div class="currency-selector">
                 <button class="currency-btn active" id="curr-EUR" onclick="selectCurrency('€')">€</button>
@@ -585,8 +430,20 @@
                 <button class="currency-btn" id="curr-TRY" onclick="selectCurrency('₺')">₺</button>
             </div>
         </div>
-
         <button class="settings-close-btn" onclick="kapatAyarlar()">CLOSE</button>
+    </div>
+
+    <!-- ENVANTER MODAL PENCERESİ -->
+    <div class="inventory-modal-overlay" id="inventoryModalOverlay">
+        <div class="inventory-container">
+            <div class="inventory-header">
+                <h2>ENANTER / ASKERİ VARLIKLAR</h2>
+                <button class="close-inventory-btn" onclick="toggleInventoryMenu(false)">X</button>
+            </div>
+            <div class="inventory-list" id="inventoryListContent">
+                <!-- Javascript ile doldurulacak -->
+            </div>
+        </div>
     </div>
 
     <div id="register-screen">
@@ -595,29 +452,22 @@
             <div class="reg-divider"></div>
             <p class="reg-sub">Kullanıcı adı girin:</p>
         </div>
-
         <div class="reg-form-container">
             <div class="reg-input-row">
                 <div class="avatar-picker-box" onclick="document.getElementById('avatar-file-input').click()">
                     <div id="avatar-preview-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                     </div>
                 </div>
                 <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="resimYukle(event)">
-
                 <div class="username-input-wrapper">
                     <input type="text" id="player-fullname" class="username-input-field" placeholder="ENTER USERNAME" maxlength="25" autocomplete="off">
                     <div class="input-alert-icon">!</div>
                 </div>
             </div>
-
             <div class="reg-action-area">
                 <div class="create-account-btn" onclick="kaydetVeBaslat()">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zM6 10V7H4v3H1v2h3v3h2v-3h3v-2H6z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zM6 10V7H4v3H1v2h3v3h2v-3h3v-2H6z"/></svg>
                 </div>
             </div>
         </div>
@@ -629,22 +479,11 @@
         <div id="hud-top-unified">
             <div class="hud-section hud-section-money" id="hud-money">€2,023,625</div>
             <div class="hud-section hud-section-hp" id="hud-hp">200/200hp</div>
-            
             <div class="hud-section hud-section-signal" onclick="konumaOdaklan()" title="Konumuma Git">
                 <div class="signal-icons">
-                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8">
-                        <circle cx="50" cy="50" r="30"/>
-                        <line x1="50" y1="0" x2="50" y2="100"/>
-                        <line x1="0" y1="50" x2="100" y2="50"/>
-                    </svg>
-                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8">
-                        <path d="M 20 20 Q 50 0 80 20"/>
-                        <path d="M 35 40 Q 50 25 65 40"/>
-                        <line x1="50" y1="50" x2="50" y2="100"/>
-                        <circle cx="50" cy="50" r="6" fill="#ffaa00"/>
-                    </svg>
+                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8"><circle cx="50" cy="50" r="30"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>
+                    <svg width="13" height="13" viewBox="0 0 100 100" fill="none" stroke="#ffaa00" stroke-width="8"><path d="M 20 20 Q 50 0 80 20"/><path d="M 35 40 Q 50 25 65 40"/><line x1="50" y1="50" x2="50" y2="100"/><circle cx="50" cy="50" r="6" fill="#ffaa00"/></svg>
                 </div>
-
                 <div class="signal-values">
                     <span id="gps-accuracy-val">-- m</span>
                     <span id="ping-val">-- ms</span>
@@ -652,7 +491,6 @@
             </div>
         </div>
 
-        <!-- BİLDİRİM KUTUSU BANNERI -->
         <div id="notification-box"></div>
 
         <div id="location-panel">
@@ -667,7 +505,6 @@
             <div class="profile-header">
                 <div class="profile-close-btn" onclick="kapatProfil()">X</div>
             </div>
-
             <div class="profile-user-info">
                 <div class="profile-avatar" id="prof-avatar-box">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="#121824"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -677,28 +514,20 @@
                     <div id="prof-alliance" class="profile-alliance">Unaffiliated</div>
                 </div>
             </div>
-
             <div class="profile-hp-money">
                 <span id="prof-hp" class="profile-hp">200/200hp</span>
                 <span id="prof-money" class="profile-money">€2,023,625</span>
             </div>
-
             <div class="profile-divider"></div>
             <div class="profile-status">Online now.</div>
             <div class="profile-divider"></div>
-
             <div class="profile-stats-title">Stats</div>
             <div class="profile-stat-row"><span>Rank:</span><span id="prof-rank">1</span></div>
             <div class="profile-stat-row"><span>XP:</span><span id="prof-xp">0</span></div>
-            
-            <div class="profile-xp-bar">
-                <div id="prof-xp-fill" class="profile-xp-fill" style="width: 0%;"></div>
-            </div>
-
+            <div class="profile-xp-bar"><div id="prof-xp-fill" class="profile-xp-fill" style="width: 0%;"></div></div>
             <div class="profile-stat-row"><span>Cities:</span><span id="prof-cities">0</span></div>
         </div>
 
-        <!-- İNŞA MENÜSÜ OVERLAY -->
         <div class="build-menu-overlay" id="buildMenuOverlay">
             <div class="build-menu-container">
                 <div class="build-menu-header">
@@ -709,102 +538,34 @@
             </div>
         </div>
 
-        <!-- ENVANTER (ÇANTA) MENÜSÜ OVERLAY -->
-        <div class="inventory-overlay" id="inventoryOverlay">
-            <div class="inventory-container">
-                <div class="inventory-header">
-                    <h2>PLAYER INVENTORY</h2>
-                    <button class="close-inventory-btn" onclick="toggleInventory(false)">X</button>
-                </div>
-                <div class="inventory-grid" id="inventoryGrid">
-                    <!-- Örnek Envanter Slotları -->
-                    <div class="inventory-slot">
-                        <svg viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>
-                        <span class="inventory-item-name">SAM Missile</span>
-                        <span class="inventory-item-count">12</span>
-                    </div>
-                    <div class="inventory-slot">
-                        <svg viewBox="0 0 24 24"><path d="M4 20l16-16M14 4h6v6M5 19l3 3"/></svg>
-                        <span class="inventory-item-name">Cruise Missile</span>
-                        <span class="inventory-item-count">4</span>
-                    </div>
-                    <div class="inventory-slot">
-                        <svg viewBox="0 0 24 24"><path d="M4 17h16M7 11l10-6M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0"/></svg>
-                        <span class="inventory-item-name">Artillery Shell</span>
-                        <span class="inventory-item-count">50</span>
-                    </div>
-                    <div class="inventory-slot">
-                        <svg viewBox="0 0 24 24"><path d="M12 3v18M9 9l3-6 3 6M8 21h8M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
-                        <span class="inventory-item-name">ICBM Warhead</span>
-                        <span class="inventory-item-count">1</span>
-                    </div>
-                    <div class="inventory-slot">
-                        <svg viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12H4z"/><path d="M9 21v-6h6v6"/></svg>
-                        <span class="inventory-item-name">Tank Part</span>
-                        <span class="inventory-item-count">8</span>
-                    </div>
-                    <div class="inventory-slot">
-                        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
-                        <span class="inventory-item-name">Steel Resource</span>
-                        <span class="inventory-item-count">340</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="hud-bottom">
             <div class="hud-btn-box" onclick="toggleBuildMenu(true)" title="İnşa Et">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
             </div>
-
-            <div class="hud-btn-box" onclick="toggleInventory(true)" title="Çanta">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M20 8h-3V6c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-4h3v1h2v-1h6v1h2v-1h3v4z"/>
-                </svg>
+            <!-- Çanta butonuna envanter açma fonksiyonu bağlandı -->
+            <div class="hud-btn-box" onclick="toggleInventoryMenu(true)" title="Çanta / Envanter">
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M20 8h-3V6c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-4h3v1h2v-1h6v1h2v-1h3v4z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="alert('Market açıldı.')" title="Market">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="alert('Bildirimler')" title="Bildirim">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="alert('Mesajlaşma paneli')" title="Mesaj Atma">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 11H7v-2h4v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 11H7v-2h4v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="alert('İttifak menüsü')" title="İttifak">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="alert('Oyuncular listesi')" title="Oyuncular">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm8-10c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zm-1 4c-1.3 0-2.42.52-3.26 1.35 1.25.86 2.16 2.1 2.58 3.55 1.83.25 3.68 1.2 3.68 2.1v2h3v-2c0-2.22-3.67-3.68-6-4z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm8-10c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3zm-1 4c-1.3 0-2.42.52-3.26 1.35 1.25.86 2.16 2.1 2.58 3.55 1.83.25 3.68 1.2 3.68 2.1v2h3v-2c0-2.22-3.67-3.68-6-4z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="window.open('https://discord.gg/xsDQt8AjDZ', '_blank')" title="Discord Sunucusu">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
             </div>
-
             <div class="hud-btn-box" onclick="acAyarlar()" title="Ayarlar">
-                <svg class="hud-btn-svg" viewBox="0 0 24 24">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/>
-                </svg>
+                <svg class="hud-btn-svg" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c-.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6-3.6z"/></svg>
             </div>
         </div>
     </div>
@@ -814,22 +575,11 @@
         let rawAccuracyMeters = 0;
         let isTransitioning = false;
         let selectedAvatarData = null;
-        let placedMapStructures = []; // Haritada inşa edilen yapılar
+        let placedMapStructures = []; 
         let notificationTimeout = null;
 
-        let permissionsState = {
-            internet: false,
-            location: false,
-            vibrate: false
-        };
-
-        let gameSettings = {
-            useLbs: false,
-            shortUnit: 'm',
-            longUnit: 'km',
-            speedUnit: 'kmh',
-            currency: '€'
-        };
+        let permissionsState = { internet: false, location: false, vibrate: false };
+        let gameSettings = { useLbs: false, shortUnit: 'm', longUnit: 'km', speedUnit: 'kmh', currency: '€' };
 
         let playerStats = {
             fullName: "",
@@ -843,11 +593,22 @@
             cities: 0
         };
 
+        // İSTEDİĞİNİZ ENVANTER STATE YAPISI (Başlangıçta hepsi 0)
+        let playerInventory = {
+            interceptors: 0,
+            missiles: 0,
+            artilleryBattery: 0,
+            icbm: 0,
+            abm: 0,
+            plane: 0,
+            tank: 0,
+            radar: 0
+        };
+
         let currentLat = null, currentLon = null;
         let selectedTargetLat = null, selectedTargetLng = null;
         let countdownValue = 5;
 
-        // YAPILAR LİSTESİ
         const structuresList = [
             { id: 1, name: "Military Base", price: 1000000, desc: "Serves as the main headquarters for heavy troop deployment and overall command.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>` },
             { id: 2, name: "SAM Battery", price: 50000, desc: "SAM batteries store interceptor missiles and engage enemy cruise missiles with them.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>` },
@@ -869,19 +630,17 @@
             baslatGeriSayim();
             baslatPingOlcumu();
             renderBuildMenu();
+            renderInventoryMenu();
         };
 
-        // BİLDİRİM KUTUSU
         function showNotification(message) {
             const box = document.getElementById('notification-box');
             box.textContent = message;
             box.style.display = "block";
-
             if (notificationTimeout) clearTimeout(notificationTimeout);
             notificationTimeout = setTimeout(() => { box.style.display = "none"; }, 5000);
         }
 
-        // ÇEKİÇ SESİ EFEKTİ
         function playConstructionSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -917,7 +676,7 @@
                             <div class="price-box">
                                 <span>${gameSettings.currency}${item.price.toLocaleString('tr-TR')}</span>
                             </div>
-                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">INŞA ET</button>
+                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">İNŞA ET</button>
                         </div>
                     </div>
                 </div>
@@ -931,71 +690,94 @@
             else overlay.classList.remove('active');
         }
 
-        // ENVANTER (ÇANTA) AÇMA/KAPAMA FONKSİYONU
-        function toggleInventory(show) {
+        // ENVANTER MENÜSÜNÜ AÇMA / KAPAMA VE RENDER ETME
+        function toggleInventoryMenu(show) {
             kapatProfil();
-            const overlay = document.getElementById('inventoryOverlay');
-            if (show) overlay.classList.add('active');
-            else overlay.classList.remove('active');
+            const overlay = document.getElementById('inventoryModalOverlay');
+            if (show) {
+                renderInventoryMenu();
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+            }
         }
 
-        // YENİ İNŞA MANTIĞI: DİREKT OYUNCU (PROFİL) KONUMUNA İNŞA EDİLİR
+        function renderInventoryMenu() {
+            const container = document.getElementById('inventoryListContent');
+            container.innerHTML =   
+                <div class="inventory-row"><span>Interceptors:</span><span class="inventory-value">${playerInventory.interceptors}</span></div>
+                <div class="inventory-row"><span>Missiles:</span><span class="inventory-value">${playerInventory.missiles}</span></div>
+                <div class="inventory-row"><span>Artillery Battery:</span><span class="inventory-value">${playerInventory.artilleryBattery}</span></div>
+                <div class="inventory-row"><span>ICBM:</span><span class="inventory-value">${playerInventory.icbm}</span></div>
+                <div class="inventory-row"><span>ABM:</span><span class="inventory-value">${playerInventory.abm}</span></div>
+                <div class="inventory-row"><span>Plane:</span><span class="inventory-value">${playerInventory.plane}</span></div>
+                <div class="inventory-row"><span>Tank:</span><span class="inventory-value">${playerInventory.tank}</span></div>
+                <div class="inventory-row"><span>Radar:</span><span class="inventory-value">${playerInventory.radar}</span></div>
+            `;
+        }
+
+        // BİNA İNŞA EDİLDİĞİNDE ENVANTERİ OTOMATİK GÜNCELLEYEN MANTIK
         function secYapiveInsaEt(id) {
             const struct = structuresList.find(s => s.id === id);
 
-            // 1) GPS Konumu Alındı mı?
             if (currentLat === null || currentLon === null) {
                 alert("GPS konumunuz alınamadı, inşa yapılamıyor!");
                 return;
             }
 
-            // 2) Yeterli Bütçe Var mı?
             if (playerStats.money < struct.price) {
                 alert("Yetersiz bütçe!");
                 return;
             }
 
-            // 3) 25 Metre Mesafe Kontrolü (Mevcut diğer yapılara çok yakın mı?)
             const playerLatLng = L.latLng(currentLat, currentLon);
-
             for (let b of placedMapStructures) {
-                const existingLatLng = L.latLng(b.lat, b.lng);
-                const distance = playerLatLng.distanceTo(existingLatLng); // Metre cinsinden mesafe
-
+                const distance = playerLatLng.distanceTo(L.latLng(b.lat, b.lng));
                 if (distance < 25) {
-                    alert(`İnşa yapılamaz! Yakınınızda (${Math.round(distance)} metre uzağınızda) zaten bir yapınız var. Yeni bina yapabilmek için en az 25 metre uzaklaşmalısınız!`);
+                    alert(`İnşa yapılamaz! Yakınınızda (${Math.round(distance)}m) zaten bir yapınız var. En az 25 metre uzaklaşmalısınız!`);
                     return;
                 }
             }
 
-            // 4) İnşayı Tamamla (Tam Karakterin Üstüne Kurulur)
             playerStats.money -= struct.price;
             guncelleArayuzBirimleri();
             playConstructionSound();
 
+            // SATIN ALINAN BİNAYA GÖRE İLGİLİ ENVANTER ÖĞESİNİ ARTIR
+            } else if (id === 2) { // SAM Battery
+                playerInventory.interceptors += 4; // Örnek olarak her sam bataryası 4 interceptor ekler
+            } else if (id === 3) { // Missile Battery
+                playerInventory.missiles += 2;
+            } else if (id === 4) { // Artillery Battery
+                playerInventory.artilleryBattery += 1;
+            } else if (id === 5) { // ICBM Silo
+                playerInventory.icbm += 1;
+            } else if (id === 6) { // ABM Silo
+                playerInventory.abm += 1;
+            } else if (id === 7) { // Airbase
+                playerInventory.plane += 1;
+            } else if (id === 8) { // Armory
+                playerInventory.tank += 2;
+            } else if (id === 9) { // Warehouse
+                playerInventory.fuel += 1000;
+            } else if (id === 10) { // Radar Station
+                playerInventory.radar += 1;
+            }
+
+            renderInventoryMenu(); // Envanter ekranını anlık güncelle
+
             const buildIcon = L.divIcon({
                 className: 'custom-building-icon',
                 html: `<div class="building-marker-icon">${struct.symbol}</div>`,
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
+                iconSize: [30, 30], iconAnchor: [15, 15]
             });
 
             const m = L.marker([currentLat, currentLon], { icon: buildIcon }).addTo(map);
             m.bindPopup(`<b>${struct.name}</b><br>Sahibi: ${playerStats.fullName || 'Operatör'}<br>Durum: Operasyonel`);
 
-            // Yapıyı Listeye Ekle
-            placedMapStructures.push({
-                name: struct.name,
-                lat: currentLat,
-                lng: currentLon,
-                marker: m
-            });
-
+            placedMapStructures.push({ name: struct.name, lat: currentLat, lng: currentLon, marker: m });
             toggleBuildMenu(false);
-
-            // Bildirim Göster
-            const operatorName = playerStats.fullName || "Operatör";
-            showNotification(`${operatorName} constructed ${struct.name}`);
+            showNotification(`${playerStats.fullName || "Operatör"} constructed ${struct.name}`);
         }
 
         function resimYukle(event) {
@@ -1004,8 +786,7 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     selectedAvatarData = e.target.result;
-                    const container = document.getElementById('avatar-preview-container');
-                    container.innerHTML = `<img src="${selectedAvatarData}" alt="Avatar">`;
+                    document.getElementById('avatar-preview-container').innerHTML = `<img src="${selectedAvatarData}" alt="Avatar">`;
                 };
                 reader.readAsDataURL(file);
             }
@@ -1049,10 +830,7 @@
             });
         }
 
-        function kaydetAyarlari() {
-            localStorage.setItem('mf_settings', JSON.stringify(gameSettings));
-        }
-
+        function kaydetAyarlari() { localStorage.setItem('mf_settings', JSON.stringify(gameSettings)); }
         function yukleAyarlari() {
             const saved = localStorage.getItem('mf_settings');
             if (saved) {
@@ -1074,11 +852,9 @@
                 let val = rawAccuracyMeters;
                 let unitLabel = 'm';
                 if (gameSettings.shortUnit === 'yd') {
-                    val = Math.round(rawAccuracyMeters * 1.09361);
-                    unitLabel = 'yd';
+                    val = Math.round(rawAccuracyMeters * 1.09361); unitLabel = 'yd';
                 } else if (gameSettings.shortUnit === 'ft') {
-                    val = Math.round(rawAccuracyMeters * 3.28084);
-                    unitLabel = 'ft';
+                    val = Math.round(rawAccuracyMeters * 3.28084); unitLabel = 'ft';
                 }
                 document.getElementById('gps-accuracy-val').innerText = `${val} ${unitLabel}`;
             }
@@ -1109,11 +885,8 @@
                     currentLat = position.coords.latitude;
                     currentLon = position.coords.longitude;
                     rawAccuracyMeters = Math.round(position.coords.accuracy);
-
                     permissionsState.location = true;
-
                     guncelleArayuzBirimleri();
-
                     document.getElementById('gps-status-text').innerText = "SECURE LINK ESTABLISHED";
                     document.getElementById('gps-status-text').style.color = "#ffaa00";
 
@@ -1123,24 +896,14 @@
                         startBtn.disabled = false;
                         startBtn.classList.add('active');
                     }
-
-                    if (playerMarker) {
-                        playerMarker.setLatLng([currentLat, currentLon]);
-                    }
-
-                    if (document.getElementById('permissions-screen').style.display === 'flex') {
-                        taraveGuncelleIzinler();
-                    }
-
+                    if (playerMarker) playerMarker.setLatLng([currentLat, currentLon]);
+                    if (document.getElementById('permissions-screen').style.display === 'flex') taraveGuncelleIzinler();
                 }, function (error) {
                     permissionsState.location = false;
                     document.getElementById('gps-status-text').innerText = "GPS ERİŞİMİ YOK!";
                     document.getElementById('gps-status-text').style.color = "#ff3333";
                     document.getElementById('gps-accuracy-val').innerText = "ERR";
-                    
-                    if (document.getElementById('permissions-screen').style.display === 'flex') {
-                        taraveGuncelleIzinler();
-                    }
+                    if (document.getElementById('permissions-screen').style.display === 'flex') taraveGuncelleIzinler();
                 }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
             }
         }
@@ -1154,62 +917,34 @@
         function taraveGuncelleIzinler() {
             permissionsState.internet = navigator.onLine;
             let elNet = document.getElementById('status-internet');
-            if (permissionsState.internet) {
-                elNet.innerText = "GRANTED";
-                elNet.className = "perm-status status-granted";
-            } else {
-                elNet.innerText = "NOT GRANTED";
-                elNet.className = "perm-status status-denied";
-            }
+            elNet.innerText = permissionsState.internet ? "GRANTED" : "NOT GRANTED";
+            elNet.className = permissionsState.internet ? "perm-status status-granted" : "perm-status status-denied";
 
             permissionsState.vibrate = "vibrate" in navigator;
             let elVib = document.getElementById('status-vibrate');
-            if (permissionsState.vibrate) {
-                elVib.innerText = "GRANTED";
-                elVib.className = "perm-status status-granted";
-            } else {
-                elVib.innerText = "NOT GRANTED";
-                elVib.className = "perm-status status-denied";
-            }
+            elVib.innerText = permissionsState.vibrate ? "GRANTED" : "NOT GRANTED";
+            elVib.className = permissionsState.vibrate ? "perm-status status-granted" : "perm-status status-denied";
 
             let elLoc = document.getElementById('status-location');
-            if (permissionsState.location) {
-                elLoc.innerText = "GRANTED";
-                elLoc.className = "perm-status status-granted";
-            } else {
-                elLoc.innerText = "NOT GRANTED";
-                elLoc.className = "perm-status status-denied";
-            }
+            elLoc.innerText = permissionsState.location ? "GRANTED" : "NOT GRANTED";
+            elLoc.className = permissionsState.location ? "perm-status status-granted" : "perm-status status-denied";
 
             if (permissionsState.internet && permissionsState.location && permissionsState.vibrate) {
                 if (!isTransitioning) {
                     isTransitioning = true;
-                    setTimeout(() => {
-                        gecHesapEkrani();
-                    }, 2000);
+                    setTimeout(() => { gecHesapEkrani(); }, 2000);
                 }
             }
         }
 
         function talepEtIzinler() {
             if (navigator.vibrate) navigator.vibrate(100);
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    pos => {
-                        currentLat = pos.coords.latitude;
-                        currentLon = pos.coords.longitude;
-                        permissionsState.location = true;
-                        taraveGuncelleIzinler();
-                    },
-                    err => {
-                        permissionsState.location = false;
-                        taraveGuncelleIzinler();
-                    }
+                    pos => { currentLat = pos.coords.latitude; currentLon = pos.coords.longitude; permissionsState.location = true; taraveGuncelleIzinler(); },
+                    err => { permissionsState.location = false; taraveGuncelleIzinler(); }
                 );
-            } else {
-                taraveGuncelleIzinler();
-            }
+            } else { taraveGuncelleIzinler(); }
         }
 
         function gecHesapEkrani() {
@@ -1220,9 +955,7 @@
         function konumaOdaklan() {
             if (map && currentLat !== null && currentLon !== null) {
                 map.flyTo([currentLat, currentLon], 16, { animate: true, duration: 1.2 });
-            } else {
-                alert("GPS Konumunuz henüz alınamadı!");
-            }
+            } else { alert("GPS Konumunuz henüz alınamadı!"); }
         }
 
         function baslatPingOlcumu() {
@@ -1232,89 +965,49 @@
                     .then(() => {
                         let pingTime = Date.now() - startTime;
                         document.getElementById('ping-val').innerText = `${pingTime} ms`;
-                        if (document.getElementById('permissions-screen').style.display === 'flex') {
-                            taraveGuncelleIzinler();
-                        }
+                        if (document.getElementById('permissions-screen').style.display === 'flex') taraveGuncelleIzinler();
                     })
-                    .catch(() => {
-                        document.getElementById('ping-val').innerText = "Offline";
-                    });
+                    .catch(() => { document.getElementById('ping-val').innerText = "Offline"; });
             }, 3000);
         }
 
         function kaydetVeBaslat() {
             const inputVal = document.getElementById('player-fullname').value.trim();
-            if (inputVal === "") {
-                alert("Lütfen bir kullanıcı adı giriniz!");
-                return;
-            }
-
+            if (inputVal === "") { alert("Lütfen bir kullanıcı adı giriniz!"); return; }
             playerStats.fullName = inputVal;
             document.getElementById('register-screen').style.display = 'none';
             document.getElementById('map-container').style.display = 'block';
-
             initMap(currentLat, currentLon);
         }
 
         function initMap(lat, lon) {
-            map = L.map('map', {
-                zoomControl: false,
-                attributionControl: false,
-                preferCanvas: true
-            }).setView([lat, lon], 16);
-
+            map = L.map('map', { zoomControl: false, attributionControl: false, preferCanvas: true }).setView([lat, lon], 16);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
             let avatarHtml = selectedAvatarData 
                 ? `<div class="radar-player-icon"><img src="${selectedAvatarData}" /></div>` 
                 : `<div class="radar-player-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#ffaa00"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>`;
 
-            const playerIcon = L.divIcon({
-                className: 'custom-icon',
-                html: avatarHtml,
-                iconSize: [36, 36],
-                iconAnchor: [18, 18]
-            });
+            playerMarker = L.marker([lat, lon], { icon: L.divIcon({ className: 'custom-icon', html: avatarHtml, iconSize: [36, 36], iconAnchor: [18, 18] }) }).addTo(map);
+            playerMarker.on('click', function(e) { L.DomEvent.stopPropagation(e); acProfil(); });
 
-            playerMarker = L.marker([lat, lon], { icon: playerIcon }).addTo(map);
-            playerMarker.on('click', function(e) { 
-                L.DomEvent.stopPropagation(e);
-                acProfil(); 
-            });
-
-            // HARİTAYA TIKLAYINCA SADECE YEŞİL BİLGİ PANELİ AÇILIR VE NİŞANGAH KOYULUR
             map.on('click', function(e) {
                 selectedTargetLat = e.latlng.lat;
                 selectedTargetLng = e.latlng.lng;
-
-                let clickedLatText = selectedTargetLat.toFixed(6);
-                let clickedLngText = selectedTargetLng.toFixed(6);
-
-                document.getElementById('selected-coords').innerText = `(${clickedLatText}, ${clickedLngText})`;
+                document.getElementById('selected-coords').innerText = `(${selectedTargetLat.toFixed(6)}, ${selectedTargetLng.toFixed(6)})`;
                 document.getElementById('location-panel').style.display = 'block';
 
-                if (targetMarker) {
-                    map.removeLayer(targetMarker);
-                }
-
-                const targetIcon = L.divIcon({
-                    className: 'custom-target-icon',
-                    html: `<div class="target-marker-icon"></div>`,
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 12]
-                });
-
-                targetMarker = L.marker([e.latlng.lat, e.latlng.lng], { icon: targetIcon }).addTo(map);
+                if (targetMarker) map.removeLayer(targetMarker);
+                targetMarker = L.marker([e.latlng.lat, e.latlng.lng], { 
+                    icon: L.divIcon({ className: 'custom-target-icon', html: `<div class="target-marker-icon"></div>`, iconSize: [24, 24], iconAnchor: [12, 12] }) 
+                }).addTo(map);
             });
         }
 
         function kapatLokasyonPaneli() {
             document.getElementById('location-panel').style.display = 'none';
-            if (targetMarker) {
-                map.removeLayer(targetMarker);
-            }
-            selectedTargetLat = null;
-            selectedTargetLng = null;
+            if (targetMarker) map.removeLayer(targetMarker);
+            selectedTargetLat = null; selectedTargetLng = null;
         }
 
         function acProfil() {
@@ -1326,16 +1019,9 @@
             document.getElementById('prof-xp').innerText = playerStats.xp;
             
             const profAvatarBox = document.getElementById('prof-avatar-box');
-            if (selectedAvatarData) {
-                profAvatarBox.innerHTML = `<img src="${selectedAvatarData}" />`;
-            } else {
-                profAvatarBox.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="#121824"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
-            }
-
-            let xpPercent = Math.min((playerStats.xp / playerStats.maxXp) * 100, 100);
-            document.getElementById('prof-xp-fill').style.width = `${xpPercent}%`;
+            profAvatarBox.innerHTML = selectedAvatarData ? `<img src="${selectedAvatarData}" />` : `<svg width="28" height="28" viewBox="0 0 24 24" fill="#121824"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`;
+            document.getElementById('prof-xp-fill').style.width = `${Math.min((playerStats.xp / playerStats.maxXp) * 100, 100)}%`;
             document.getElementById('prof-cities').innerText = playerStats.cities;
-
             document.getElementById('profile-modal').style.display = 'block';
         }
 
@@ -1343,4 +1029,3 @@
     </script>
 </body>
 </html>
-
