@@ -271,6 +271,52 @@
         .profile-xp-bar { width: 100%; height: 8px; background: rgba(255, 170, 0, 0.2); margin: 4px 0 8px 0; border: 1px solid #ffaa00; }
         .profile-xp-fill { height: 100%; background: #ffaa00; }
 
+        /* ENVANTER (ÇANTA) PENCERESİ STİLLERİ */
+        .inventory-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(10, 14, 22, 0.92);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 3000;
+            visibility: hidden; opacity: 0;
+            transition: all 0.2s ease-in-out;
+        }
+        .inventory-overlay.active {
+            visibility: visible; opacity: 1;
+        }
+        .inventory-container {
+            width: 92%; max-width: 500px; max-height: 85vh;
+            background: #121824; border: 2px solid #ffaa00;
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.35);
+            display: flex; flex-direction: column;
+        }
+        .inventory-header {
+            background: rgba(255, 170, 0, 0.1);
+            padding: 12px 16px; border-bottom: 2px solid #ffaa00;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .inventory-header h2 {
+            font-size: 14px; letter-spacing: 1px; text-transform: uppercase; color: #ffaa00; font-weight: bold;
+        }
+        .close-inventory-btn {
+            background: transparent; border: 1px solid #ffaa00; color: #ffaa00;
+            padding: 4px 10px; cursor: pointer; font-weight: bold; font-family: inherit;
+        }
+        .close-inventory-btn:hover { background: #ffaa00; color: #121824; }
+        
+        .inventory-grid {
+            padding: 16px; overflow-y: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+        }
+        .inventory-slot {
+            border: 1px solid #ffaa00; background: rgba(255, 170, 0, 0.03);
+            aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 8px; position: relative; cursor: pointer; transition: 0.2s;
+        }
+        .inventory-slot:hover { background: rgba(255, 170, 0, 0.1); }
+        .inventory-slot svg { width: 32px; height: 32px; stroke: #ffaa00; fill: none; stroke-width: 2; margin-bottom: 4px; }
+        .inventory-item-name { font-size: 10px; text-align: center; color: #ffaa00; font-weight: bold; }
+        .inventory-item-count { position: absolute; bottom: 4px; right: 6px; font-size: 11px; font-weight: 900; color: #00ff66; }
+
         /* YUKARI TAŞINMIŞ VE KAYDIRILABİLİR ALT MENÜ */
         #hud-bottom {
             position: absolute; 
@@ -652,6 +698,7 @@
             <div class="profile-stat-row"><span>Cities:</span><span id="prof-cities">0</span></div>
         </div>
 
+        <!-- İNŞA MENÜSÜ OVERLAY -->
         <div class="build-menu-overlay" id="buildMenuOverlay">
             <div class="build-menu-container">
                 <div class="build-menu-header">
@@ -662,6 +709,49 @@
             </div>
         </div>
 
+        <!-- ENVANTER (ÇANTA) MENÜSÜ OVERLAY -->
+        <div class="inventory-overlay" id="inventoryOverlay">
+            <div class="inventory-container">
+                <div class="inventory-header">
+                    <h2>PLAYER INVENTORY</h2>
+                    <button class="close-inventory-btn" onclick="toggleInventory(false)">X</button>
+                </div>
+                <div class="inventory-grid" id="inventoryGrid">
+                    <!-- Örnek Envanter Slotları -->
+                    <div class="inventory-slot">
+                        <svg viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>
+                        <span class="inventory-item-name">SAM Missile</span>
+                        <span class="inventory-item-count">12</span>
+                    </div>
+                    <div class="inventory-slot">
+                        <svg viewBox="0 0 24 24"><path d="M4 20l16-16M14 4h6v6M5 19l3 3"/></svg>
+                        <span class="inventory-item-name">Cruise Missile</span>
+                        <span class="inventory-item-count">4</span>
+                    </div>
+                    <div class="inventory-slot">
+                        <svg viewBox="0 0 24 24"><path d="M4 17h16M7 11l10-6M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0"/></svg>
+                        <span class="inventory-item-name">Artillery Shell</span>
+                        <span class="inventory-item-count">50</span>
+                    </div>
+                    <div class="inventory-slot">
+                        <svg viewBox="0 0 24 24"><path d="M12 3v18M9 9l3-6 3 6M8 21h8M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                        <span class="inventory-item-name">ICBM Warhead</span>
+                        <span class="inventory-item-count">1</span>
+                    </div>
+                    <div class="inventory-slot">
+                        <svg viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12H4z"/><path d="M9 21v-6h6v6"/></svg>
+                        <span class="inventory-item-name">Tank Part</span>
+                        <span class="inventory-item-count">8</span>
+                    </div>
+                    <div class="inventory-slot">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+                        <span class="inventory-item-name">Steel Resource</span>
+                        <span class="inventory-item-count">340</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="hud-bottom">
             <div class="hud-btn-box" onclick="toggleBuildMenu(true)" title="İnşa Et">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
@@ -669,7 +759,7 @@
                 </svg>
             </div>
 
-            <div class="hud-btn-box" onclick="alert('Çanta açıldı.')" title="Çanta">
+            <div class="hud-btn-box" onclick="toggleInventory(true)" title="Çanta">
                 <svg class="hud-btn-svg" viewBox="0 0 24 24">
                     <path d="M20 8h-3V6c0-1.1-.9-2-2-2h-6c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-4h3v1h2v-1h6v1h2v-1h3v4z"/>
                 </svg>
@@ -757,7 +847,7 @@
         let selectedTargetLat = null, selectedTargetLng = null;
         let countdownValue = 5;
 
-        // İSTEDİĞİNİZ TÜM YAPILAR VE ÖZEL SVG SİMGELERİ ENTEGRE EDİLDİ
+        // YAPILAR LİSTESİ
         const structuresList = [
             { id: 1, name: "Military Base", price: 1000000, desc: "Serves as the main headquarters for heavy troop deployment and overall command.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>` },
             { id: 2, name: "SAM Battery", price: 50000, desc: "SAM batteries store interceptor missiles and engage enemy cruise missiles with them.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 2v20M8 10l4-4 4 4M5 21h14"/></svg>` },
@@ -765,11 +855,12 @@
             { id: 4, name: "Artillery Battery", price: 10000, desc: "Artillery Batteries store and fire artillery shells at target locations.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 17h16M7 11l10-6M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0"/></svg>` },
             { id: 5, name: "ICBM Silo", price: 200000, desc: "ICBM silos hold powerful nuclear ICBMs that can bring devastation to far-away enemies.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 3v18M9 9l3-6 3 6M8 21h8M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>` },
             { id: 6, name: "ABM Silo", price: 150000, desc: "Anti-Ballistic Missile silos detect and intercept long-range strategic warheads.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v6M12 8l-2 2M12 8l2 2"/></svg>` },
-            { id: 7, name: "Air Base", price: 75000, desc: "Airbases allow the player to purchase, design, and store aircraft.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M17.8 19.2L16 11l3.5-3.5c.8-.8.8-2 0-2.8s-2-.8-2.8 0L13 8.2 4.8 6.4c-.5-.1-.9.1-1.1.5l-1.1 2 5.2 3.2-3.1 3.1-2.1-.6-.9.9 2.7 2.7 2.7 2.7.9-.9-.6-2.1 3.1-3.1 3.2 5.2 2-1.1c.4-.2.6-.6.5-1.1z"/></svg>` },
-            { id: 8, name: "Warehouse", price: 20000, desc: "Warehouses link to the player's inventory, allowing resources to be deposited remotely.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M3 21h18V8L12 3 3 8v13z"/><path d="M9 13h6v8H9z"/></svg>` },
-            { id: 9, name: "Radar", price: 40000, desc: "Radar Stations scan within an 800 km radius to uncover hostile units.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 12l4-4M12 12v-8"/></svg>` },
-            { id: 10, name: "Market", price: 1000, desc: "Markets allow players to list and trade items on the server market.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>` },
-            { id: 11, name: "Armory", price: 60000, desc: "Armory structures produce tanks for the player and store ground units.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M19,4H5C3.89,4 3,4.89 3,6V18A2,2 0 0,0 5,20H19A2,2 0 0,0 21,18V6C21,4.89 20.1,4 19,4M19,18H5V8H19V18M11,10H13V12H15V14H13V16H11V14H9V12H11V10Z" /></svg>` }
+            { id: 7, name: "Airbase", price: 75000, desc: "Airbases allow the player to purchase, design, and store aircraft.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M17.8 19.2L16 11l3.5-3.5c.8-.8.8-2 0-2.8s-2-.8-2.8 0L13 8.2 4.8 6.4c-.5-.1-.9.1-1.1.5l-1.1 2 5.2 3.2-3.1 3.1-2.1-.6-.9.9 2.7 2.7 2.7 2.7.9-.9-.6-2.1 3.1-3.1 3.2 5.2 2-1.1c.4-.2.6-.6.5-1.1z"/></svg>` },
+            { id: 8, name: "Armory", price: 60000, desc: "Armory structures produce tanks for the player and store ground units.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12H4z"/><path d="M9 21v-6h6v6"/></svg>` },
+            { id: 9, name: "Warehouse", price: 20000, desc: "Warehouses link to the player's inventory, allowing resources to be deposited remotely.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M3 21h18V8L12 3 3 8v13z"/><path d="M9 13h6v8H9z"/></svg>` },
+            { id: 10, name: "Radar Station", price: 40000, desc: "Radar Stations scan within an 800 km radius to uncover hostile units.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/><path d="M12 12l4-4M12 12v-8"/></svg>` },
+            { id: 11, name: "Bunker", price: 5000, desc: "Bunkers protect players from radiation, strikes, and heavy attacks.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M2 20h20M4 20a8 8 0 0 1 16 0M9 14h6"/></svg>` },
+            { id: 12, name: "Market", price: 1000, desc: "Markets allow players to list and trade items on the server market.", symbol: `<svg class="symbol-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>` }
         ];
 
         window.onload = function() {
@@ -826,7 +917,7 @@
                             <div class="price-box">
                                 <span>${gameSettings.currency}${item.price.toLocaleString('tr-TR')}</span>
                             </div>
-                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">İNŞA ET</button>
+                            <button class="build-action-btn" onclick="secYapiveInsaEt(${item.id})">INŞA ET</button>
                         </div>
                     </div>
                 </div>
@@ -840,25 +931,36 @@
             else overlay.classList.remove('active');
         }
 
-        // İNŞA ETME MANTIĞI: OYUNCUNUN KONUMUNA VE 25 METRE KONTROLÜNE GÖRE
+        // ENVANTER (ÇANTA) AÇMA/KAPAMA FONKSİYONU
+        function toggleInventory(show) {
+            kapatProfil();
+            const overlay = document.getElementById('inventoryOverlay');
+            if (show) overlay.classList.add('active');
+            else overlay.classList.remove('active');
+        }
+
+        // YENİ İNŞA MANTIĞI: DİREKT OYUNCU (PROFİL) KONUMUNA İNŞA EDİLİR
         function secYapiveInsaEt(id) {
             const struct = structuresList.find(s => s.id === id);
 
+            // 1) GPS Konumu Alındı mı?
             if (currentLat === null || currentLon === null) {
                 alert("GPS konumunuz alınamadı, inşa yapılamıyor!");
                 return;
             }
 
+            // 2) Yeterli Bütçe Var mı?
             if (playerStats.money < struct.price) {
                 alert("Yetersiz bütçe!");
                 return;
             }
 
+            // 3) 25 Metre Mesafe Kontrolü (Mevcut diğer yapılara çok yakın mı?)
             const playerLatLng = L.latLng(currentLat, currentLon);
 
             for (let b of placedMapStructures) {
                 const existingLatLng = L.latLng(b.lat, b.lng);
-                const distance = playerLatLng.distanceTo(existingLatLng);
+                const distance = playerLatLng.distanceTo(existingLatLng); // Metre cinsinden mesafe
 
                 if (distance < 25) {
                     alert(`İnşa yapılamaz! Yakınınızda (${Math.round(distance)} metre uzağınızda) zaten bir yapınız var. Yeni bina yapabilmek için en az 25 metre uzaklaşmalısınız!`);
@@ -866,6 +968,7 @@
                 }
             }
 
+            // 4) İnşayı Tamamla (Tam Karakterin Üstüne Kurulur)
             playerStats.money -= struct.price;
             guncelleArayuzBirimleri();
             playConstructionSound();
@@ -880,6 +983,7 @@
             const m = L.marker([currentLat, currentLon], { icon: buildIcon }).addTo(map);
             m.bindPopup(`<b>${struct.name}</b><br>Sahibi: ${playerStats.fullName || 'Operatör'}<br>Durum: Operasyonel`);
 
+            // Yapıyı Listeye Ekle
             placedMapStructures.push({
                 name: struct.name,
                 lat: currentLat,
@@ -888,7 +992,10 @@
             });
 
             toggleBuildMenu(false);
-            showNotification(`${playerStats.fullName || "Operatör"} constructed ${struct.name}`);
+
+            // Bildirim Göster
+            const operatorName = playerStats.fullName || "Operatör";
+            showNotification(`${operatorName} constructed ${struct.name}`);
         }
 
         function resimYukle(event) {
@@ -1175,6 +1282,7 @@
                 acProfil(); 
             });
 
+            // HARİTAYA TIKLAYINCA SADECE YEŞİL BİLGİ PANELİ AÇILIR VE NİŞANGAH KOYULUR
             map.on('click', function(e) {
                 selectedTargetLat = e.latlng.lat;
                 selectedTargetLng = e.latlng.lng;
