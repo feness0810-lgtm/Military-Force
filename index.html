@@ -595,6 +595,8 @@
 
         // İSTEDİĞİNİZ ENVANTER STATE YAPISI (Başlangıçta hepsi 0)
         let playerInventory = {
+            wealthConstruction: 0,
+            fuel: 0,
             interceptors: 0,
             missiles: 0,
             artilleryBattery: 0,
@@ -704,7 +706,9 @@
 
         function renderInventoryMenu() {
             const container = document.getElementById('inventoryListContent');
-            container.innerHTML =   
+            container.innerHTML = `
+                <div class="inventory-row"><span>Wealth Construction:</span><span class="inventory-value">${playerInventory.Military Base}</span></div>
+                <div class="inventory-row"><span>Fuel:</span><span class="inventory-value">${playerInventory.fuel}</span></div>
                 <div class="inventory-row"><span>Interceptors:</span><span class="inventory-value">${playerInventory.interceptors}</span></div>
                 <div class="inventory-row"><span>Missiles:</span><span class="inventory-value">${playerInventory.missiles}</span></div>
                 <div class="inventory-row"><span>Artillery Battery:</span><span class="inventory-value">${playerInventory.artilleryBattery}</span></div>
@@ -744,6 +748,8 @@
             playConstructionSound();
 
             // SATIN ALINAN BİNAYA GÖRE İLGİLİ ENVANTER ÖĞESİNİ ARTIR
+            if (id === 1) { // Military Base
+                playerInventory.Military Base += 1;
             } else if (id === 2) { // SAM Battery
                 playerInventory.interceptors += 4; // Örnek olarak her sam bataryası 4 interceptor ekler
             } else if (id === 3) { // Missile Battery
@@ -758,8 +764,6 @@
                 playerInventory.plane += 1;
             } else if (id === 8) { // Armory
                 playerInventory.tank += 2;
-            } else if (id === 9) { // Warehouse
-                playerInventory.fuel += 1000;
             } else if (id === 10) { // Radar Station
                 playerInventory.radar += 1;
             }
@@ -1029,3 +1033,4 @@
     </script>
 </body>
 </html>
+
